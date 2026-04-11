@@ -106,14 +106,17 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           builder: (context, params) => MyProfileWidget(),
         ),
         FFRoute(
-            name: MatchProfileWidget.routeName,
-            path: MatchProfileWidget.routePath,
-            builder: (context, params) => params.isEmpty
-                ? NavBarPage(initialPage: 'MatchProfile')
-                : NavBarPage(
-                    initialPage: 'MatchProfile',
-                    page: MatchProfileWidget(),
-                  )),
+          name: MatchProfileWidget.routeName,
+          path: MatchProfileWidget.routePath,
+          builder: (context, params) => MatchProfileWidget(
+            pawFiles: params.getParam(
+              'pawFiles',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['pawfiles'],
+            ),
+          ),
+        ),
         FFRoute(
           name: ChatWidget.routeName,
           path: ChatWidget.routePath,

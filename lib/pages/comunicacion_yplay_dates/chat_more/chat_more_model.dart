@@ -1,8 +1,8 @@
 import '/flutter_flow/flutter_flow_util.dart';
-import 'date_select_widget.dart' show DateSelectWidget;
+import 'chat_more_widget.dart' show ChatMoreWidget;
 import 'package:flutter/material.dart';
 
-class DateSelectModel extends FlutterFlowModel<DateSelectWidget> {
+class ChatMoreModel extends FlutterFlowModel<ChatMoreWidget> {
   @override
   void initState(BuildContext context) {}
 

@@ -52,3 +52,17 @@ List<PlacesRecord> filterPlaces(
       .where((place) => place.name.toLowerCase().contains(query.toLowerCase()))
       .toList();
 }
+
+String? findExistingChat() {
+  DocumentReference? findExistingChat(
+    List<ChatsRecord> chatDocs,
+    DocumentReference otherUserRef,
+  ) {
+    for (final chat in chatDocs) {
+      if (chat.users.contains(otherUserRef)) {
+        return chat.reference;
+      }
+    }
+    return null;
+  }
+}

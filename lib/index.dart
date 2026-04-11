@@ -5,9 +5,9 @@ export '/pages/multiperfil_onboarding/forgot_password/forgot_password_widget.dar
     show ForgotPasswordWidget;
 export '/pages/multiperfil_onboarding/my_profile/my_profile_widget.dart'
     show MyProfileWidget;
-export '/pages/comunicaciny_play_dates/match_profile/match_profile_widget.dart'
+export '/pages/comunicacion_yplay_dates/match_profile/match_profile_widget.dart'
     show MatchProfileWidget;
-export '/pages/comunicaciny_play_dates/chat/chat_widget.dart' show ChatWidget;
+export '/pages/comunicacion_yplay_dates/chat/chat_widget.dart' show ChatWidget;
 export '/pages/date_select/date_select_widget.dart' show DateSelectWidget;
 export '/pages/loc_select/loc_select_widget.dart' show LocSelectWidget;
 export '/pages/multiperfil_onboarding/change_password/change_password_widget.dart'
@@ -16,7 +16,7 @@ export '/pages/multiperfil_onboarding/terms_service/terms_service_widget.dart'
     show TermsServiceWidget;
 export '/pages/notification_settings/notification_settings_widget.dart'
     show NotificationSettingsWidget;
-export '/pages/comunicaciny_play_dates/active_matches_chat/active_matches_chat_widget.dart'
+export '/pages/comunicacion_yplay_dates/active_matches_chat/active_matches_chat_widget.dart'
     show ActiveMatchesChatWidget;
 export '/pages/geolocation_pet_friendly_places/location_settings/location_settings_widget.dart'
     show LocationSettingsWidget;
@@ -48,5 +48,5 @@ export '/pages/multiperfil_onboarding/pawfile/pawfile_widget.dart'
     show PawfileWidget;
 export '/pages/multiperfil_onboarding/edit_pawfile/edit_pawfile_widget.dart'
     show EditPawfileWidget;
-export '/pages/comunicaciny_play_dates/chat_more/chat_more_widget.dart'
+export '/pages/comunicacion_yplay_dates/chat_more/chat_more_widget.dart'
     show ChatMoreWidget;

@@ -276,7 +276,7 @@ class _NotificationSettingsWidgetState
             ),
           ),
           Padding(
-            padding: EdgeInsetsDirectional.fromSTEB(15.0, 300.0, 0.0, 0.0),
+            padding: EdgeInsetsDirectional.fromSTEB(15.0, 250.0, 0.0, 0.0),
             child: wrapWithModel(
               model: _model.menuModel,
               updateCallback: () => safeSetState(() {}),

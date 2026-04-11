@@ -6,13 +6,12 @@ import 'package:flutter/material.dart';
 
 class CommunityFeedScreenModel
     extends FlutterFlowModel<CommunityFeedScreenWidget> {
+  ///  Local state fields for this page.
+  /// Health
+  String selectedCategory = 'Health';
+
   ///  State fields for stateful widgets in this page.
 
-  // State field(s) for Searchtipsorbreeds widget.
-  FocusNode? searchtipsorbreedsFocusNode;
-  TextEditingController? searchtipsorbreedsTextController;
-  String? Function(BuildContext, String?)?
-      searchtipsorbreedsTextControllerValidator;
   // Model for Menu component.
   late MenuModel menuModel;
 
@@ -23,9 +22,6 @@ class CommunityFeedScreenModel
 
   @override
   void dispose() {
-    searchtipsorbreedsFocusNode?.dispose();
-    searchtipsorbreedsTextController?.dispose();
-
     menuModel.dispose();
   }
 }
