@@ -331,7 +331,7 @@ class _DetailedLocationWidgetState extends State<DetailedLocationWidget> {
                                                 valueOrDefault<String>(
                                                   detailedLocationPlacesRecord
                                                       .name,
-                                                  'No park name',
+                                                  'No Name',
                                                 ),
                                                 style:
                                                     FlutterFlowTheme.of(context)
@@ -368,7 +368,7 @@ class _DetailedLocationWidgetState extends State<DetailedLocationWidget> {
                                                   valueOrDefault<String>(
                                                     detailedLocationPlacesRecord
                                                         .address,
-                                                    'No park address',
+                                                    'No Address',
                                                   ),
                                                   style: FlutterFlowTheme.of(
                                                           context)
@@ -420,7 +420,7 @@ class _DetailedLocationWidgetState extends State<DetailedLocationWidget> {
                                                       valueOrDefault<String>(
                                                         detailedLocationPlacesRecord
                                                             .address,
-                                                        'No city',
+                                                        'No City',
                                                       ),
                                                       style:
                                                           FlutterFlowTheme.of(
@@ -454,11 +454,27 @@ class _DetailedLocationWidgetState extends State<DetailedLocationWidget> {
                                                                     .fontStyle,
                                                               ),
                                                     ),
+                                                  ].divide(
+                                                      SizedBox(width: 4.0)),
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding: EdgeInsetsDirectional
+                                                    .fromSTEB(
+                                                        0.0, 8.0, 0.0, 0.0),
+                                                child: Row(
+                                                  mainAxisSize:
+                                                      MainAxisSize.max,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.start,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  children: [
                                                     Padding(
                                                       padding:
                                                           EdgeInsetsDirectional
                                                               .fromSTEB(
-                                                                  110.0,
+                                                                  5.0,
                                                                   0.0,
                                                                   0.0,
                                                                   0.0),
@@ -477,7 +493,7 @@ class _DetailedLocationWidgetState extends State<DetailedLocationWidget> {
                                                               detailedLocationPlacesRecord
                                                                   .longitude
                                                                   .toDouble())),
-                                                          'No distance',
+                                                          'No Distance',
                                                         ),
                                                         style: FlutterFlowTheme
                                                                 .of(context)
@@ -561,7 +577,7 @@ class _DetailedLocationWidgetState extends State<DetailedLocationWidget> {
                                             valueOrDefault<String>(
                                               detailedLocationPlacesRecord
                                                   .description,
-                                              'No park description',
+                                              'No Description',
                                             ),
                                             textAlign: TextAlign.justify,
                                             style: FlutterFlowTheme.of(context)
@@ -638,7 +654,7 @@ class _DetailedLocationWidgetState extends State<DetailedLocationWidget> {
                                             valueOrDefault<String>(
                                               detailedLocationPlacesRecord
                                                   .openingHours,
-                                              'No operation hours schedule',
+                                              'No Operating Hpurs',
                                             ),
                                             style: FlutterFlowTheme.of(context)
                                                 .bodyMedium
@@ -709,9 +725,9 @@ class _DetailedLocationWidgetState extends State<DetailedLocationWidget> {
                                             valueOrDefault<String>(
                                               detailedLocationPlacesRecord
                                                       .isFenced
-                                                  ? 'The park is a fenced area...'
-                                                  : 'The park is not fenced..',
-                                              'No fencing information',
+                                                  ? 'The park is fenced.'
+                                                  : 'The park is not fenced.',
+                                              'No Fencing Information',
                                             ),
                                             style: FlutterFlowTheme.of(context)
                                                 .bodyMedium
@@ -793,7 +809,7 @@ class _DetailedLocationWidgetState extends State<DetailedLocationWidget> {
                                             valueOrDefault<String>(
                                               detailedLocationPlacesRecord
                                                   .eventsSchedule,
-                                              'No special event schedule',
+                                              'No Event Schedule',
                                             ),
                                             style: FlutterFlowTheme.of(context)
                                                 .bodyMedium
@@ -820,7 +836,7 @@ class _DetailedLocationWidgetState extends State<DetailedLocationWidget> {
                                           valueOrDefault<String>(
                                             detailedLocationPlacesRecord
                                                 .specialEvents,
-                                            'No special events available',
+                                            'No Special Events',
                                           ),
                                           textAlign: TextAlign.justify,
                                           style: FlutterFlowTheme.of(context)

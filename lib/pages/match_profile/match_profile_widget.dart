@@ -135,9 +135,8 @@ class _MatchProfileWidgetState extends State<MatchProfileWidget> {
                             color: FlutterFlowTheme.of(context).secondaryText,
                             size: 24.0,
                           ),
-                          onPressed: () async {
-                            context
-                                .pushNamed(CommunityFeedScreenWidget.routeName);
+                          onPressed: () {
+                            print('IconButton pressed ...');
                           },
                         ),
                       ],
@@ -1013,7 +1012,10 @@ class _MatchProfileWidgetState extends State<MatchProfileWidget> {
                                         child: Padding(
                                           padding:
                                               MediaQuery.viewInsetsOf(context),
-                                          child: DateSelectWidget(),
+                                          child: DateSelectWidget(
+                                            onwerRef:
+                                                columnPawfilesRecord.ownerRef,
+                                          ),
                                         ),
                                       );
                                     },

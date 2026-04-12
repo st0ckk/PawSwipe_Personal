@@ -1,7 +1,6 @@
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
-import '/pages/comunicacion_yplay_dates/create_chat/create_chat_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'chat_more_model.dart';
@@ -45,35 +44,6 @@ class _ChatMoreWidgetState extends State<ChatMoreWidget> {
       child: Scaffold(
         key: scaffoldKey,
         backgroundColor: Color(0xFFFFF9E6),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () async {
-            await showModalBottomSheet(
-              isScrollControlled: true,
-              backgroundColor: Colors.transparent,
-              useSafeArea: true,
-              context: context,
-              builder: (context) {
-                return GestureDetector(
-                  onTap: () {
-                    FocusScope.of(context).unfocus();
-                    FocusManager.instance.primaryFocus?.unfocus();
-                  },
-                  child: Padding(
-                    padding: MediaQuery.viewInsetsOf(context),
-                    child: CreateChatWidget(),
-                  ),
-                );
-              },
-            ).then((value) => safeSetState(() {}));
-          },
-          backgroundColor: Color(0xFF1A1461),
-          elevation: 8.0,
-          child: Icon(
-            Icons.add_rounded,
-            color: FlutterFlowTheme.of(context).info,
-            size: 24.0,
-          ),
-        ),
         appBar: AppBar(
           backgroundColor: Color(0xFFFFDE00),
           automaticallyImplyLeading: false,
@@ -87,8 +57,8 @@ class _ChatMoreWidgetState extends State<ChatMoreWidget> {
               color: Color(0xFF1A1461),
               size: 30.0,
             ),
-            onPressed: () async {
-              context.pop();
+            onPressed: () {
+              print('IconButton pressed ...');
             },
           ),
           title: Padding(

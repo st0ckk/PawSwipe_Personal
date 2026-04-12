@@ -296,6 +296,21 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                               size: 24.0,
                             ),
                             onPressed: () async {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(
+                                    '',
+                                    style: TextStyle(
+                                      color: FlutterFlowTheme.of(context)
+                                          .primaryText,
+                                    ),
+                                  ),
+                                  duration: Duration(milliseconds: 4000),
+                                  backgroundColor:
+                                      FlutterFlowTheme.of(context).secondary,
+                                ),
+                              );
+
                               context.pushNamed(
                                 LocationSettingsWidget.routeName,
                                 extra: <String, dynamic>{

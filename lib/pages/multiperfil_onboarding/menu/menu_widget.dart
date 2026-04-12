@@ -72,7 +72,7 @@ class _MenuWidgetState extends State<MenuWidget> {
               ),
               onPressed: () async {
                 context.pushNamed(
-                  PetfriendlyPlacesWidget.routeName,
+                  CommunityFeedScreenWidget.routeName,
                   extra: <String, dynamic>{
                     '__transition_info__': TransitionInfo(
                       hasTransition: true,

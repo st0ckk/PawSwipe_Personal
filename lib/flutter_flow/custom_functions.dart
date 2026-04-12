@@ -73,3 +73,11 @@ List<DocumentReference> getChatContacts(List<ChatsRecord> chatsList) {
 
   return contacts;
 }
+
+bool? isFavoritePlace(
+  List<DocumentReference>? favoritesList,
+  DocumentReference? placeRef,
+) {
+  if (favoritesList == null) return false;
+  return favoritesList.contains(placeRef);
+}
