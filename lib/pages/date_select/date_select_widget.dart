@@ -1,6 +1,9 @@
+import '/auth/firebase_auth/auth_util.dart';
+import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/custom_code/actions/index.dart' as actions;
 import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -1124,35 +1127,73 @@ class _DateSelectWidgetState extends State<DateSelectWidget> {
               ),
               Padding(
                 padding: EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 16.0),
-                child: Container(
-                  width: double.infinity,
-                  height: 52.0,
-                  decoration: BoxDecoration(
-                    color: Color(0xFF2D3E50),
-                    borderRadius: BorderRadius.circular(26.0),
-                  ),
-                  child: Align(
-                    alignment: AlignmentDirectional(0.0, 0.0),
-                    child: Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: Text(
-                        'Propose Play-Date',
-                        style:
-                            FlutterFlowTheme.of(context).titleMedium.override(
-                                  font: GoogleFonts.interTight(
+                child: InkWell(
+                  splashColor: Colors.transparent,
+                  focusColor: Colors.transparent,
+                  hoverColor: Colors.transparent,
+                  highlightColor: Colors.transparent,
+                  onTap: () async {
+                    _model.chatRef = await actions.startOrFindChat(
+                      widget.onwerRef!,
+                    );
+
+                    await ChatMessagesRecord.collection
+                        .doc()
+                        .set(createChatMessagesRecordData(
+                          chatRef: _model.chatRef,
+                          message:
+                              '🐾 Play-date request: ${dateTimeFormat("MMMEd", _model.selectedDate)}at${dateTimeFormat("jm", _model.selectedTime)}for${_model.selectedDuration}',
+                          datetime: getCurrentTimestamp,
+                          createdBy: currentUserReference,
+                        ));
+
+                    await _model.chatRef!.update({
+                      ...createChatsRecordData(
+                        lastMessage:
+                            '🐾 Play-date request: ${dateTimeFormat("MMMEd", _model.selectedDate)}at${dateTimeFormat("jm", _model.selectedTime)}for${_model.selectedDuration}',
+                        lastMessageDatetime: getCurrentTimestamp,
+                      ),
+                      ...mapToFirestore(
+                        {
+                          'unread_users':
+                              FieldValue.arrayUnion([widget.onwerRef]),
+                        },
+                      ),
+                    });
+                    Navigator.pop(context);
+
+                    safeSetState(() {});
+                  },
+                  child: Container(
+                    width: double.infinity,
+                    height: 52.0,
+                    decoration: BoxDecoration(
+                      color: Color(0xFF2D3E50),
+                      borderRadius: BorderRadius.circular(26.0),
+                    ),
+                    child: Align(
+                      alignment: AlignmentDirectional(0.0, 0.0),
+                      child: Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Text(
+                          'Propose Play-Date',
+                          style:
+                              FlutterFlowTheme.of(context).titleMedium.override(
+                                    font: GoogleFonts.interTight(
+                                      fontWeight: FontWeight.w600,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .titleMedium
+                                          .fontStyle,
+                                    ),
+                                    color: Colors.white,
+                                    fontSize: 16.0,
+                                    letterSpacing: 0.0,
                                     fontWeight: FontWeight.w600,
                                     fontStyle: FlutterFlowTheme.of(context)
                                         .titleMedium
                                         .fontStyle,
                                   ),
-                                  color: Colors.white,
-                                  fontSize: 16.0,
-                                  letterSpacing: 0.0,
-                                  fontWeight: FontWeight.w600,
-                                  fontStyle: FlutterFlowTheme.of(context)
-                                      .titleMedium
-                                      .fontStyle,
-                                ),
+                        ),
                       ),
                     ),
                   ),

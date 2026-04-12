@@ -4,7 +4,6 @@ import '/flutter_flow/flutter_flow_google_map.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_place_picker.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
-import '/flutter_flow/flutter_flow_toggle_icon.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import '/pages/multiperfil_onboarding/menu/menu_widget.dart';
@@ -46,8 +45,6 @@ class _PlaceCardWidgetState extends State<PlaceCardWidget> {
 
     getCurrentUserLocation(defaultLocation: LatLng(0.0, 0.0), cached: true)
         .then((loc) => safeSetState(() => currentUserLocationValue = loc));
-    _model.textController ??= TextEditingController();
-    _model.textFieldFocusNode ??= FocusNode();
   }
 
   @override
@@ -190,135 +187,32 @@ class _PlaceCardWidgetState extends State<PlaceCardWidget> {
                     child: Row(
                       mainAxisSize: MainAxisSize.max,
                       children: [
-                        Expanded(
-                          child: TextFormField(
-                            controller: _model.textController,
-                            focusNode: _model.textFieldFocusNode,
-                            autofocus: false,
-                            textInputAction: TextInputAction.search,
-                            obscureText: false,
-                            decoration: InputDecoration(
-                              isDense: false,
-                              hintText: 'Search parks/places...',
-                              hintStyle: FlutterFlowTheme.of(context)
-                                  .bodyMedium
-                                  .override(
-                                    font: GoogleFonts.inter(
-                                      fontWeight: FlutterFlowTheme.of(context)
-                                          .bodyMedium
-                                          .fontWeight,
-                                      fontStyle: FlutterFlowTheme.of(context)
-                                          .bodyMedium
-                                          .fontStyle,
-                                    ),
-                                    color: Color(0xFF888888),
-                                    fontSize: 15.0,
-                                    letterSpacing: 0.0,
-                                    fontWeight: FlutterFlowTheme.of(context)
-                                        .bodyMedium
-                                        .fontWeight,
-                                    fontStyle: FlutterFlowTheme.of(context)
-                                        .bodyMedium
-                                        .fontStyle,
-                                  ),
-                              enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: Colors.transparent,
-                                  width: 0.0,
-                                ),
-                                borderRadius: BorderRadius.circular(22.0),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: Color(0x00000000),
-                                  width: 0.0,
-                                ),
-                                borderRadius: BorderRadius.circular(22.0),
-                              ),
-                              errorBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: Color(0x00000000),
-                                  width: 0.0,
-                                ),
-                                borderRadius: BorderRadius.circular(22.0),
-                              ),
-                              focusedErrorBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: Color(0x00000000),
-                                  width: 0.0,
-                                ),
-                                borderRadius: BorderRadius.circular(22.0),
-                              ),
-                              filled: true,
-                              fillColor: Color(0xFFF5F5F5),
-                              contentPadding: EdgeInsetsDirectional.fromSTEB(
-                                  16.0, 0.0, 16.0, 0.0),
-                              prefixIcon: Icon(
-                                Icons.search,
-                                color: Color(0xFF888888),
-                                size: 20.0,
-                              ),
+                        Align(
+                          alignment: AlignmentDirectional(-1.0, 0.0),
+                          child: FlutterFlowPlacePicker(
+                            iOSGoogleMapsApiKey:
+                                'AIzaSyBwBNQulm_z255RyGs_w2KYBwy-bUhwzEM',
+                            androidGoogleMapsApiKey:
+                                'AIzaSyA7RBfsxyrdITB8HMd7FmIGgajTXVhd7_Y',
+                            webGoogleMapsApiKey:
+                                'AIzaSyDqLfIq3XtaT_lBMa_j_jfMf1PXh-nJp-Q',
+                            onSelect: (place) async {
+                              safeSetState(
+                                  () => _model.placePickerValue = place);
+                            },
+                            defaultText: 'Select Location',
+                            icon: Icon(
+                              Icons.place,
+                              color: Color(0xFF1A1461),
+                              size: 16.0,
                             ),
-                            style: FlutterFlowTheme.of(context)
-                                .bodyMedium
-                                .override(
-                                  font: GoogleFonts.inter(
-                                    fontWeight: FlutterFlowTheme.of(context)
-                                        .bodyMedium
-                                        .fontWeight,
-                                    fontStyle: FlutterFlowTheme.of(context)
-                                        .bodyMedium
-                                        .fontStyle,
-                                  ),
-                                  fontSize: 15.0,
-                                  letterSpacing: 0.0,
-                                  fontWeight: FlutterFlowTheme.of(context)
-                                      .bodyMedium
-                                      .fontWeight,
-                                  fontStyle: FlutterFlowTheme.of(context)
-                                      .bodyMedium
-                                      .fontStyle,
-                                ),
-                            validator: _model.textControllerValidator
-                                .asValidator(context),
-                          ),
-                        ),
-                      ].divide(SizedBox(width: 12.0)),
-                    ),
-                  ),
-                ),
-              ),
-              Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 5.0),
-                child: Row(
-                  mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Align(
-                      alignment: AlignmentDirectional(-1.0, 0.0),
-                      child: FlutterFlowPlacePicker(
-                        iOSGoogleMapsApiKey:
-                            'AIzaSyBwBNQulm_z255RyGs_w2KYBwy-bUhwzEM',
-                        androidGoogleMapsApiKey:
-                            'AIzaSyA7RBfsxyrdITB8HMd7FmIGgajTXVhd7_Y',
-                        webGoogleMapsApiKey:
-                            'AIzaSyDqLfIq3XtaT_lBMa_j_jfMf1PXh-nJp-Q',
-                        onSelect: (place) async {
-                          safeSetState(() => _model.placePickerValue = place);
-                        },
-                        defaultText: 'Select Location',
-                        icon: Icon(
-                          Icons.place,
-                          color: FlutterFlowTheme.of(context).info,
-                          size: 16.0,
-                        ),
-                        buttonOptions: FFButtonOptions(
-                          width: 200.0,
-                          height: 40.0,
-                          color: FlutterFlowTheme.of(context).primary,
-                          textStyle:
-                              FlutterFlowTheme.of(context).titleSmall.override(
+                            buttonOptions: FFButtonOptions(
+                              width: 200.0,
+                              height: 40.0,
+                              color: Color(0xFFE3F2FD),
+                              textStyle: FlutterFlowTheme.of(context)
+                                  .titleSmall
+                                  .override(
                                     font: GoogleFonts.interTight(
                                       fontWeight: FlutterFlowTheme.of(context)
                                           .titleSmall
@@ -327,7 +221,7 @@ class _PlaceCardWidgetState extends State<PlaceCardWidget> {
                                           .titleSmall
                                           .fontStyle,
                                     ),
-                                    color: FlutterFlowTheme.of(context).info,
+                                    color: Color(0xFF1A1461),
                                     letterSpacing: 0.0,
                                     fontWeight: FlutterFlowTheme.of(context)
                                         .titleSmall
@@ -336,34 +230,41 @@ class _PlaceCardWidgetState extends State<PlaceCardWidget> {
                                         .titleSmall
                                         .fontStyle,
                                   ),
-                          elevation: 0.0,
-                          borderSide: BorderSide(
-                            color: Colors.transparent,
-                            width: 1.0,
+                              elevation: 0.0,
+                              borderSide: BorderSide(
+                                color: Colors.transparent,
+                                width: 1.0,
+                              ),
+                              borderRadius: BorderRadius.circular(8.0),
+                            ),
                           ),
-                          borderRadius: BorderRadius.circular(8.0),
                         ),
-                      ),
-                    ),
-                    FlutterFlowIconButton(
-                      borderRadius: 24.0,
-                      buttonSize: 40.0,
-                      fillColor: Color(0xFFEFAA39),
-                      icon: Icon(
-                        Icons.search,
-                        color: FlutterFlowTheme.of(context).info,
-                        size: 24.0,
-                      ),
-                      onPressed: () async {
-                        await _model.googleMapsController.future.then(
-                          (c) => c.animateCamera(
-                            CameraUpdate.newLatLng(
-                                _model.placePickerValue.latLng.toGoogleMaps()),
+                        Padding(
+                          padding: EdgeInsetsDirectional.fromSTEB(
+                              45.0, 0.0, 0.0, 0.0),
+                          child: FlutterFlowIconButton(
+                            borderRadius: 24.0,
+                            buttonSize: 40.0,
+                            fillColor: Color(0xFFEFAA39),
+                            icon: Icon(
+                              Icons.search,
+                              color: FlutterFlowTheme.of(context).info,
+                              size: 24.0,
+                            ),
+                            onPressed: () async {
+                              await _model.googleMapsController.future.then(
+                                (c) => c.animateCamera(
+                                  CameraUpdate.newLatLng(_model
+                                      .placePickerValue.latLng
+                                      .toGoogleMaps()),
+                                ),
+                              );
+                            },
                           ),
-                        );
-                      },
+                        ),
+                      ].divide(SizedBox(width: 12.0)),
                     ),
-                  ],
+                  ),
                 ),
               ),
               Expanded(
@@ -415,7 +316,7 @@ class _PlaceCardWidgetState extends State<PlaceCardWidget> {
                           padding: EdgeInsets.all(16.0),
                           child: Column(
                             mainAxisSize: MainAxisSize.max,
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
                               Row(
                                 mainAxisSize: MainAxisSize.max,
@@ -613,52 +514,46 @@ class _PlaceCardWidgetState extends State<PlaceCardWidget> {
                                   ),
                                 ],
                               ),
-                              Align(
-                                alignment: AlignmentDirectional(1.0, 1.0),
-                                child: ToggleIcon(
-                                  onPressed: () async {
-                                    safeSetState(() => FFAppState().isFavorite =
-                                        !FFAppState().isFavorite);
-                                    FFAppState().isFavorite =
-                                        !(FFAppState().isFavorite ?? true);
-                                    safeSetState(() {});
-                                    if (FFAppState().isFavorite) {
-                                      await currentUserReference!.update({
-                                        ...mapToFirestore(
-                                          {
-                                            'favorite_places':
-                                                FieldValue.arrayUnion([
-                                              widget.placeDoc?.reference
-                                            ]),
-                                          },
-                                        ),
-                                      });
-                                    } else {
-                                      await currentUserReference!.update({
-                                        ...mapToFirestore(
-                                          {
-                                            'favorite_places':
-                                                FieldValue.arrayRemove([
-                                              widget.placeDoc?.reference
-                                            ]),
-                                          },
-                                        ),
-                                      });
-                                    }
-                                  },
-                                  value: FFAppState().isFavorite,
-                                  onIcon: Icon(
-                                    Icons.favorite_sharp,
-                                    color: Color(0xFFFFD93D),
-                                    size: 24.0,
-                                  ),
-                                  offIcon: Icon(
-                                    Icons.favorite_border,
-                                    color: FlutterFlowTheme.of(context)
-                                        .secondaryText,
-                                    size: 24.0,
-                                  ),
+                              FlutterFlowIconButton(
+                                key: ValueKey(FFAppState().isFavorite
+                                    ? 'favorite'
+                                    : 'favorite_border'),
+                                borderRadius: 24.0,
+                                buttonSize: 40.0,
+                                fillColor: Color(0xFFFFD730),
+                                icon: Icon(
+                                  Icons.favorite,
+                                  color: FlutterFlowTheme.of(context).info,
+                                  size: 24.0,
                                 ),
+                                onPressed: () async {
+                                  FFAppState().isFavorite =
+                                      !(FFAppState().isFavorite ?? true);
+                                  safeSetState(() {});
+                                  if (FFAppState().isFavorite) {
+                                    await currentUserReference!.update({
+                                      ...mapToFirestore(
+                                        {
+                                          'favorite_places':
+                                              FieldValue.arrayUnion([
+                                            widget.placeDoc?.reference
+                                          ]),
+                                        },
+                                      ),
+                                    });
+                                  } else {
+                                    await currentUserReference!.update({
+                                      ...mapToFirestore(
+                                        {
+                                          'favorite_places':
+                                              FieldValue.arrayRemove([
+                                            widget.placeDoc?.reference
+                                          ]),
+                                        },
+                                      ),
+                                    });
+                                  }
+                                },
                               ),
                             ].divide(SizedBox(height: 8.0)),
                           ),

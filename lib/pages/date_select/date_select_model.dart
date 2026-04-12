@@ -19,6 +19,8 @@ class DateSelectModel extends FlutterFlowModel<DateSelectWidget> {
   FocusNode? textFieldFocusNode;
   TextEditingController? textController;
   String? Function(BuildContext, String?)? textControllerValidator;
+  // Stores action output result for [Custom Action - startOrFindChat] action in Container widget.
+  DocumentReference? chatRef;
 
   @override
   void initState(BuildContext context) {}
