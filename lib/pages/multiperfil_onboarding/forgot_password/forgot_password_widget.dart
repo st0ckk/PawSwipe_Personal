@@ -3,7 +3,11 @@ import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
+import '/pages/multiperfil_onboarding/menu/menu_widget.dart';
+import '/index.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'forgot_password_model.dart';
 export 'forgot_password_model.dart';
@@ -27,6 +31,11 @@ class _ForgotPasswordWidgetState extends State<ForgotPasswordWidget> {
   void initState() {
     super.initState();
     _model = createModel(context, () => ForgotPasswordModel());
+
+    // On page load action.
+    SchedulerBinding.instance.addPostFrameCallback((_) async {
+      context.safePop();
+    });
 
     _model.emailAddressTextController ??= TextEditingController();
     _model.emailAddressFocusNode ??= FocusNode();
@@ -61,7 +70,28 @@ class _ForgotPasswordWidgetState extends State<ForgotPasswordWidget> {
             context.pop();
           },
         ),
-        actions: [],
+        actions: [
+          Padding(
+            padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 15.0, 0.0),
+            child: FlutterFlowIconButton(
+              borderRadius: 8.0,
+              buttonSize: 40.0,
+              icon: FaIcon(
+                FontAwesomeIcons.signOutAlt,
+                color: Color(0xFF1A1461),
+                size: 30.0,
+              ),
+              onPressed: () async {
+                GoRouter.of(context).prepareAuthEvent();
+                await authManager.signOut();
+                GoRouter.of(context).clearRedirectLocation();
+
+                context.goNamedAuth(
+                    OnboardingWidget.routeName, context.mounted);
+              },
+            ),
+          ),
+        ],
         flexibleSpace: FlexibleSpaceBar(
           background: ClipRRect(
             borderRadius: BorderRadius.circular(0.0),
@@ -282,6 +312,14 @@ class _ForgotPasswordWidgetState extends State<ForgotPasswordWidget> {
                         borderRadius: BorderRadius.circular(12.0),
                       ),
                     ),
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsetsDirectional.fromSTEB(0.0, 450.0, 0.0, 0.0),
+                  child: wrapWithModel(
+                    model: _model.menuModel,
+                    updateCallback: () => safeSetState(() {}),
+                    child: MenuWidget(),
                   ),
                 ),
               ],

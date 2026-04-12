@@ -1,3 +1,4 @@
+import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
@@ -63,7 +64,7 @@ class _PawfileDetailsWidgetState extends State<PawfileDetailsWidget> {
             children: [
               Container(
                 width: double.infinity,
-                height: 60.0,
+                height: 69.6,
                 decoration: BoxDecoration(
                   color: Color(0xFFFFD93D),
                   image: DecorationImage(
@@ -74,36 +75,22 @@ class _PawfileDetailsWidgetState extends State<PawfileDetailsWidget> {
                   ),
                 ),
                 child: Padding(
-                  padding:
-                      EdgeInsetsDirectional.fromSTEB(16.0, 18.0, 16.0, 18.0),
+                  padding: EdgeInsetsDirectional.fromSTEB(16.0, 9.0, 16.0, 9.0),
                   child: Row(
                     mainAxisSize: MainAxisSize.max,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       FlutterFlowIconButton(
-                        borderRadius: 8.0,
+                        borderRadius: 100.0,
                         buttonSize: 40.0,
-                        fillColor: Color(0xFFFFD93D),
+                        fillColor: Color(0xFF151541),
                         icon: Icon(
                           Icons.arrow_back,
-                          color: FlutterFlowTheme.of(context).secondaryText,
+                          color: Color(0xFFFFD93D),
                           size: 24.0,
                         ),
                         onPressed: () async {
                           context.safePop();
-                        },
-                      ),
-                      FlutterFlowIconButton(
-                        borderRadius: 8.0,
-                        buttonSize: 40.0,
-                        fillColor: Color(0xFFFFD93D),
-                        icon: Icon(
-                          Icons.menu,
-                          color: FlutterFlowTheme.of(context).secondaryText,
-                          size: 24.0,
-                        ),
-                        onPressed: () {
-                          print('IconButton pressed ...');
                         },
                       ),
                     ],
@@ -111,14 +98,8 @@ class _PawfileDetailsWidgetState extends State<PawfileDetailsWidget> {
                 ),
               ),
               Expanded(
-                child: StreamBuilder<List<PawfilesRecord>>(
-                  stream: queryPawfilesRecord(
-                    queryBuilder: (pawfilesRecord) => pawfilesRecord.where(
-                      'dogName',
-                      isEqualTo: widget.selectedDog?.id,
-                    ),
-                    singleRecord: true,
-                  ),
+                child: StreamBuilder<PawfilesRecord>(
+                  stream: PawfilesRecord.getDocument(widget.selectedDog!),
                   builder: (context, snapshot) {
                     // Customize what your widget looks like when it's loading.
                     if (!snapshot.hasData) {
@@ -134,16 +115,8 @@ class _PawfileDetailsWidgetState extends State<PawfileDetailsWidget> {
                         ),
                       );
                     }
-                    List<PawfilesRecord> columnPawfilesRecordList =
-                        snapshot.data!;
-                    // Return an empty Container when the item does not exist.
-                    if (snapshot.data!.isEmpty) {
-                      return Container();
-                    }
-                    final columnPawfilesRecord =
-                        columnPawfilesRecordList.isNotEmpty
-                            ? columnPawfilesRecordList.first
-                            : null;
+
+                    final columnPawfilesRecord = snapshot.data!;
 
                     return SingleChildScrollView(
                       child: Column(
@@ -176,7 +149,7 @@ class _PawfileDetailsWidgetState extends State<PawfileDetailsWidget> {
                                         borderRadius:
                                             BorderRadius.circular(8.0),
                                         child: Image.network(
-                                          columnPawfilesRecord!.dogPhoto1,
+                                          columnPawfilesRecord.dogPhoto1,
                                           width: 200.0,
                                           height: 200.0,
                                           fit: BoxFit.cover,
@@ -379,7 +352,7 @@ class _PawfileDetailsWidgetState extends State<PawfileDetailsWidget> {
                                                         valueOrDefault<String>(
                                                           columnPawfilesRecord
                                                               .dogBreed,
-                                                          '-',
+                                                          'dogBreed',
                                                         ),
                                                         style: FlutterFlowTheme
                                                                 .of(context)
@@ -468,8 +441,8 @@ class _PawfileDetailsWidgetState extends State<PawfileDetailsWidget> {
                                                       child: Text(
                                                         valueOrDefault<String>(
                                                           columnPawfilesRecord
-                                                              .dogAge,
-                                                          '-',
+                                                              .dogSize,
+                                                          'dogSize',
                                                         ),
                                                         style: FlutterFlowTheme
                                                                 .of(context)
@@ -509,25 +482,47 @@ class _PawfileDetailsWidgetState extends State<PawfileDetailsWidget> {
                                                 Padding(
                                                   padding: EdgeInsetsDirectional
                                                       .fromSTEB(
-                                                          0.0, 8.0, 0.0, 0.0),
+                                                          0.0, 5.0, 0.0, 0.0),
                                                   child: Row(
                                                     mainAxisSize:
                                                         MainAxisSize.max,
                                                     children: [
-                                                      Icon(
-                                                        Icons.location_on,
-                                                        color:
-                                                            Color(0xFF757575),
-                                                        size: 16.0,
-                                                      ),
-                                                      Text(
-                                                        'San Francisco, CA',
-                                                        style: FlutterFlowTheme
-                                                                .of(context)
-                                                            .bodyMedium
-                                                            .override(
-                                                              font: GoogleFonts
-                                                                  .inter(
+                                                      Padding(
+                                                        padding:
+                                                            EdgeInsetsDirectional
+                                                                .fromSTEB(
+                                                                    0.0,
+                                                                    4.0,
+                                                                    0.0,
+                                                                    0.0),
+                                                        child: Text(
+                                                          valueOrDefault<
+                                                              String>(
+                                                            columnPawfilesRecord
+                                                                .dogGender,
+                                                            'dogSex',
+                                                          ),
+                                                          style: FlutterFlowTheme
+                                                                  .of(context)
+                                                              .bodyMedium
+                                                              .override(
+                                                                font:
+                                                                    GoogleFonts
+                                                                        .inter(
+                                                                  fontWeight: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .bodyMedium
+                                                                      .fontWeight,
+                                                                  fontStyle: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .bodyMedium
+                                                                      .fontStyle,
+                                                                ),
+                                                                color: Color(
+                                                                    0xFF757575),
+                                                                fontSize: 16.0,
+                                                                letterSpacing:
+                                                                    0.0,
                                                                 fontWeight: FlutterFlowTheme.of(
                                                                         context)
                                                                     .bodyMedium
@@ -537,25 +532,186 @@ class _PawfileDetailsWidgetState extends State<PawfileDetailsWidget> {
                                                                     .bodyMedium
                                                                     .fontStyle,
                                                               ),
-                                                              color: Color(
-                                                                  0xFF757575),
-                                                              fontSize: 14.0,
-                                                              letterSpacing:
-                                                                  0.0,
-                                                              fontWeight:
-                                                                  FlutterFlowTheme.of(
+                                                        ),
+                                                      ),
+                                                      Padding(
+                                                        padding:
+                                                            EdgeInsetsDirectional
+                                                                .fromSTEB(
+                                                                    10.0,
+                                                                    4.0,
+                                                                    10.0,
+                                                                    0.0),
+                                                        child: Text(
+                                                          '●',
+                                                          style: FlutterFlowTheme
+                                                                  .of(context)
+                                                              .bodyMedium
+                                                              .override(
+                                                                font:
+                                                                    GoogleFonts
+                                                                        .inter(
+                                                                  fontWeight: FlutterFlowTheme.of(
                                                                           context)
                                                                       .bodyMedium
                                                                       .fontWeight,
-                                                              fontStyle:
-                                                                  FlutterFlowTheme.of(
+                                                                  fontStyle: FlutterFlowTheme.of(
                                                                           context)
                                                                       .bodyMedium
                                                                       .fontStyle,
-                                                            ),
+                                                                ),
+                                                                color: Color(
+                                                                    0xFF757575),
+                                                                fontSize: 16.0,
+                                                                letterSpacing:
+                                                                    0.0,
+                                                                fontWeight: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyMedium
+                                                                    .fontWeight,
+                                                                fontStyle: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyMedium
+                                                                    .fontStyle,
+                                                              ),
+                                                        ),
                                                       ),
-                                                    ].divide(
-                                                        SizedBox(width: 4.0)),
+                                                      Padding(
+                                                        padding:
+                                                            EdgeInsetsDirectional
+                                                                .fromSTEB(
+                                                                    0.0,
+                                                                    4.0,
+                                                                    0.0,
+                                                                    0.0),
+                                                        child: Text(
+                                                          columnPawfilesRecord
+                                                              .dogAge,
+                                                          style: FlutterFlowTheme
+                                                                  .of(context)
+                                                              .bodyMedium
+                                                              .override(
+                                                                font:
+                                                                    GoogleFonts
+                                                                        .inter(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold,
+                                                                  fontStyle: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .bodyMedium
+                                                                      .fontStyle,
+                                                                ),
+                                                                color: Color(
+                                                                    0xFF757575),
+                                                                fontSize: 16.0,
+                                                                letterSpacing:
+                                                                    0.0,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                                fontStyle: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyMedium
+                                                                    .fontStyle,
+                                                              ),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                                Padding(
+                                                  padding: EdgeInsetsDirectional
+                                                      .fromSTEB(
+                                                          0.0, 5.0, 0.0, 0.0),
+                                                  child: Row(
+                                                    mainAxisSize:
+                                                        MainAxisSize.max,
+                                                    children: [
+                                                      Padding(
+                                                        padding:
+                                                            EdgeInsetsDirectional
+                                                                .fromSTEB(
+                                                                    0.0,
+                                                                    4.0,
+                                                                    0.0,
+                                                                    0.0),
+                                                        child: Text(
+                                                          'Dog Energy Level:',
+                                                          style: FlutterFlowTheme
+                                                                  .of(context)
+                                                              .bodyMedium
+                                                              .override(
+                                                                font:
+                                                                    GoogleFonts
+                                                                        .inter(
+                                                                  fontWeight: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .bodyMedium
+                                                                      .fontWeight,
+                                                                  fontStyle: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .bodyMedium
+                                                                      .fontStyle,
+                                                                ),
+                                                                color: Color(
+                                                                    0xFF757575),
+                                                                fontSize: 16.0,
+                                                                letterSpacing:
+                                                                    0.0,
+                                                                fontWeight: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyMedium
+                                                                    .fontWeight,
+                                                                fontStyle: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyMedium
+                                                                    .fontStyle,
+                                                              ),
+                                                        ),
+                                                      ),
+                                                      Padding(
+                                                        padding:
+                                                            EdgeInsetsDirectional
+                                                                .fromSTEB(
+                                                                    10.0,
+                                                                    4.0,
+                                                                    0.0,
+                                                                    0.0),
+                                                        child: Text(
+                                                          columnPawfilesRecord
+                                                              .dogEnergyLevel,
+                                                          style: FlutterFlowTheme
+                                                                  .of(context)
+                                                              .bodyMedium
+                                                              .override(
+                                                                font:
+                                                                    GoogleFonts
+                                                                        .inter(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold,
+                                                                  fontStyle: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .bodyMedium
+                                                                      .fontStyle,
+                                                                ),
+                                                                color: Color(
+                                                                    0xFF757575),
+                                                                fontSize: 16.0,
+                                                                letterSpacing:
+                                                                    0.0,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                                fontStyle: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyMedium
+                                                                    .fontStyle,
+                                                              ),
+                                                        ),
+                                                      ),
+                                                    ],
                                                   ),
                                                 ),
                                               ],
@@ -604,7 +760,7 @@ class _PawfileDetailsWidgetState extends State<PawfileDetailsWidget> {
                                               valueOrDefault<String>(
                                                 columnPawfilesRecord
                                                     .dogDescription,
-                                                '-',
+                                                'dogDescription',
                                               ),
                                               style:
                                                   FlutterFlowTheme.of(context)
@@ -646,43 +802,89 @@ class _PawfileDetailsWidgetState extends State<PawfileDetailsWidget> {
                                     Padding(
                                       padding: EdgeInsetsDirectional.fromSTEB(
                                           0.0, 16.0, 0.0, 0.0),
-                                      child: Column(
-                                        mainAxisSize: MainAxisSize.max,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            'Owner',
-                                            style: FlutterFlowTheme.of(context)
-                                                .titleMedium
-                                                .override(
-                                                  font: GoogleFonts.interTight(
-                                                    fontWeight: FontWeight.bold,
-                                                    fontStyle:
-                                                        FlutterFlowTheme.of(
-                                                                context)
-                                                            .titleMedium
-                                                            .fontStyle,
+                                      child: StreamBuilder<UsersRecord>(
+                                        stream: UsersRecord.getDocument(
+                                            columnPawfilesRecord.ownerRef!),
+                                        builder: (context, snapshot) {
+                                          // Customize what your widget looks like when it's loading.
+                                          if (!snapshot.hasData) {
+                                            return Center(
+                                              child: SizedBox(
+                                                width: 50.0,
+                                                height: 50.0,
+                                                child:
+                                                    CircularProgressIndicator(
+                                                  valueColor:
+                                                      AlwaysStoppedAnimation<
+                                                          Color>(
+                                                    FlutterFlowTheme.of(context)
+                                                        .primary,
                                                   ),
-                                                  color: Color(0xFF1A237E),
-                                                  fontSize: 18.0,
-                                                  letterSpacing: 0.0,
-                                                  fontWeight: FontWeight.bold,
-                                                  fontStyle:
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .titleMedium
-                                                          .fontStyle,
                                                 ),
-                                          ),
-                                          Padding(
-                                            padding:
-                                                EdgeInsetsDirectional.fromSTEB(
-                                                    0.0, 8.0, 0.0, 0.0),
-                                            child: Text(
-                                              'Sarah Johnson',
-                                              style:
-                                                  FlutterFlowTheme.of(context)
+                                              ),
+                                            );
+                                          }
+
+                                          final columnUsersRecord =
+                                              snapshot.data!;
+
+                                          return Column(
+                                            mainAxisSize: MainAxisSize.max,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                'Owner',
+                                                style:
+                                                    FlutterFlowTheme.of(context)
+                                                        .titleMedium
+                                                        .override(
+                                                          font: GoogleFonts
+                                                              .interTight(
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            fontStyle:
+                                                                FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .titleMedium
+                                                                    .fontStyle,
+                                                          ),
+                                                          color:
+                                                              Color(0xFF1A237E),
+                                                          fontSize: 18.0,
+                                                          letterSpacing: 0.0,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          fontStyle:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .titleMedium
+                                                                  .fontStyle,
+                                                        ),
+                                              ),
+                                              Container(
+                                                width: 80.0,
+                                                height: 80.0,
+                                                clipBehavior: Clip.antiAlias,
+                                                decoration: BoxDecoration(
+                                                  shape: BoxShape.circle,
+                                                ),
+                                                child: Image.network(
+                                                  valueOrDefault<String>(
+                                                    columnUsersRecord.photoUrl,
+                                                    'https://firebasestorage.googleapis.com/v0/b/pawswipe-c2040.firebasestorage.app/o/imagesGen%2FImagen%20Sin%20Imagen.jpg?alt=media&token=7625610e-70fe-4a3c-a865-39a00b53f895',
+                                                  ),
+                                                  fit: BoxFit.cover,
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding: EdgeInsetsDirectional
+                                                    .fromSTEB(
+                                                        0.0, 8.0, 0.0, 0.0),
+                                                child: Text(
+                                                  columnUsersRecord.displayName,
+                                                  style: FlutterFlowTheme.of(
+                                                          context)
                                                       .bodyMedium
                                                       .override(
                                                         font: GoogleFonts.inter(
@@ -712,48 +914,11 @@ class _PawfileDetailsWidgetState extends State<PawfileDetailsWidget> {
                                                                 .bodyMedium
                                                                 .fontStyle,
                                                       ),
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding:
-                                                EdgeInsetsDirectional.fromSTEB(
-                                                    0.0, 4.0, 0.0, 0.0),
-                                            child: Text(
-                                              'Dog lover and volunteer at local animal shelter. I\'ve been fostering pets for over 5 years.',
-                                              style:
-                                                  FlutterFlowTheme.of(context)
-                                                      .bodyMedium
-                                                      .override(
-                                                        font: GoogleFonts.inter(
-                                                          fontWeight:
-                                                              FlutterFlowTheme.of(
-                                                                      context)
-                                                                  .bodyMedium
-                                                                  .fontWeight,
-                                                          fontStyle:
-                                                              FlutterFlowTheme.of(
-                                                                      context)
-                                                                  .bodyMedium
-                                                                  .fontStyle,
-                                                        ),
-                                                        color:
-                                                            Color(0xFF424242),
-                                                        fontSize: 14.0,
-                                                        letterSpacing: 0.0,
-                                                        fontWeight:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .bodyMedium
-                                                                .fontWeight,
-                                                        fontStyle:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .bodyMedium
-                                                                .fontStyle,
-                                                      ),
-                                            ),
-                                          ),
-                                        ],
+                                                ),
+                                              ),
+                                            ],
+                                          );
+                                        },
                                       ),
                                     ),
                                     Padding(
@@ -796,37 +961,74 @@ class _PawfileDetailsWidgetState extends State<PawfileDetailsWidget> {
                                                   ),
                                             ),
                                           ),
-                                          Wrap(
-                                            spacing: 8.0,
-                                            runSpacing: 8.0,
-                                            alignment: WrapAlignment.start,
-                                            crossAxisAlignment:
-                                                WrapCrossAlignment.start,
-                                            direction: Axis.horizontal,
-                                            runAlignment: WrapAlignment.start,
-                                            verticalDirection:
-                                                VerticalDirection.down,
-                                            clipBehavior: Clip.none,
-                                            children: [
-                                              Padding(
-                                                padding: EdgeInsetsDirectional
-                                                    .fromSTEB(
-                                                        12.0, 8.0, 12.0, 8.0),
-                                                child: Container(
-                                                  decoration: BoxDecoration(
-                                                    color: Color(0xFFFFF9E6),
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            16.0),
+                                          Text(
+                                            'Prefered Size:',
+                                            style: FlutterFlowTheme.of(context)
+                                                .bodyMedium
+                                                .override(
+                                                  font: GoogleFonts.inter(
+                                                    fontWeight: FontWeight.w600,
+                                                    fontStyle:
+                                                        FlutterFlowTheme.of(
+                                                                context)
+                                                            .bodyMedium
+                                                            .fontStyle,
                                                   ),
-                                                  child: Padding(
+                                                  letterSpacing: 0.0,
+                                                  fontWeight: FontWeight.w600,
+                                                  fontStyle:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .bodyMedium
+                                                          .fontStyle,
+                                                ),
+                                          ),
+                                          Builder(
+                                            builder: (context) {
+                                              final size = columnPawfilesRecord
+                                                  .prefSize
+                                                  .toList();
+
+                                              return Wrap(
+                                                spacing: 8.0,
+                                                runSpacing: 8.0,
+                                                alignment: WrapAlignment.start,
+                                                crossAxisAlignment:
+                                                    WrapCrossAlignment.start,
+                                                direction: Axis.horizontal,
+                                                runAlignment:
+                                                    WrapAlignment.start,
+                                                verticalDirection:
+                                                    VerticalDirection.down,
+                                                clipBehavior: Clip.none,
+                                                children: List.generate(
+                                                    size.length, (sizeIndex) {
+                                                  final sizeItem =
+                                                      size[sizeIndex];
+                                                  return Padding(
                                                     padding:
-                                                        EdgeInsets.all(8.0),
-                                                    child: Text(
-                                                      'Fetch',
-                                                      style:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
+                                                        EdgeInsetsDirectional
+                                                            .fromSTEB(12.0, 8.0,
+                                                                12.0, 8.0),
+                                                    child: Container(
+                                                      decoration: BoxDecoration(
+                                                        color:
+                                                            Color(0xFF1A237E),
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(16.0),
+                                                      ),
+                                                      child: Padding(
+                                                        padding:
+                                                            EdgeInsets.all(8.0),
+                                                        child: Text(
+                                                          valueOrDefault<
+                                                              String>(
+                                                            sizeItem,
+                                                            'size',
+                                                          ),
+                                                          style: FlutterFlowTheme
+                                                                  .of(context)
                                                               .bodySmall
                                                               .override(
                                                                 font:
@@ -841,8 +1043,8 @@ class _PawfileDetailsWidgetState extends State<PawfileDetailsWidget> {
                                                                       .bodySmall
                                                                       .fontStyle,
                                                                 ),
-                                                                color: Color(
-                                                                    0xFF1A237E),
+                                                                color: Colors
+                                                                    .white,
                                                                 fontSize: 13.0,
                                                                 letterSpacing:
                                                                     0.0,
@@ -855,29 +1057,81 @@ class _PawfileDetailsWidgetState extends State<PawfileDetailsWidget> {
                                                                     .bodySmall
                                                                     .fontStyle,
                                                               ),
+                                                        ),
+                                                      ),
                                                     ),
+                                                  );
+                                                }),
+                                              );
+                                            },
+                                          ),
+                                          Text(
+                                            'Prefered Sex:',
+                                            style: FlutterFlowTheme.of(context)
+                                                .bodyMedium
+                                                .override(
+                                                  font: GoogleFonts.inter(
+                                                    fontWeight: FontWeight.w600,
+                                                    fontStyle:
+                                                        FlutterFlowTheme.of(
+                                                                context)
+                                                            .bodyMedium
+                                                            .fontStyle,
                                                   ),
+                                                  letterSpacing: 0.0,
+                                                  fontWeight: FontWeight.w600,
+                                                  fontStyle:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .bodyMedium
+                                                          .fontStyle,
                                                 ),
-                                              ),
-                                              Padding(
-                                                padding: EdgeInsetsDirectional
-                                                    .fromSTEB(
-                                                        12.0, 8.0, 12.0, 8.0),
-                                                child: Container(
-                                                  decoration: BoxDecoration(
-                                                    color: Color(0xFFFFF9E6),
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            16.0),
-                                                  ),
-                                                  child: Padding(
+                                          ),
+                                          Builder(
+                                            builder: (context) {
+                                              final sex = columnPawfilesRecord
+                                                  .prefGender
+                                                  .toList();
+
+                                              return Wrap(
+                                                spacing: 8.0,
+                                                runSpacing: 8.0,
+                                                alignment: WrapAlignment.start,
+                                                crossAxisAlignment:
+                                                    WrapCrossAlignment.start,
+                                                direction: Axis.horizontal,
+                                                runAlignment:
+                                                    WrapAlignment.start,
+                                                verticalDirection:
+                                                    VerticalDirection.down,
+                                                clipBehavior: Clip.none,
+                                                children: List.generate(
+                                                    sex.length, (sexIndex) {
+                                                  final sexItem = sex[sexIndex];
+                                                  return Padding(
                                                     padding:
-                                                        EdgeInsets.all(8.0),
-                                                    child: Text(
-                                                      'Swimming',
-                                                      style:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
+                                                        EdgeInsetsDirectional
+                                                            .fromSTEB(12.0, 8.0,
+                                                                12.0, 8.0),
+                                                    child: Container(
+                                                      decoration: BoxDecoration(
+                                                        color:
+                                                            Color(0xFF1A237E),
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(16.0),
+                                                      ),
+                                                      child: Padding(
+                                                        padding:
+                                                            EdgeInsets.all(8.0),
+                                                        child: Text(
+                                                          valueOrDefault<
+                                                              String>(
+                                                            sexItem,
+                                                            'sex',
+                                                          ),
+                                                          style: FlutterFlowTheme
+                                                                  .of(context)
                                                               .bodySmall
                                                               .override(
                                                                 font:
@@ -892,8 +1146,8 @@ class _PawfileDetailsWidgetState extends State<PawfileDetailsWidget> {
                                                                       .bodySmall
                                                                       .fontStyle,
                                                                 ),
-                                                                color: Color(
-                                                                    0xFF1A237E),
+                                                                color: Colors
+                                                                    .white,
                                                                 fontSize: 13.0,
                                                                 letterSpacing:
                                                                     0.0,
@@ -906,29 +1160,81 @@ class _PawfileDetailsWidgetState extends State<PawfileDetailsWidget> {
                                                                     .bodySmall
                                                                     .fontStyle,
                                                               ),
+                                                        ),
+                                                      ),
                                                     ),
+                                                  );
+                                                }),
+                                              );
+                                            },
+                                          ),
+                                          Text(
+                                            'Prefered Age:',
+                                            style: FlutterFlowTheme.of(context)
+                                                .bodyMedium
+                                                .override(
+                                                  font: GoogleFonts.inter(
+                                                    fontWeight: FontWeight.w600,
+                                                    fontStyle:
+                                                        FlutterFlowTheme.of(
+                                                                context)
+                                                            .bodyMedium
+                                                            .fontStyle,
                                                   ),
+                                                  letterSpacing: 0.0,
+                                                  fontWeight: FontWeight.w600,
+                                                  fontStyle:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .bodyMedium
+                                                          .fontStyle,
                                                 ),
-                                              ),
-                                              Padding(
-                                                padding: EdgeInsetsDirectional
-                                                    .fromSTEB(
-                                                        12.0, 8.0, 12.0, 8.0),
-                                                child: Container(
-                                                  decoration: BoxDecoration(
-                                                    color: Color(0xFFFFF9E6),
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            16.0),
-                                                  ),
-                                                  child: Padding(
+                                          ),
+                                          Builder(
+                                            builder: (context) {
+                                              final age = columnPawfilesRecord
+                                                  .prefAge
+                                                  .toList();
+
+                                              return Wrap(
+                                                spacing: 8.0,
+                                                runSpacing: 8.0,
+                                                alignment: WrapAlignment.start,
+                                                crossAxisAlignment:
+                                                    WrapCrossAlignment.start,
+                                                direction: Axis.horizontal,
+                                                runAlignment:
+                                                    WrapAlignment.start,
+                                                verticalDirection:
+                                                    VerticalDirection.down,
+                                                clipBehavior: Clip.none,
+                                                children: List.generate(
+                                                    age.length, (ageIndex) {
+                                                  final ageItem = age[ageIndex];
+                                                  return Padding(
                                                     padding:
-                                                        EdgeInsets.all(8.0),
-                                                    child: Text(
-                                                      'Hiking',
-                                                      style:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
+                                                        EdgeInsetsDirectional
+                                                            .fromSTEB(12.0, 8.0,
+                                                                12.0, 8.0),
+                                                    child: Container(
+                                                      decoration: BoxDecoration(
+                                                        color:
+                                                            Color(0xFF1A237E),
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(16.0),
+                                                      ),
+                                                      child: Padding(
+                                                        padding:
+                                                            EdgeInsets.all(8.0),
+                                                        child: Text(
+                                                          valueOrDefault<
+                                                              String>(
+                                                            ageItem,
+                                                            'age',
+                                                          ),
+                                                          style: FlutterFlowTheme
+                                                                  .of(context)
                                                               .bodySmall
                                                               .override(
                                                                 font:
@@ -943,8 +1249,8 @@ class _PawfileDetailsWidgetState extends State<PawfileDetailsWidget> {
                                                                       .bodySmall
                                                                       .fontStyle,
                                                                 ),
-                                                                color: Color(
-                                                                    0xFF1A237E),
+                                                                color: Colors
+                                                                    .white,
                                                                 fontSize: 13.0,
                                                                 letterSpacing:
                                                                     0.0,
@@ -957,29 +1263,84 @@ class _PawfileDetailsWidgetState extends State<PawfileDetailsWidget> {
                                                                     .bodySmall
                                                                     .fontStyle,
                                                               ),
+                                                        ),
+                                                      ),
                                                     ),
+                                                  );
+                                                }),
+                                              );
+                                            },
+                                          ),
+                                          Text(
+                                            'Prefered Energy:',
+                                            style: FlutterFlowTheme.of(context)
+                                                .bodyMedium
+                                                .override(
+                                                  font: GoogleFonts.inter(
+                                                    fontWeight: FontWeight.w600,
+                                                    fontStyle:
+                                                        FlutterFlowTheme.of(
+                                                                context)
+                                                            .bodyMedium
+                                                            .fontStyle,
                                                   ),
+                                                  letterSpacing: 0.0,
+                                                  fontWeight: FontWeight.w600,
+                                                  fontStyle:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .bodyMedium
+                                                          .fontStyle,
                                                 ),
-                                              ),
-                                              Padding(
-                                                padding: EdgeInsetsDirectional
-                                                    .fromSTEB(
-                                                        12.0, 8.0, 12.0, 8.0),
-                                                child: Container(
-                                                  decoration: BoxDecoration(
-                                                    color: Color(0xFFFFF9E6),
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            16.0),
-                                                  ),
-                                                  child: Padding(
+                                          ),
+                                          Builder(
+                                            builder: (context) {
+                                              final energy =
+                                                  columnPawfilesRecord
+                                                      .prefEnergy
+                                                      .toList();
+
+                                              return Wrap(
+                                                spacing: 8.0,
+                                                runSpacing: 8.0,
+                                                alignment: WrapAlignment.start,
+                                                crossAxisAlignment:
+                                                    WrapCrossAlignment.start,
+                                                direction: Axis.horizontal,
+                                                runAlignment:
+                                                    WrapAlignment.start,
+                                                verticalDirection:
+                                                    VerticalDirection.down,
+                                                clipBehavior: Clip.none,
+                                                children:
+                                                    List.generate(energy.length,
+                                                        (energyIndex) {
+                                                  final energyItem =
+                                                      energy[energyIndex];
+                                                  return Padding(
                                                     padding:
-                                                        EdgeInsets.all(8.0),
-                                                    child: Text(
-                                                      'Training',
-                                                      style:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
+                                                        EdgeInsetsDirectional
+                                                            .fromSTEB(12.0, 8.0,
+                                                                12.0, 8.0),
+                                                    child: Container(
+                                                      decoration: BoxDecoration(
+                                                        color:
+                                                            Color(0xFF1A237E),
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(16.0),
+                                                      ),
+                                                      child: Padding(
+                                                        padding:
+                                                            EdgeInsets.all(8.0),
+                                                        child: Text(
+                                                          valueOrDefault<
+                                                              String>(
+                                                            energyItem,
+                                                            'energy',
+                                                          ),
+                                                          style: FlutterFlowTheme
+                                                                  .of(context)
                                                               .bodySmall
                                                               .override(
                                                                 font:
@@ -994,8 +1355,8 @@ class _PawfileDetailsWidgetState extends State<PawfileDetailsWidget> {
                                                                       .bodySmall
                                                                       .fontStyle,
                                                                 ),
-                                                                color: Color(
-                                                                    0xFF1A237E),
+                                                                color: Colors
+                                                                    .white,
                                                                 fontSize: 13.0,
                                                                 letterSpacing:
                                                                     0.0,
@@ -1008,68 +1369,89 @@ class _PawfileDetailsWidgetState extends State<PawfileDetailsWidget> {
                                                                     .bodySmall
                                                                     .fontStyle,
                                                               ),
+                                                        ),
+                                                      ),
                                                     ),
+                                                  );
+                                                }),
+                                              );
+                                            },
+                                          ),
+                                          Text(
+                                            'Prefered Distance:',
+                                            style: FlutterFlowTheme.of(context)
+                                                .bodyMedium
+                                                .override(
+                                                  font: GoogleFonts.inter(
+                                                    fontWeight: FontWeight.w600,
+                                                    fontStyle:
+                                                        FlutterFlowTheme.of(
+                                                                context)
+                                                            .bodyMedium
+                                                            .fontStyle,
                                                   ),
+                                                  letterSpacing: 0.0,
+                                                  fontWeight: FontWeight.w600,
+                                                  fontStyle:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .bodyMedium
+                                                          .fontStyle,
+                                                ),
+                                          ),
+                                          Padding(
+                                            padding:
+                                                EdgeInsetsDirectional.fromSTEB(
+                                                    12.0, 8.0, 12.0, 8.0),
+                                            child: Container(
+                                              decoration: BoxDecoration(
+                                                color: Color(0xFF1A237E),
+                                                borderRadius:
+                                                    BorderRadius.circular(16.0),
+                                              ),
+                                              child: Padding(
+                                                padding: EdgeInsets.all(8.0),
+                                                child: Text(
+                                                  valueOrDefault<String>(
+                                                    '${columnPawfilesRecord.prefDistance} km',
+                                                    'distance',
+                                                  ),
+                                                  style: FlutterFlowTheme.of(
+                                                          context)
+                                                      .bodySmall
+                                                      .override(
+                                                        font: GoogleFonts.inter(
+                                                          fontWeight:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .bodySmall
+                                                                  .fontWeight,
+                                                          fontStyle:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .bodySmall
+                                                                  .fontStyle,
+                                                        ),
+                                                        color: Colors.white,
+                                                        fontSize: 13.0,
+                                                        letterSpacing: 0.0,
+                                                        fontWeight:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .bodySmall
+                                                                .fontWeight,
+                                                        fontStyle:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .bodySmall
+                                                                .fontStyle,
+                                                      ),
                                                 ),
                                               ),
-                                              Padding(
-                                                padding: EdgeInsetsDirectional
-                                                    .fromSTEB(
-                                                        12.0, 8.0, 12.0, 8.0),
-                                                child: Container(
-                                                  decoration: BoxDecoration(
-                                                    color: Color(0xFFFFF9E6),
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            16.0),
-                                                  ),
-                                                  child: Padding(
-                                                    padding:
-                                                        EdgeInsets.all(8.0),
-                                                    child: Text(
-                                                      'Socializing',
-                                                      style:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .bodySmall
-                                                              .override(
-                                                                font:
-                                                                    GoogleFonts
-                                                                        .inter(
-                                                                  fontWeight: FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .bodySmall
-                                                                      .fontWeight,
-                                                                  fontStyle: FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .bodySmall
-                                                                      .fontStyle,
-                                                                ),
-                                                                color: Color(
-                                                                    0xFF1A237E),
-                                                                fontSize: 13.0,
-                                                                letterSpacing:
-                                                                    0.0,
-                                                                fontWeight: FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .bodySmall
-                                                                    .fontWeight,
-                                                                fontStyle: FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .bodySmall
-                                                                    .fontStyle,
-                                                              ),
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
+                                            ),
                                           ),
                                         ],
                                       ),
-                                    ),
-                                    Container(
-                                      height: 100.0,
                                     ),
                                   ],
                                 ),
@@ -1149,6 +1531,16 @@ class _PawfileDetailsWidgetState extends State<PawfileDetailsWidget> {
                                             petRef: widget.selectedDog,
                                             action: false,
                                           ));
+
+                                      await currentUserReference!.update({
+                                        ...mapToFirestore(
+                                          {
+                                            'swiped_pets':
+                                                FieldValue.arrayUnion(
+                                                    [widget.selectedDog]),
+                                          },
+                                        ),
+                                      });
                                     },
                                     child: Container(
                                       width: 60.0,
@@ -1214,6 +1606,16 @@ class _PawfileDetailsWidgetState extends State<PawfileDetailsWidget> {
                                             petRef: widget.selectedDog,
                                             action: false,
                                           ));
+
+                                      await currentUserReference!.update({
+                                        ...mapToFirestore(
+                                          {
+                                            'swiped_pets':
+                                                FieldValue.arrayUnion(
+                                                    [widget.selectedDog]),
+                                          },
+                                        ),
+                                      });
                                     },
                                     child: Container(
                                       width: 60.0,
@@ -1233,81 +1635,6 @@ class _PawfileDetailsWidgetState extends State<PawfileDetailsWidget> {
                                 },
                               ),
                             ],
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(
-                              0.0, 8.0, 0.0, 0.0),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.max,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                'Report',
-                                style: FlutterFlowTheme.of(context)
-                                    .bodySmall
-                                    .override(
-                                      font: GoogleFonts.inter(
-                                        fontWeight: FlutterFlowTheme.of(context)
-                                            .bodySmall
-                                            .fontWeight,
-                                        fontStyle: FlutterFlowTheme.of(context)
-                                            .bodySmall
-                                            .fontStyle,
-                                      ),
-                                      color: Color(0xFF757575),
-                                      fontSize: 13.0,
-                                      letterSpacing: 0.0,
-                                      fontWeight: FlutterFlowTheme.of(context)
-                                          .bodySmall
-                                          .fontWeight,
-                                      fontStyle: FlutterFlowTheme.of(context)
-                                          .bodySmall
-                                          .fontStyle,
-                                    ),
-                              ),
-                              InkWell(
-                                splashColor: Colors.transparent,
-                                focusColor: Colors.transparent,
-                                hoverColor: Colors.transparent,
-                                highlightColor: Colors.transparent,
-                                onTap: () async {
-                                  await SwipesRecord.collection
-                                      .doc()
-                                      .set(createSwipesRecordData(
-                                        userRef: widget.fromUser,
-                                        petRef: widget.selectedDog,
-                                        blocked: true,
-                                      ));
-                                },
-                                child: Text(
-                                  'Block',
-                                  style: FlutterFlowTheme.of(context)
-                                      .bodySmall
-                                      .override(
-                                        font: GoogleFonts.inter(
-                                          fontWeight:
-                                              FlutterFlowTheme.of(context)
-                                                  .bodySmall
-                                                  .fontWeight,
-                                          fontStyle:
-                                              FlutterFlowTheme.of(context)
-                                                  .bodySmall
-                                                  .fontStyle,
-                                        ),
-                                        color: Color(0xFF757575),
-                                        fontSize: 13.0,
-                                        letterSpacing: 0.0,
-                                        fontWeight: FlutterFlowTheme.of(context)
-                                            .bodySmall
-                                            .fontWeight,
-                                        fontStyle: FlutterFlowTheme.of(context)
-                                            .bodySmall
-                                            .fontStyle,
-                                      ),
-                                ),
-                              ),
-                            ].divide(SizedBox(width: 16.0)),
                           ),
                         ),
                       ],

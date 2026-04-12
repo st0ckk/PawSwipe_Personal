@@ -1,9 +1,13 @@
+import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_swipeable_stack.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/pages/swiping/no_more_paws/no_more_paws_widget.dart';
+import '/pages/swiping/paw_card/paw_card_widget.dart';
 import '/index.dart';
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_card_swiper/flutter_card_swiper.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -74,21 +78,26 @@ class _NearPawfileCardWidgetState extends State<NearPawfileCardWidget> {
                     Padding(
                       padding:
                           EdgeInsetsDirectional.fromSTEB(20.0, 0.0, 0.0, 0.0),
-                      child: InkWell(
-                        splashColor: Colors.transparent,
-                        focusColor: Colors.transparent,
-                        hoverColor: Colors.transparent,
-                        highlightColor: Colors.transparent,
-                        onTap: () async {
-                          context.pushNamed(ProfileWidget.routeName);
-                        },
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(100.0),
-                          child: Image.network(
-                            'https://images.unsplash.com/photo-1580489944761-15a19d654956?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w0NTYyMDF8MHwxfHNlYXJjaHwxMXx8cHJvZmlsZXxlbnwwfHx8fDE3NzA0Njc3NjN8MA&ixlib=rb-4.1.0&q=80&w=1080',
-                            width: 60.0,
-                            height: 60.0,
-                            fit: BoxFit.cover,
+                      child: AuthUserStreamWidget(
+                        builder: (context) => InkWell(
+                          splashColor: Colors.transparent,
+                          focusColor: Colors.transparent,
+                          hoverColor: Colors.transparent,
+                          highlightColor: Colors.transparent,
+                          onTap: () async {
+                            context.pushNamed(ProfileWidget.routeName);
+                          },
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(100.0),
+                            child: Image.network(
+                              valueOrDefault<String>(
+                                currentUserPhoto,
+                                'https://firebasestorage.googleapis.com/v0/b/pawswipe-c2040.firebasestorage.app/o/imagesGen%2FImagen%20Sin%20Imagen.jpg?alt=media&token=7625610e-70fe-4a3c-a865-39a00b53f895',
+                              ),
+                              width: 60.0,
+                              height: 60.0,
+                              fit: BoxFit.cover,
+                            ),
                           ),
                         ),
                       ),
@@ -100,12 +109,23 @@ class _NearPawfileCardWidgetState extends State<NearPawfileCardWidget> {
                         Padding(
                           padding: EdgeInsetsDirectional.fromSTEB(
                               15.0, 15.0, 0.0, 0.0),
-                          child: Text(
-                            'User Name',
-                            style: FlutterFlowTheme.of(context)
-                                .headlineSmall
-                                .override(
-                                  font: GoogleFonts.interTight(
+                          child: AuthUserStreamWidget(
+                            builder: (context) => Text(
+                              currentUserDisplayName,
+                              style: FlutterFlowTheme.of(context)
+                                  .headlineSmall
+                                  .override(
+                                    font: GoogleFonts.interTight(
+                                      fontWeight: FlutterFlowTheme.of(context)
+                                          .headlineSmall
+                                          .fontWeight,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .headlineSmall
+                                          .fontStyle,
+                                    ),
+                                    color: Color(0xFF1A1461),
+                                    fontSize: 20.0,
+                                    letterSpacing: 0.0,
                                     fontWeight: FlutterFlowTheme.of(context)
                                         .headlineSmall
                                         .fontWeight,
@@ -113,16 +133,7 @@ class _NearPawfileCardWidgetState extends State<NearPawfileCardWidget> {
                                         .headlineSmall
                                         .fontStyle,
                                   ),
-                                  color: Color(0xFF1A1461),
-                                  fontSize: 20.0,
-                                  letterSpacing: 0.0,
-                                  fontWeight: FlutterFlowTheme.of(context)
-                                      .headlineSmall
-                                      .fontWeight,
-                                  fontStyle: FlutterFlowTheme.of(context)
-                                      .headlineSmall
-                                      .fontStyle,
-                                ),
+                            ),
                           ),
                         ),
                         Padding(
@@ -132,32 +143,35 @@ class _NearPawfileCardWidgetState extends State<NearPawfileCardWidget> {
                             mainAxisSize: MainAxisSize.max,
                             children: [
                               Icon(
-                                Icons.location_on,
+                                Icons.phone,
                                 color: Color(0xFF1A1461),
                                 size: 24.0,
                               ),
                               Align(
                                 alignment: AlignmentDirectional(0.0, 0.0),
-                                child: Text(
-                                  'User Location, Country',
-                                  style: FlutterFlowTheme.of(context)
-                                      .headlineSmall
-                                      .override(
-                                        font: GoogleFonts.interTight(
+                                child: AuthUserStreamWidget(
+                                  builder: (context) => Text(
+                                    currentPhoneNumber,
+                                    style: FlutterFlowTheme.of(context)
+                                        .headlineSmall
+                                        .override(
+                                          font: GoogleFonts.interTight(
+                                            fontWeight: FontWeight.w300,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .headlineSmall
+                                                    .fontStyle,
+                                          ),
+                                          color: Color(0xFF1A1461),
+                                          fontSize: 15.0,
+                                          letterSpacing: 0.0,
                                           fontWeight: FontWeight.w300,
                                           fontStyle:
                                               FlutterFlowTheme.of(context)
                                                   .headlineSmall
                                                   .fontStyle,
                                         ),
-                                        color: Color(0xFF1A1461),
-                                        fontSize: 15.0,
-                                        letterSpacing: 0.0,
-                                        fontWeight: FontWeight.w300,
-                                        fontStyle: FlutterFlowTheme.of(context)
-                                            .headlineSmall
-                                            .fontStyle,
-                                      ),
+                                  ),
                                 ),
                               ),
                             ],
@@ -188,54 +202,188 @@ class _NearPawfileCardWidgetState extends State<NearPawfileCardWidget> {
                 ),
               ),
               Expanded(
-                child: StreamBuilder<List<PawfilesRecord>>(
-                  stream: queryPawfilesRecord(),
-                  builder: (context, snapshot) {
-                    // Customize what your widget looks like when it's loading.
-                    if (!snapshot.hasData) {
-                      return Center(
-                        child: SizedBox(
-                          width: 50.0,
-                          height: 50.0,
-                          child: CircularProgressIndicator(
-                            valueColor: AlwaysStoppedAnimation<Color>(
-                              FlutterFlowTheme.of(context).primary,
+                child: AuthUserStreamWidget(
+                  builder: (context) => StreamBuilder<List<PawfilesRecord>>(
+                    stream: queryPawfilesRecord(
+                      queryBuilder: (pawfilesRecord) =>
+                          pawfilesRecord.whereNotIn(
+                              'pet_id_ref',
+                              (currentUserDocument?.swipedPets.toList() ??
+                                  [])),
+                    ),
+                    builder: (context, snapshot) {
+                      // Customize what your widget looks like when it's loading.
+                      if (!snapshot.hasData) {
+                        return Center(
+                          child: SizedBox(
+                            width: 50.0,
+                            height: 50.0,
+                            child: CircularProgressIndicator(
+                              valueColor: AlwaysStoppedAnimation<Color>(
+                                FlutterFlowTheme.of(context).primary,
+                              ),
                             ),
                           ),
-                        ),
-                      );
-                    }
-                    List<PawfilesRecord> swipeableStackPawfilesRecordList =
-                        snapshot.data!;
+                        );
+                      }
+                      List<PawfilesRecord> swipeableStackPawfilesRecordList =
+                          snapshot.data!;
+                      if (swipeableStackPawfilesRecordList.isEmpty) {
+                        return NoMorePawsWidget();
+                      }
 
-                    return FlutterFlowSwipeableStack(
-                      onSwipeFn: (swipeableStackIndex) {},
-                      onLeftSwipe: (swipeableStackIndex) {},
-                      onRightSwipe: (swipeableStackIndex) {},
-                      onUpSwipe: (swipeableStackIndex) {},
-                      onDownSwipe: (swipeableStackIndex) {},
-                      itemBuilder: (context, swipeableStackIndex) {
-                        final swipeableStackPawfilesRecord =
-                            swipeableStackPawfilesRecordList[
-                                swipeableStackIndex];
-                        return Container(
-                            width: 100, height: 100, color: Colors.green);
-                      },
-                      itemCount: swipeableStackPawfilesRecordList.length,
-                      controller: _model.swipeableStackController,
-                      loop: false,
-                      cardDisplayCount: 1,
-                      scale: 0.9,
-                      allowedSwipeDirection:
-                          AllowedSwipeDirection.symmetric(horizontal: true),
-                    );
-                  },
+                      return FlutterFlowSwipeableStack(
+                        onSwipeFn: (swipeableStackIndex) {},
+                        onLeftSwipe: (swipeableStackIndex) async {
+                          final swipeableStackPawfilesRecord =
+                              swipeableStackPawfilesRecordList[
+                                  swipeableStackIndex];
+
+                          await SwipesRecord.collection
+                              .doc()
+                              .set(createSwipesRecordData(
+                                userRef: currentUserReference,
+                                petRef: swipeableStackPawfilesRecordList[
+                                        swipeableStackIndex]
+                                    .reference,
+                                action: false,
+                              ));
+
+                          await currentUserReference!.update({
+                            ...mapToFirestore(
+                              {
+                                'swiped_pets': FieldValue.arrayUnion([
+                                  swipeableStackPawfilesRecordList[
+                                          swipeableStackIndex]
+                                      .reference
+                                ]),
+                              },
+                            ),
+                          });
+                        },
+                        onRightSwipe: (swipeableStackIndex) async {
+                          final swipeableStackPawfilesRecord =
+                              swipeableStackPawfilesRecordList[
+                                  swipeableStackIndex];
+
+                          await SwipesRecord.collection
+                              .doc()
+                              .set(createSwipesRecordData(
+                                userRef: currentUserReference,
+                                petRef: swipeableStackPawfilesRecordList[
+                                        swipeableStackIndex]
+                                    .reference,
+                                action: true,
+                              ));
+
+                          await currentUserReference!.update({
+                            ...mapToFirestore(
+                              {
+                                'swiped_pets': FieldValue.arrayUnion([
+                                  swipeableStackPawfilesRecordList[
+                                          swipeableStackIndex]
+                                      .reference
+                                ]),
+                              },
+                            ),
+                          });
+                          _model.matched = await querySwipesRecordOnce(
+                            queryBuilder: (swipesRecord) => swipesRecord
+                                .where(
+                                  'user_ref',
+                                  isEqualTo: swipeableStackPawfilesRecordList[
+                                          swipeableStackIndex]
+                                      .ownerRef,
+                                )
+                                .whereIn(
+                                    'pet_ref',
+                                    (currentUserDocument?.swipedPets
+                                            .toList() ??
+                                        []))
+                                .where(
+                                  'action',
+                                  isEqualTo: true,
+                                ),
+                            singleRecord: true,
+                          ).then((s) => s.firstOrNull);
+                          if (_model.matched?.reference != null) {
+                            context.pushNamed(
+                              MatchWidget.routeName,
+                              queryParameters: {
+                                'matchedDog': serializeParam(
+                                  swipeableStackPawfilesRecordList[
+                                          swipeableStackIndex]
+                                      .reference,
+                                  ParamType.DocumentReference,
+                                ),
+                                'fromUser': serializeParam(
+                                  currentUserReference,
+                                  ParamType.DocumentReference,
+                                ),
+                              }.withoutNulls,
+                            );
+                          }
+
+                          safeSetState(() {});
+                        },
+                        onUpSwipe: (swipeableStackIndex) {},
+                        onDownSwipe: (swipeableStackIndex) {},
+                        itemBuilder: (context, swipeableStackIndex) {
+                          final swipeableStackPawfilesRecord =
+                              swipeableStackPawfilesRecordList[
+                                  swipeableStackIndex];
+                          return Container(
+                            height: MediaQuery.sizeOf(context).height * 0.5,
+                            child: Stack(
+                              children: [
+                                Align(
+                                  alignment: AlignmentDirectional(0.0, 0.0),
+                                  child: wrapWithModel(
+                                    model: _model.pawCardModels.getModel(
+                                      swipeableStackPawfilesRecord.reference.id,
+                                      swipeableStackIndex,
+                                    ),
+                                    updateCallback: () => safeSetState(() {}),
+                                    child: PawCardWidget(
+                                      key: Key(
+                                        'Keyl8p_${swipeableStackPawfilesRecord.reference.id}',
+                                      ),
+                                      pawItem: swipeableStackPawfilesRecord,
+                                      onSwipeRight: () async {
+                                        _model.swipeableStackController
+                                            .swipeRight();
+                                      },
+                                      onSwipeLeft: () async {
+                                        _model.swipeableStackController
+                                            .swipeLeft();
+                                      },
+                                      onUndo: () async {
+                                        _model.swipeableStackController
+                                            .swipeRight();
+                                      },
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                        itemCount: swipeableStackPawfilesRecordList.length,
+                        controller: _model.swipeableStackController,
+                        loop: false,
+                        cardDisplayCount: 1,
+                        scale: 0.9,
+                        allowedSwipeDirection:
+                            AllowedSwipeDirection.symmetric(horizontal: true),
+                      );
+                    },
+                  ),
                 ),
               ),
               Align(
                 alignment: AlignmentDirectional(0.0, 0.0),
                 child: Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(0.0, 20.0, 0.0, 0.0),
+                  padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 50.0),
                   child: Row(
                     mainAxisSize: MainAxisSize.max,
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -252,8 +400,8 @@ class _NearPawfileCardWidgetState extends State<NearPawfileCardWidget> {
                             color: Color(0xFF1A1461),
                             size: 24.0,
                           ),
-                          onPressed: () async {
-                            context.pushNamed(ProfileWidget.routeName);
+                          onPressed: () {
+                            print('IconButton pressed ...');
                           },
                         ),
                       ),
@@ -269,8 +417,9 @@ class _NearPawfileCardWidgetState extends State<NearPawfileCardWidget> {
                             color: Color(0xFF1A1461),
                             size: 24.0,
                           ),
-                          onPressed: () {
-                            print('IconButton pressed ...');
+                          onPressed: () async {
+                            context
+                                .pushNamed(CommunityFeedScreenWidget.routeName);
                           },
                         ),
                       ),

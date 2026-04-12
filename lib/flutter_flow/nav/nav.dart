@@ -6,7 +6,6 @@ import '/backend/backend.dart';
 
 import '/auth/base_auth_user_provider.dart';
 
-import '/main.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 
@@ -78,23 +77,19 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
       refreshListenable: appStateNotifier,
       navigatorKey: appNavigatorKey,
       errorBuilder: (context, state) =>
-          appStateNotifier.loggedIn ? NavBarPage() : OnboardingWidget(),
+          appStateNotifier.loggedIn ? ProfileWidget() : OnboardingWidget(),
       routes: [
         FFRoute(
           name: '_initialize',
           path: '/',
           builder: (context, _) =>
-              appStateNotifier.loggedIn ? NavBarPage() : OnboardingWidget(),
+              appStateNotifier.loggedIn ? ProfileWidget() : OnboardingWidget(),
         ),
         FFRoute(
-            name: ProfileWidget.routeName,
-            path: ProfileWidget.routePath,
-            builder: (context, params) => params.isEmpty
-                ? NavBarPage(initialPage: 'Profile')
-                : NavBarPage(
-                    initialPage: 'Profile',
-                    page: ProfileWidget(),
-                  )),
+          name: ProfileWidget.routeName,
+          path: ProfileWidget.routePath,
+          builder: (context, params) => ProfileWidget(),
+        ),
         FFRoute(
           name: ForgotPasswordWidget.routeName,
           path: ForgotPasswordWidget.routePath,
@@ -130,11 +125,6 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           ),
         ),
         FFRoute(
-          name: DateSelectWidget.routeName,
-          path: DateSelectWidget.routePath,
-          builder: (context, params) => DateSelectWidget(),
-        ),
-        FFRoute(
           name: LocSelectWidget.routeName,
           path: LocSelectWidget.routePath,
           builder: (context, params) => LocSelectWidget(),
@@ -157,9 +147,7 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
         FFRoute(
           name: ActiveMatchesChatWidget.routeName,
           path: ActiveMatchesChatWidget.routePath,
-          builder: (context, params) => params.isEmpty
-              ? NavBarPage(initialPage: 'ActiveMatchesChat')
-              : ActiveMatchesChatWidget(),
+          builder: (context, params) => ActiveMatchesChatWidget(),
         ),
         FFRoute(
           name: LocationSettingsWidget.routeName,
@@ -219,7 +207,20 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
         FFRoute(
           name: MatchWidget.routeName,
           path: MatchWidget.routePath,
-          builder: (context, params) => MatchWidget(),
+          builder: (context, params) => MatchWidget(
+            matchedDog: params.getParam(
+              'matchedDog',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['pawfiles'],
+            ),
+            fromUser: params.getParam(
+              'fromUser',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['users'],
+            ),
+          ),
         ),
         FFRoute(
           name: PawfileDetailsWidget.routeName,
@@ -238,11 +239,6 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               collectionNamePath: ['users'],
             ),
           ),
-        ),
-        FFRoute(
-          name: NoMorePawfilesWidget.routeName,
-          path: NoMorePawfilesWidget.routePath,
-          builder: (context, params) => NoMorePawfilesWidget(),
         ),
         FFRoute(
           name: OnboardingWidget.routeName,

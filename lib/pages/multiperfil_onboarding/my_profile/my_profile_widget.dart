@@ -4,6 +4,7 @@ import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/pages/multiperfil_onboarding/edit_profile/edit_profile_widget.dart';
+import '/pages/multiperfil_onboarding/menu/menu_widget.dart';
 import '/index.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -183,7 +184,28 @@ class _MyProfileWidgetState extends State<MyProfileWidget>
                       FlutterFlowTheme.of(context).headlineLarge.fontStyle,
                 ),
           ),
-          actions: [],
+          actions: [
+            Padding(
+              padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 15.0, 0.0),
+              child: FlutterFlowIconButton(
+                borderRadius: 8.0,
+                buttonSize: 40.0,
+                icon: FaIcon(
+                  FontAwesomeIcons.signOutAlt,
+                  color: Color(0xFF1A1461),
+                  size: 30.0,
+                ),
+                onPressed: () async {
+                  GoRouter.of(context).prepareAuthEvent();
+                  await authManager.signOut();
+                  GoRouter.of(context).clearRedirectLocation();
+
+                  context.goNamedAuth(
+                      OnboardingWidget.routeName, context.mounted);
+                },
+              ),
+            ),
+          ],
           flexibleSpace: FlexibleSpaceBar(
             background: ClipRRect(
               borderRadius: BorderRadius.circular(8.0),
@@ -212,8 +234,8 @@ class _MyProfileWidgetState extends State<MyProfileWidget>
                     padding: EdgeInsets.all(2.0),
                     child: AuthUserStreamWidget(
                       builder: (context) => Container(
-                        width: 100.0,
-                        height: 100.0,
+                        width: 200.0,
+                        height: 200.0,
                         clipBehavior: Clip.antiAlias,
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
@@ -512,6 +534,14 @@ class _MyProfileWidgetState extends State<MyProfileWidget>
                     ),
                   ).animateOnPageLoad(
                       animationsMap['containerOnPageLoadAnimation3']!),
+                ),
+                Padding(
+                  padding: EdgeInsetsDirectional.fromSTEB(0.0, 130.0, 0.0, 0.0),
+                  child: wrapWithModel(
+                    model: _model.menuModel,
+                    updateCallback: () => safeSetState(() {}),
+                    child: MenuWidget(),
+                  ),
                 ),
               ],
             ),

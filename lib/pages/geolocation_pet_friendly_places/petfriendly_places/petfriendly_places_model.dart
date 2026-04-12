@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 class PetfriendlyPlacesModel extends FlutterFlowModel<PetfriendlyPlacesWidget> {
   ///  Local state fields for this page.
 
-  String? searchQuery;
+  String? searchQuery = '\"\"';
 
   ///  State fields for stateful widgets in this page.
 
@@ -16,6 +16,8 @@ class PetfriendlyPlacesModel extends FlutterFlowModel<PetfriendlyPlacesWidget> {
   FocusNode? textFieldFocusNode;
   TextEditingController? textController;
   String? Function(BuildContext, String?)? textControllerValidator;
+  // State field(s) for PlacePicker widget.
+  FFPlace placePickerValue = FFPlace();
   // State field(s) for GoogleMap widget.
   LatLng? googleMapsCenter;
   final googleMapsController = Completer<GoogleMapController>();

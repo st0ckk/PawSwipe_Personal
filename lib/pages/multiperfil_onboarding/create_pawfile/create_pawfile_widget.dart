@@ -1,3 +1,4 @@
+import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
 import '/backend/firebase_storage/storage.dart';
 import '/flutter_flow/flutter_flow_choice_chips.dart';
@@ -8,6 +9,7 @@ import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import '/flutter_flow/form_field_controller.dart';
 import '/flutter_flow/upload_data.dart';
+import '/index.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
@@ -112,7 +114,16 @@ class _CreatePawfileWidgetState extends State<CreatePawfileWidget> {
                   size: 24.0,
                 ),
                 onPressed: () async {
-                  context.safePop();
+                  context.goNamed(
+                    MyPawfilesWidget.routeName,
+                    extra: <String, dynamic>{
+                      '__transition_info__': TransitionInfo(
+                        hasTransition: true,
+                        transitionType: PageTransitionType.fade,
+                        duration: Duration(milliseconds: 0),
+                      ),
+                    },
+                  );
                 },
               ),
             ),
@@ -2212,7 +2223,9 @@ class _CreatePawfileWidgetState extends State<CreatePawfileWidget> {
                           return;
                         }
 
-                        await PawfilesRecord.collection.doc().set({
+                        var pawfilesRecordReference =
+                            PawfilesRecord.collection.doc();
+                        await pawfilesRecordReference.set({
                           ...createPawfilesRecordData(
                             dogName: _model.nameTextController.text,
                             dogBreed: _model.breedTextController.text,
@@ -2230,6 +2243,7 @@ class _CreatePawfileWidgetState extends State<CreatePawfileWidget> {
                               _model.distanceSliderValue?.toString(),
                               '1',
                             ),
+                            ownerRef: currentUserReference,
                           ),
                           ...mapToFirestore(
                             {
@@ -2240,6 +2254,40 @@ class _CreatePawfileWidgetState extends State<CreatePawfileWidget> {
                             },
                           ),
                         });
+                        _model.newPawfile = PawfilesRecord.getDocumentFromData({
+                          ...createPawfilesRecordData(
+                            dogName: _model.nameTextController.text,
+                            dogBreed: _model.breedTextController.text,
+                            dogSize: _model.sizeValue,
+                            dogGender: _model.genderValue,
+                            dogAge: _model.ageValue,
+                            dogEnergyLevel: _model.energyValue,
+                            dogDescription:
+                                _model.descriptionTextController.text,
+                            dogPhoto1: _model.uploadedFileUrl_uploadDataUwl,
+                            dogPhoto2: _model.uploadedFileUrl_uploadDataP9q,
+                            dogPhoto3: _model.uploadedFileUrl_uploadDataMuc,
+                            dogPhoto4: _model.uploadedFileUrl_uploadDataV85,
+                            prefDistance: valueOrDefault<String>(
+                              _model.distanceSliderValue?.toString(),
+                              '1',
+                            ),
+                            ownerRef: currentUserReference,
+                          ),
+                          ...mapToFirestore(
+                            {
+                              'prefGender': _model.prefGenderValues,
+                              'prefAge': _model.prefAgeValues,
+                              'prefSize': _model.prefSizeValue,
+                              'prefEnergy': _model.prefEnergyValues,
+                            },
+                          ),
+                        }, pawfilesRecordReference);
+
+                        await _model.newPawfile!.reference
+                            .update(createPawfilesRecordData(
+                          petIdRef: _model.newPawfile?.reference,
+                        ));
                         var confirmDialogResponse = await showDialog<bool>(
                               context: context,
                               builder: (alertDialogContext) {
@@ -2263,6 +2311,20 @@ class _CreatePawfileWidgetState extends State<CreatePawfileWidget> {
                               },
                             ) ??
                             false;
+                        if (confirmDialogResponse) {
+                          context.goNamed(
+                            MyPawfilesWidget.routeName,
+                            extra: <String, dynamic>{
+                              '__transition_info__': TransitionInfo(
+                                hasTransition: true,
+                                transitionType: PageTransitionType.fade,
+                                duration: Duration(milliseconds: 0),
+                              ),
+                            },
+                          );
+                        }
+
+                        safeSetState(() {});
                       },
                       text: 'Create Pawfile',
                       options: FFButtonOptions(

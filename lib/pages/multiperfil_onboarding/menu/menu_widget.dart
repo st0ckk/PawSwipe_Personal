@@ -41,9 +41,10 @@ class _MenuWidgetState extends State<MenuWidget> {
       alignment: AlignmentDirectional(0.0, 0.0),
       child: Row(
         mainAxisSize: MainAxisSize.max,
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           Padding(
-            padding: EdgeInsetsDirectional.fromSTEB(20.0, 0.0, 0.0, 0.0),
+            padding: EdgeInsetsDirectional.fromSTEB(15.0, 0.0, 15.0, 0.0),
             child: FlutterFlowIconButton(
               borderRadius: 8.0,
               buttonSize: 40.0,
@@ -59,7 +60,7 @@ class _MenuWidgetState extends State<MenuWidget> {
             ),
           ),
           Padding(
-            padding: EdgeInsetsDirectional.fromSTEB(30.0, 0.0, 0.0, 0.0),
+            padding: EdgeInsetsDirectional.fromSTEB(15.0, 0.0, 15.0, 0.0),
             child: FlutterFlowIconButton(
               borderRadius: 8.0,
               buttonSize: 40.0,
@@ -84,7 +85,7 @@ class _MenuWidgetState extends State<MenuWidget> {
             ),
           ),
           Padding(
-            padding: EdgeInsetsDirectional.fromSTEB(30.0, 0.0, 0.0, 0.0),
+            padding: EdgeInsetsDirectional.fromSTEB(15.0, 0.0, 15.0, 0.0),
             child: FlutterFlowIconButton(
               borderRadius: 8.0,
               buttonSize: 40.0,
@@ -95,12 +96,21 @@ class _MenuWidgetState extends State<MenuWidget> {
                 size: 24.0,
               ),
               onPressed: () async {
-                context.pushNamed(LocSelectWidget.routeName);
+                context.pushNamed(
+                  PetfriendlyPlacesWidget.routeName,
+                  extra: <String, dynamic>{
+                    '__transition_info__': TransitionInfo(
+                      hasTransition: true,
+                      transitionType: PageTransitionType.fade,
+                      duration: Duration(milliseconds: 0),
+                    ),
+                  },
+                );
               },
             ),
           ),
           Padding(
-            padding: EdgeInsetsDirectional.fromSTEB(30.0, 0.0, 0.0, 0.0),
+            padding: EdgeInsetsDirectional.fromSTEB(15.0, 0.0, 15.0, 0.0),
             child: FlutterFlowIconButton(
               borderRadius: 8.0,
               buttonSize: 40.0,
@@ -116,7 +126,7 @@ class _MenuWidgetState extends State<MenuWidget> {
             ),
           ),
           Padding(
-            padding: EdgeInsetsDirectional.fromSTEB(30.0, 0.0, 0.0, 0.0),
+            padding: EdgeInsetsDirectional.fromSTEB(15.0, 0.0, 15.0, 0.0),
             child: FlutterFlowIconButton(
               borderRadius: 8.0,
               buttonSize: 40.0,

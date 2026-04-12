@@ -1,12 +1,22 @@
 import '/flutter_flow/flutter_flow_util.dart';
+import '/pages/multiperfil_onboarding/menu/menu_widget.dart';
 import '/index.dart';
 import 'profile_widget.dart' show ProfileWidget;
 import 'package:flutter/material.dart';
 
 class ProfileModel extends FlutterFlowModel<ProfileWidget> {
-  @override
-  void initState(BuildContext context) {}
+  ///  State fields for stateful widgets in this page.
+
+  // Model for Menu component.
+  late MenuModel menuModel;
 
   @override
-  void dispose() {}
+  void initState(BuildContext context) {
+    menuModel = createModel(context, () => MenuModel());
+  }
+
+  @override
+  void dispose() {
+    menuModel.dispose();
+  }
 }

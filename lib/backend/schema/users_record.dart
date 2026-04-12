@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:collection/collection.dart';
 
 import '/backend/schema/util/firestore_util.dart';
+import '/backend/schema/util/schema_util.dart';
 
 import 'index.dart';
 import '/flutter_flow/flutter_flow_util.dart';
@@ -51,9 +52,14 @@ class UsersRecord extends FirestoreRecord {
   bool hasLocationEnabled() => _locationEnabled != null;
 
   // "favorite_places" field.
-  DocumentReference? _favoritePlaces;
-  DocumentReference? get favoritePlaces => _favoritePlaces;
+  List<DocumentReference>? _favoritePlaces;
+  List<DocumentReference> get favoritePlaces => _favoritePlaces ?? const [];
   bool hasFavoritePlaces() => _favoritePlaces != null;
+
+  // "swiped_pets" field.
+  List<DocumentReference>? _swipedPets;
+  List<DocumentReference> get swipedPets => _swipedPets ?? const [];
+  bool hasSwipedPets() => _swipedPets != null;
 
   void _initializeFields() {
     _email = snapshotData['email'] as String?;
@@ -63,7 +69,8 @@ class UsersRecord extends FirestoreRecord {
     _createdTime = snapshotData['created_time'] as DateTime?;
     _phoneNumber = snapshotData['phone_number'] as String?;
     _locationEnabled = snapshotData['location_enabled'] as bool?;
-    _favoritePlaces = snapshotData['favorite_places'] as DocumentReference?;
+    _favoritePlaces = getDataList(snapshotData['favorite_places']);
+    _swipedPets = getDataList(snapshotData['swiped_pets']);
   }
 
   static CollectionReference get collection =>
@@ -107,7 +114,6 @@ Map<String, dynamic> createUsersRecordData({
   DateTime? createdTime,
   String? phoneNumber,
   bool? locationEnabled,
-  DocumentReference? favoritePlaces,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
@@ -118,7 +124,6 @@ Map<String, dynamic> createUsersRecordData({
       'created_time': createdTime,
       'phone_number': phoneNumber,
       'location_enabled': locationEnabled,
-      'favorite_places': favoritePlaces,
     }.withoutNulls,
   );
 
@@ -130,6 +135,7 @@ class UsersRecordDocumentEquality implements Equality<UsersRecord> {
 
   @override
   bool equals(UsersRecord? e1, UsersRecord? e2) {
+    const listEquality = ListEquality();
     return e1?.email == e2?.email &&
         e1?.displayName == e2?.displayName &&
         e1?.photoUrl == e2?.photoUrl &&
@@ -137,7 +143,8 @@ class UsersRecordDocumentEquality implements Equality<UsersRecord> {
         e1?.createdTime == e2?.createdTime &&
         e1?.phoneNumber == e2?.phoneNumber &&
         e1?.locationEnabled == e2?.locationEnabled &&
-        e1?.favoritePlaces == e2?.favoritePlaces;
+        listEquality.equals(e1?.favoritePlaces, e2?.favoritePlaces) &&
+        listEquality.equals(e1?.swipedPets, e2?.swipedPets);
   }
 
   @override
@@ -149,7 +156,8 @@ class UsersRecordDocumentEquality implements Equality<UsersRecord> {
         e?.createdTime,
         e?.phoneNumber,
         e?.locationEnabled,
-        e?.favoritePlaces
+        e?.favoritePlaces,
+        e?.swipedPets
       ]);
 
   @override

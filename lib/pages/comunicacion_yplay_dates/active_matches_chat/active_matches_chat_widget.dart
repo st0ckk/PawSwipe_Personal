@@ -93,7 +93,16 @@ class _ActiveMatchesChatWidgetState extends State<ActiveMatchesChatWidget> {
               size: 30.0,
             ),
             onPressed: () async {
-              context.pop();
+              context.pushNamed(
+                MyProfileWidget.routeName,
+                extra: <String, dynamic>{
+                  '__transition_info__': TransitionInfo(
+                    hasTransition: true,
+                    transitionType: PageTransitionType.fade,
+                    duration: Duration(milliseconds: 0),
+                  ),
+                },
+              );
             },
           ),
           title: Padding(
@@ -212,7 +221,7 @@ class _ActiveMatchesChatWidgetState extends State<ActiveMatchesChatWidget> {
                                     stream: UsersRecord.getDocument(
                                         listViewChatsRecord.users
                                             .where((e) =>
-                                                e == currentUserReference)
+                                                e != currentUserReference)
                                             .toList()
                                             .firstOrNull!),
                                     builder: (context, snapshot) {
@@ -455,7 +464,7 @@ class _ActiveMatchesChatWidgetState extends State<ActiveMatchesChatWidget> {
                                     stream: UsersRecord.getDocument(
                                         listViewChatsRecord.users
                                             .where((e) =>
-                                                e == currentUserReference)
+                                                e != currentUserReference)
                                             .toList()
                                             .firstOrNull!),
                                     builder: (context, snapshot) {

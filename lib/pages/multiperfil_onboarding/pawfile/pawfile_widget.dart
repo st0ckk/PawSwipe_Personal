@@ -1,3 +1,4 @@
+import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_choice_chips.dart';
 import '/flutter_flow/flutter_flow_drop_down.dart';
@@ -10,6 +11,7 @@ import '/index.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'pawfile_model.dart';
 export 'pawfile_model.dart';
@@ -112,7 +114,28 @@ class _PawfileWidgetState extends State<PawfileWidget> {
                       FlutterFlowTheme.of(context).headlineMedium.fontStyle,
                 ),
           ),
-          actions: [],
+          actions: [
+            Padding(
+              padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 15.0, 0.0),
+              child: FlutterFlowIconButton(
+                borderRadius: 8.0,
+                buttonSize: 40.0,
+                icon: FaIcon(
+                  FontAwesomeIcons.signOutAlt,
+                  color: Color(0xFF1A1461),
+                  size: 30.0,
+                ),
+                onPressed: () async {
+                  GoRouter.of(context).prepareAuthEvent();
+                  await authManager.signOut();
+                  GoRouter.of(context).clearRedirectLocation();
+
+                  context.goNamedAuth(
+                      OnboardingWidget.routeName, context.mounted);
+                },
+              ),
+            ),
+          ],
           flexibleSpace: FlexibleSpaceBar(
             background: ClipRRect(
               borderRadius: BorderRadius.circular(8.0),

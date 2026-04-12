@@ -47,22 +47,29 @@ List<PlacesRecord> filterPlaces(
   List<PlacesRecord> places,
   String query,
 ) {
-  if (query == null || query.isEmpty) return places;
+  if (query.isEmpty) return places;
+
   return places
       .where((place) => place.name.toLowerCase().contains(query.toLowerCase()))
       .toList();
 }
 
-String? findExistingChat() {
-  DocumentReference? findExistingChat(
-    List<ChatsRecord> chatDocs,
-    DocumentReference otherUserRef,
-  ) {
-    for (final chat in chatDocs) {
-      if (chat.users.contains(otherUserRef)) {
-        return chat.reference;
+List<DocumentReference> getChatContacts(List<ChatsRecord> chatsList) {
+  final currentUser = currentUserReference;
+  if (currentUser == null) return [];
+
+  final Set<String> seenPaths = {};
+  final List<DocumentReference> contacts = [];
+
+  for (final chat in chatsList) {
+    for (final userRef in chat.users) {
+      if (userRef.path != currentUser.path &&
+          !seenPaths.contains(userRef.path)) {
+        seenPaths.add(userRef.path);
+        contacts.add(userRef);
       }
     }
-    return null;
   }
+
+  return contacts;
 }

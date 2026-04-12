@@ -32,16 +32,10 @@ class SwipesRecord extends FirestoreRecord {
   bool get action => _action ?? false;
   bool hasAction() => _action != null;
 
-  // "blocked" field.
-  bool? _blocked;
-  bool get blocked => _blocked ?? false;
-  bool hasBlocked() => _blocked != null;
-
   void _initializeFields() {
     _userRef = snapshotData['user_ref'] as DocumentReference?;
     _petRef = snapshotData['pet_ref'] as DocumentReference?;
     _action = snapshotData['action'] as bool?;
-    _blocked = snapshotData['blocked'] as bool?;
   }
 
   static CollectionReference get collection =>
@@ -81,14 +75,12 @@ Map<String, dynamic> createSwipesRecordData({
   DocumentReference? userRef,
   DocumentReference? petRef,
   bool? action,
-  bool? blocked,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
       'user_ref': userRef,
       'pet_ref': petRef,
       'action': action,
-      'blocked': blocked,
     }.withoutNulls,
   );
 
@@ -102,13 +94,12 @@ class SwipesRecordDocumentEquality implements Equality<SwipesRecord> {
   bool equals(SwipesRecord? e1, SwipesRecord? e2) {
     return e1?.userRef == e2?.userRef &&
         e1?.petRef == e2?.petRef &&
-        e1?.action == e2?.action &&
-        e1?.blocked == e2?.blocked;
+        e1?.action == e2?.action;
   }
 
   @override
   int hash(SwipesRecord? e) =>
-      const ListEquality().hash([e?.userRef, e?.petRef, e?.action, e?.blocked]);
+      const ListEquality().hash([e?.userRef, e?.petRef, e?.action]);
 
   @override
   bool isValidKey(Object? o) => o is SwipesRecord;

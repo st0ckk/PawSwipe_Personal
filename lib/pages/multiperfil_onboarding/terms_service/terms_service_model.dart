@@ -1,11 +1,22 @@
 import '/flutter_flow/flutter_flow_util.dart';
+import '/pages/multiperfil_onboarding/menu/menu_widget.dart';
+import '/index.dart';
 import 'terms_service_widget.dart' show TermsServiceWidget;
 import 'package:flutter/material.dart';
 
 class TermsServiceModel extends FlutterFlowModel<TermsServiceWidget> {
-  @override
-  void initState(BuildContext context) {}
+  ///  State fields for stateful widgets in this page.
+
+  // Model for Menu component.
+  late MenuModel menuModel;
 
   @override
-  void dispose() {}
+  void initState(BuildContext context) {
+    menuModel = createModel(context, () => MenuModel());
+  }
+
+  @override
+  void dispose() {
+    menuModel.dispose();
+  }
 }

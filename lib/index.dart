@@ -5,10 +5,8 @@ export '/pages/multiperfil_onboarding/forgot_password/forgot_password_widget.dar
     show ForgotPasswordWidget;
 export '/pages/multiperfil_onboarding/my_profile/my_profile_widget.dart'
     show MyProfileWidget;
-export '/pages/comunicacion_yplay_dates/match_profile/match_profile_widget.dart'
-    show MatchProfileWidget;
+export '/pages/match_profile/match_profile_widget.dart' show MatchProfileWidget;
 export '/pages/comunicacion_yplay_dates/chat/chat_widget.dart' show ChatWidget;
-export '/pages/date_select/date_select_widget.dart' show DateSelectWidget;
 export '/pages/loc_select/loc_select_widget.dart' show LocSelectWidget;
 export '/pages/multiperfil_onboarding/change_password/change_password_widget.dart'
     show ChangePasswordWidget;
@@ -35,8 +33,6 @@ export '/pages/swiping/near_pawfile_card/near_pawfile_card_widget.dart'
 export '/pages/swiping/match/match_widget.dart' show MatchWidget;
 export '/pages/swiping/pawfile_details/pawfile_details_widget.dart'
     show PawfileDetailsWidget;
-export '/pages/swiping/no_more_pawfiles/no_more_pawfiles_widget.dart'
-    show NoMorePawfilesWidget;
 export '/pages/multiperfil_onboarding/onboarding/onboarding_widget.dart'
     show OnboardingWidget;
 export '/pages/multiperfil_onboarding/login/login_widget.dart' show LoginWidget;

@@ -1,11 +1,14 @@
+import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
+import '/pages/multiperfil_onboarding/menu/menu_widget.dart';
 import '/index.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'my_pawfiles_model.dart';
 export 'my_pawfiles_model.dart';
@@ -81,7 +84,28 @@ class _MyPawfilesWidgetState extends State<MyPawfilesWidget> {
                       FlutterFlowTheme.of(context).headlineLarge.fontStyle,
                 ),
           ),
-          actions: [],
+          actions: [
+            Padding(
+              padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 15.0, 0.0),
+              child: FlutterFlowIconButton(
+                borderRadius: 8.0,
+                buttonSize: 40.0,
+                icon: FaIcon(
+                  FontAwesomeIcons.signOutAlt,
+                  color: Color(0xFF1A1461),
+                  size: 30.0,
+                ),
+                onPressed: () async {
+                  GoRouter.of(context).prepareAuthEvent();
+                  await authManager.signOut();
+                  GoRouter.of(context).clearRedirectLocation();
+
+                  context.goNamedAuth(
+                      OnboardingWidget.routeName, context.mounted);
+                },
+              ),
+            ),
+          ],
           flexibleSpace: FlexibleSpaceBar(
             background: ClipRRect(
               borderRadius: BorderRadius.circular(8.0),
@@ -103,7 +127,12 @@ class _MyPawfilesWidgetState extends State<MyPawfilesWidget> {
                 child: Padding(
                   padding: EdgeInsets.all(24.0),
                   child: StreamBuilder<List<PawfilesRecord>>(
-                    stream: queryPawfilesRecord(),
+                    stream: queryPawfilesRecord(
+                      queryBuilder: (pawfilesRecord) => pawfilesRecord.where(
+                        'owner_ref',
+                        isEqualTo: currentUserReference,
+                      ),
+                    ),
                     builder: (context, snapshot) {
                       // Customize what your widget looks like when it's loading.
                       if (!snapshot.hasData) {
@@ -173,12 +202,13 @@ class _MyPawfilesWidgetState extends State<MyPawfilesWidget> {
                                 ),
                                 child: Row(
                                   mainAxisSize: MainAxisSize.max,
-                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
                                     Container(
-                                      width: 150.0,
-                                      height: 150.0,
+                                      width: 100.0,
+                                      height: 100.0,
                                       clipBehavior: Clip.antiAlias,
                                       decoration: BoxDecoration(
                                         shape: BoxShape.circle,
@@ -191,30 +221,118 @@ class _MyPawfilesWidgetState extends State<MyPawfilesWidget> {
                                         fit: BoxFit.cover,
                                       ),
                                     ),
-                                    Text(
-                                      valueOrDefault<String>(
-                                        staggeredViewPawfilesRecord.dogName,
-                                        'No name provided',
-                                      ),
-                                      style: FlutterFlowTheme.of(context)
-                                          .bodyMedium
-                                          .override(
-                                            font: GoogleFonts.inter(
-                                              fontWeight: FontWeight.w600,
-                                              fontStyle:
-                                                  FlutterFlowTheme.of(context)
-                                                      .bodyMedium
-                                                      .fontStyle,
-                                            ),
-                                            color: Color(0xFF1A1461),
-                                            fontSize: 20.0,
-                                            letterSpacing: 0.0,
-                                            fontWeight: FontWeight.w600,
-                                            fontStyle:
-                                                FlutterFlowTheme.of(context)
-                                                    .bodyMedium
-                                                    .fontStyle,
+                                    Column(
+                                      mainAxisSize: MainAxisSize.max,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          valueOrDefault<String>(
+                                            staggeredViewPawfilesRecord.dogName,
+                                            'No name provided',
                                           ),
+                                          style: FlutterFlowTheme.of(context)
+                                              .bodyMedium
+                                              .override(
+                                                font: GoogleFonts.inter(
+                                                  fontWeight: FontWeight.w600,
+                                                  fontStyle:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .bodyMedium
+                                                          .fontStyle,
+                                                ),
+                                                color: Color(0xFF1A1461),
+                                                fontSize: 20.0,
+                                                letterSpacing: 0.0,
+                                                fontWeight: FontWeight.w600,
+                                                fontStyle:
+                                                    FlutterFlowTheme.of(context)
+                                                        .bodyMedium
+                                                        .fontStyle,
+                                              ),
+                                        ),
+                                        Text(
+                                          valueOrDefault<String>(
+                                            staggeredViewPawfilesRecord
+                                                .dogBreed,
+                                            'No breed provided',
+                                          ),
+                                          style: FlutterFlowTheme.of(context)
+                                              .bodyMedium
+                                              .override(
+                                                font: GoogleFonts.inter(
+                                                  fontWeight: FontWeight.w500,
+                                                  fontStyle:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .bodyMedium
+                                                          .fontStyle,
+                                                ),
+                                                color: Color(0xFF1A1461),
+                                                fontSize: 15.0,
+                                                letterSpacing: 0.0,
+                                                fontWeight: FontWeight.w500,
+                                                fontStyle:
+                                                    FlutterFlowTheme.of(context)
+                                                        .bodyMedium
+                                                        .fontStyle,
+                                              ),
+                                        ),
+                                      ],
+                                    ),
+                                    FlutterFlowIconButton(
+                                      borderRadius: 8.0,
+                                      buttonSize: 40.0,
+                                      icon: FaIcon(
+                                        FontAwesomeIcons.trashAlt,
+                                        color: Color(0xFF1A1461),
+                                        size: 24.0,
+                                      ),
+                                      onPressed: () async {
+                                        var confirmDialogResponse =
+                                            await showDialog<bool>(
+                                                  context: context,
+                                                  builder:
+                                                      (alertDialogContext) {
+                                                    return AlertDialog(
+                                                      title: Text(
+                                                          'Delete Pawfile'),
+                                                      content: Text(
+                                                          valueOrDefault<
+                                                              String>(
+                                                        'Are you sure you want to delete \"${staggeredViewPawfilesRecord.dogName}\'s\" pawfile?',
+                                                        'Are you sure you want to delete this pawfile?',
+                                                      )),
+                                                      actions: [
+                                                        TextButton(
+                                                          onPressed: () =>
+                                                              Navigator.pop(
+                                                                  alertDialogContext,
+                                                                  false),
+                                                          child: Text('Cancel'),
+                                                        ),
+                                                        TextButton(
+                                                          onPressed: () =>
+                                                              Navigator.pop(
+                                                                  alertDialogContext,
+                                                                  true),
+                                                          child:
+                                                              Text('Confirm'),
+                                                        ),
+                                                      ],
+                                                    );
+                                                  },
+                                                ) ??
+                                                false;
+                                        if (confirmDialogResponse) {
+                                          await staggeredViewPawfilesRecord
+                                              .reference
+                                              .delete();
+                                        }
+                                      },
                                     ),
                                   ],
                                 ),
@@ -228,7 +346,7 @@ class _MyPawfilesWidgetState extends State<MyPawfilesWidget> {
                 ),
               ),
               Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(16.0, 30.0, 16.0, 24.0),
+                padding: EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 40.0),
                 child: FFButtonWidget(
                   onPressed: () async {
                     context.pushNamed(
@@ -282,6 +400,14 @@ class _MyPawfilesWidgetState extends State<MyPawfilesWidget> {
                     ),
                     hoverTextColor: Color(0xFFFFD730),
                   ),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 25.0),
+                child: wrapWithModel(
+                  model: _model.menuModel,
+                  updateCallback: () => safeSetState(() {}),
+                  child: MenuWidget(),
                 ),
               ),
             ],

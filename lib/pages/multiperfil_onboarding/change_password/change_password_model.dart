@@ -1,4 +1,6 @@
 import '/flutter_flow/flutter_flow_util.dart';
+import '/pages/multiperfil_onboarding/menu/menu_widget.dart';
+import '/index.dart';
 import 'change_password_widget.dart' show ChangePasswordWidget;
 import 'package:flutter/material.dart';
 
@@ -20,12 +22,15 @@ class ChangePasswordModel extends FlutterFlowModel<ChangePasswordWidget> {
   TextEditingController? textController3;
   late bool passwordVisibility3;
   String? Function(BuildContext, String?)? textController3Validator;
+  // Model for Menu component.
+  late MenuModel menuModel;
 
   @override
   void initState(BuildContext context) {
     passwordVisibility1 = false;
     passwordVisibility2 = false;
     passwordVisibility3 = false;
+    menuModel = createModel(context, () => MenuModel());
   }
 
   @override
@@ -38,5 +43,7 @@ class ChangePasswordModel extends FlutterFlowModel<ChangePasswordWidget> {
 
     textFieldFocusNode3?.dispose();
     textController3?.dispose();
+
+    menuModel.dispose();
   }
 }

@@ -2,6 +2,7 @@ import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_google_map.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
+import '/flutter_flow/flutter_flow_place_picker.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_toggle_icon.dart';
 import '/flutter_flow/flutter_flow_util.dart';
@@ -204,7 +205,19 @@ class _PetfriendlyPlacesWidgetState extends State<PetfriendlyPlacesWidget> {
                                           size: 24.0,
                                         ),
                                         onPressed: () async {
-                                          context.safePop();
+                                          context.pushNamed(
+                                            ProfileWidget.routeName,
+                                            extra: <String, dynamic>{
+                                              '__transition_info__':
+                                                  TransitionInfo(
+                                                hasTransition: true,
+                                                transitionType:
+                                                    PageTransitionType.fade,
+                                                duration:
+                                                    Duration(milliseconds: 0),
+                                              ),
+                                            },
+                                          );
                                         },
                                       ),
                                     ],
@@ -341,33 +354,96 @@ class _PetfriendlyPlacesWidgetState extends State<PetfriendlyPlacesWidget> {
                                           .asValidator(context),
                                     ),
                                   ),
-                                  FlutterFlowIconButton(
-                                    borderRadius: 18.0,
-                                    buttonSize: 36.0,
-                                    fillColor:
-                                        FlutterFlowTheme.of(context).primary,
-                                    icon: Icon(
-                                      Icons.my_location,
-                                      color: Colors.white,
-                                      size: 20.0,
-                                    ),
-                                    onPressed: () async {
-                                      context.pushNamed(
-                                        PetfriendlyPlacesWidget.routeName,
-                                        extra: <String, dynamic>{
-                                          '__transition_info__': TransitionInfo(
-                                            hasTransition: true,
-                                            transitionType:
-                                                PageTransitionType.fade,
-                                            duration: Duration(milliseconds: 0),
-                                          ),
-                                        },
-                                      );
-                                    },
-                                  ),
                                 ].divide(SizedBox(width: 12.0)),
                               ),
                             ),
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsetsDirectional.fromSTEB(
+                              0.0, 0.0, 0.0, 5.0),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.max,
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Align(
+                                alignment: AlignmentDirectional(-1.0, 0.0),
+                                child: FlutterFlowPlacePicker(
+                                  iOSGoogleMapsApiKey:
+                                      'AIzaSyBwBNQulm_z255RyGs_w2KYBwy-bUhwzEM',
+                                  androidGoogleMapsApiKey:
+                                      'AIzaSyA7RBfsxyrdITB8HMd7FmIGgajTXVhd7_Y',
+                                  webGoogleMapsApiKey:
+                                      'AIzaSyDqLfIq3XtaT_lBMa_j_jfMf1PXh-nJp-Q',
+                                  onSelect: (place) async {
+                                    safeSetState(
+                                        () => _model.placePickerValue = place);
+                                  },
+                                  defaultText: 'Select Location',
+                                  icon: Icon(
+                                    Icons.place,
+                                    color: FlutterFlowTheme.of(context).info,
+                                    size: 16.0,
+                                  ),
+                                  buttonOptions: FFButtonOptions(
+                                    width: 200.0,
+                                    height: 40.0,
+                                    color: FlutterFlowTheme.of(context).primary,
+                                    textStyle: FlutterFlowTheme.of(context)
+                                        .titleSmall
+                                        .override(
+                                          font: GoogleFonts.interTight(
+                                            fontWeight:
+                                                FlutterFlowTheme.of(context)
+                                                    .titleSmall
+                                                    .fontWeight,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .titleSmall
+                                                    .fontStyle,
+                                          ),
+                                          color:
+                                              FlutterFlowTheme.of(context).info,
+                                          letterSpacing: 0.0,
+                                          fontWeight:
+                                              FlutterFlowTheme.of(context)
+                                                  .titleSmall
+                                                  .fontWeight,
+                                          fontStyle:
+                                              FlutterFlowTheme.of(context)
+                                                  .titleSmall
+                                                  .fontStyle,
+                                        ),
+                                    elevation: 0.0,
+                                    borderSide: BorderSide(
+                                      color: Colors.transparent,
+                                      width: 1.0,
+                                    ),
+                                    borderRadius: BorderRadius.circular(8.0),
+                                  ),
+                                ),
+                              ),
+                              FlutterFlowIconButton(
+                                borderRadius: 24.0,
+                                buttonSize: 40.0,
+                                fillColor: Color(0xFFEFAA39),
+                                icon: Icon(
+                                  Icons.search,
+                                  color: FlutterFlowTheme.of(context).info,
+                                  size: 24.0,
+                                ),
+                                onPressed: () async {
+                                  await _model.googleMapsController.future.then(
+                                    (c) => c.animateCamera(
+                                      CameraUpdate.newLatLng(_model
+                                          .placePickerValue.latLng
+                                          .toGoogleMaps()),
+                                    ),
+                                  );
+                                },
+                              ),
+                            ],
                           ),
                         ),
                         Expanded(
@@ -377,37 +453,6 @@ class _PetfriendlyPlacesWidgetState extends State<PetfriendlyPlacesWidget> {
                                 _model.googleMapsCenter = latLng,
                             initialLocation: _model.googleMapsCenter ??=
                                 currentUserLocationValue!,
-                            markers: petfriendlyPlacesPlacesRecordList
-                                .map((e) => e.location)
-                                .withoutNulls
-                                .toList()
-                                .map(
-                                  (marker) => FlutterFlowMarker(
-                                    marker.serialize(),
-                                    marker,
-                                    () async {
-                                      context.pushNamed(
-                                        DetailedLocationWidget.routeName,
-                                        queryParameters: {
-                                          'placeRef': serializeParam(
-                                            petfriendlyPlacesPlacesRecordList
-                                                .firstOrNull?.reference,
-                                            ParamType.DocumentReference,
-                                          ),
-                                        }.withoutNulls,
-                                        extra: <String, dynamic>{
-                                          '__transition_info__': TransitionInfo(
-                                            hasTransition: true,
-                                            transitionType:
-                                                PageTransitionType.fade,
-                                            duration: Duration(milliseconds: 0),
-                                          ),
-                                        },
-                                      );
-                                    },
-                                  ),
-                                )
-                                .toList(),
                             markerColor: GoogleMarkerColor.violet,
                             mapType: MapType.normal,
                             style: GoogleMapStyle.standard,
@@ -468,15 +513,9 @@ class _PetfriendlyPlacesWidgetState extends State<PetfriendlyPlacesWidget> {
                                                 children: [
                                                   Text(
                                                     valueOrDefault<String>(
-                                                      functions
-                                                          .filterPlaces(
-                                                              petfriendlyPlacesPlacesRecordList
-                                                                  .toList(),
-                                                              _model
-                                                                  .searchQuery!)
-                                                          .firstOrNull
-                                                          ?.name,
-                                                      'No location name',
+                                                      petfriendlyPlacesPlacesRecordList
+                                                          .firstOrNull?.name,
+                                                      'No Location Name',
                                                     ),
                                                     style: FlutterFlowTheme.of(
                                                             context)
@@ -512,15 +551,10 @@ class _PetfriendlyPlacesWidgetState extends State<PetfriendlyPlacesWidget> {
                                                                 0.0, 0.0),
                                                     child: Text(
                                                       valueOrDefault<String>(
-                                                        functions
-                                                            .filterPlaces(
-                                                                petfriendlyPlacesPlacesRecordList
-                                                                    .toList(),
-                                                                _model
-                                                                    .searchQuery!)
+                                                        petfriendlyPlacesPlacesRecordList
                                                             .firstOrNull
                                                             ?.address,
-                                                        'No address',
+                                                        'No Address',
                                                       ),
                                                       style:
                                                           FlutterFlowTheme.of(
@@ -577,25 +611,15 @@ class _PetfriendlyPlacesWidgetState extends State<PetfriendlyPlacesWidget> {
                                                                 functions
                                                                     .getCurrentLng(
                                                                         currentUserLocationValue!),
-                                                                functions
-                                                                    .filterPlaces(
-                                                                        petfriendlyPlacesPlacesRecordList
-                                                                            .toList(),
-                                                                        _model
-                                                                            .searchQuery!)
+                                                                petfriendlyPlacesPlacesRecordList
                                                                     .firstOrNull!
                                                                     .latitude
                                                                     .toDouble(),
-                                                                functions
-                                                                    .filterPlaces(
-                                                                        petfriendlyPlacesPlacesRecordList
-                                                                            .toList(),
-                                                                        _model
-                                                                            .searchQuery!)
+                                                                petfriendlyPlacesPlacesRecordList
                                                                     .firstOrNull!
                                                                     .longitude
                                                                     .toDouble())),
-                                                            'No distance',
+                                                            'No Distance',
                                                           ),
                                                           style: FlutterFlowTheme
                                                                   .of(context)
@@ -663,15 +687,10 @@ class _PetfriendlyPlacesWidgetState extends State<PetfriendlyPlacesWidget> {
                                                         EdgeInsets.all(8.0),
                                                     child: Text(
                                                       valueOrDefault<String>(
-                                                        functions
-                                                            .filterPlaces(
-                                                                petfriendlyPlacesPlacesRecordList
-                                                                    .toList(),
-                                                                _model
-                                                                    .searchQuery!)
+                                                        petfriendlyPlacesPlacesRecordList
                                                             .firstOrNull
                                                             ?.category,
-                                                        'No category',
+                                                        'No Category',
                                                       ),
                                                       textAlign:
                                                           TextAlign.center,
@@ -724,15 +743,8 @@ class _PetfriendlyPlacesWidgetState extends State<PetfriendlyPlacesWidget> {
                                               safeSetState(() {});
 
                                               await currentUserReference!
-                                                  .update(createUsersRecordData(
-                                                favoritePlaces: functions
-                                                    .filterPlaces(
-                                                        petfriendlyPlacesPlacesRecordList
-                                                            .toList(),
-                                                        _model.searchQuery!)
-                                                    .firstOrNull
-                                                    ?.reference,
-                                              ));
+                                                  .update(
+                                                      createUsersRecordData());
                                             },
                                             value: FFAppState().isFavorite,
                                             onIcon: Icon(
@@ -769,7 +781,10 @@ class _PetfriendlyPlacesWidgetState extends State<PetfriendlyPlacesWidget> {
                                         .filterPlaces(
                                             petfriendlyPlacesPlacesRecordList
                                                 .toList(),
-                                            _model.searchQuery!)
+                                            valueOrDefault<String>(
+                                              _model.searchQuery,
+                                              '\"\"',
+                                            ))
                                         .firstOrNull
                                         ?.reference,
                                     ParamType.DocumentReference,

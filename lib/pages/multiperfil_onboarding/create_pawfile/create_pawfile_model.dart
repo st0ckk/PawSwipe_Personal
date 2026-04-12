@@ -1,5 +1,7 @@
+import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/form_field_controller.dart';
+import '/index.dart';
 import 'create_pawfile_widget.dart' show CreatePawfileWidget;
 import 'package:flutter/material.dart';
 
@@ -101,6 +103,8 @@ class CreatePawfileModel extends FlutterFlowModel<CreatePawfileWidget> {
   FormFieldController<List<String>>? prefAgeValueController;
   List<String>? get prefAgeValues => prefAgeValueController?.value;
   set prefAgeValues(List<String>? val) => prefAgeValueController?.value = val;
+  // Stores action output result for [Backend Call - Create Document] action in Button widget.
+  PawfilesRecord? newPawfile;
 
   @override
   void initState(BuildContext context) {

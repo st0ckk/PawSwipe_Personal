@@ -101,6 +101,11 @@ class PawfilesRecord extends FirestoreRecord {
   String get prefDistance => _prefDistance ?? '';
   bool hasPrefDistance() => _prefDistance != null;
 
+  // "pet_id_ref" field.
+  DocumentReference? _petIdRef;
+  DocumentReference? get petIdRef => _petIdRef;
+  bool hasPetIdRef() => _petIdRef != null;
+
   void _initializeFields() {
     _dogName = snapshotData['dogName'] as String?;
     _dogBreed = snapshotData['dogBreed'] as String?;
@@ -119,6 +124,7 @@ class PawfilesRecord extends FirestoreRecord {
     _prefAge = getDataList(snapshotData['prefAge']);
     _prefEnergy = getDataList(snapshotData['prefEnergy']);
     _prefDistance = snapshotData['prefDistance'] as String?;
+    _petIdRef = snapshotData['pet_id_ref'] as DocumentReference?;
   }
 
   static CollectionReference get collection =>
@@ -169,6 +175,7 @@ Map<String, dynamic> createPawfilesRecordData({
   String? dogPhoto4,
   DocumentReference? ownerRef,
   String? prefDistance,
+  DocumentReference? petIdRef,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
@@ -185,6 +192,7 @@ Map<String, dynamic> createPawfilesRecordData({
       'dogPhoto4': dogPhoto4,
       'owner_ref': ownerRef,
       'prefDistance': prefDistance,
+      'pet_id_ref': petIdRef,
     }.withoutNulls,
   );
 
@@ -213,7 +221,8 @@ class PawfilesRecordDocumentEquality implements Equality<PawfilesRecord> {
         listEquality.equals(e1?.prefGender, e2?.prefGender) &&
         listEquality.equals(e1?.prefAge, e2?.prefAge) &&
         listEquality.equals(e1?.prefEnergy, e2?.prefEnergy) &&
-        e1?.prefDistance == e2?.prefDistance;
+        e1?.prefDistance == e2?.prefDistance &&
+        e1?.petIdRef == e2?.petIdRef;
   }
 
   @override
@@ -234,7 +243,8 @@ class PawfilesRecordDocumentEquality implements Equality<PawfilesRecord> {
         e?.prefGender,
         e?.prefAge,
         e?.prefEnergy,
-        e?.prefDistance
+        e?.prefDistance,
+        e?.petIdRef
       ]);
 
   @override
