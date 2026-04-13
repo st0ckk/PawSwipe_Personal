@@ -62,7 +62,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
               size: 30.0,
             ),
             onPressed: () async {
-              context.pushNamed(ProfileWidget.routeName);
+              context.safePop();
             },
           ),
           title: Text(

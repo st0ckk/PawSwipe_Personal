@@ -55,7 +55,7 @@ class _MenuWidgetState extends State<MenuWidget> {
                 size: 24.0,
               ),
               onPressed: () async {
-                context.pushNamed(ProfileWidget.routeName);
+                context.pushNamed(NearPawfileCardWidget.routeName);
               },
             ),
           ),

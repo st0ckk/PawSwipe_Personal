@@ -87,16 +87,21 @@ class _PetfriendlyPlacesWidgetState extends State<PetfriendlyPlacesWidget> {
                 builder: (context) {
                   final places = petfriendlyPlacesPlacesRecordList.toList();
 
-                  return ListView.builder(
+                  return ListView.separated(
                     padding: EdgeInsets.zero,
                     shrinkWrap: true,
                     scrollDirection: Axis.vertical,
                     itemCount: places.length,
+                    separatorBuilder: (_, __) => SizedBox(height: 16.0),
                     itemBuilder: (context, placesIndex) {
                       final placesItem = places[placesIndex];
                       return PlaceCardWidget(
                         key: Key('Keyfwq_${placesIndex}_of_${places.length}'),
                         placeDoc: placesItem,
+                        onFavoriteToggle: () async {
+                          _model.isFavorite = !(_model.isFavorite ?? true);
+                          safeSetState(() {});
+                        },
                       );
                     },
                   );

@@ -65,7 +65,7 @@ class _MyPawfilesWidgetState extends State<MyPawfilesWidget> {
               size: 30.0,
             ),
             onPressed: () async {
-              context.pushNamed(ProfileWidget.routeName);
+              context.safePop();
             },
           ),
           title: Text(

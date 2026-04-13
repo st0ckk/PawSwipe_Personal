@@ -2288,6 +2288,15 @@ class _CreatePawfileWidgetState extends State<CreatePawfileWidget> {
                             .update(createPawfilesRecordData(
                           petIdRef: _model.newPawfile?.reference,
                         ));
+
+                        await currentUserReference!.update({
+                          ...mapToFirestore(
+                            {
+                              'swiped_pets': FieldValue.arrayUnion(
+                                  [_model.newPawfile?.reference]),
+                            },
+                          ),
+                        });
                         var confirmDialogResponse = await showDialog<bool>(
                               context: context,
                               builder: (alertDialogContext) {

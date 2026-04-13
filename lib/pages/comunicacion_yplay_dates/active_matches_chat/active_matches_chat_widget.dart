@@ -93,16 +93,7 @@ class _ActiveMatchesChatWidgetState extends State<ActiveMatchesChatWidget> {
               size: 30.0,
             ),
             onPressed: () async {
-              context.pushNamed(
-                MyProfileWidget.routeName,
-                extra: <String, dynamic>{
-                  '__transition_info__': TransitionInfo(
-                    hasTransition: true,
-                    transitionType: PageTransitionType.fade,
-                    duration: Duration(milliseconds: 0),
-                  ),
-                },
-              );
+              context.safePop();
             },
           ),
           title: Padding(

@@ -61,6 +61,31 @@ class UsersRecord extends FirestoreRecord {
   List<DocumentReference> get swipedPets => _swipedPets ?? const [];
   bool hasSwipedPets() => _swipedPets != null;
 
+  // "location_visibility" field.
+  bool? _locationVisibility;
+  bool get locationVisibility => _locationVisibility ?? false;
+  bool hasLocationVisibility() => _locationVisibility != null;
+
+  // "photo_visibility" field.
+  bool? _photoVisibility;
+  bool get photoVisibility => _photoVisibility ?? false;
+  bool hasPhotoVisibility() => _photoVisibility != null;
+
+  // "profile_visibility" field.
+  bool? _profileVisibility;
+  bool get profileVisibility => _profileVisibility ?? false;
+  bool hasProfileVisibility() => _profileVisibility != null;
+
+  // "newMessagesEnabled" field.
+  bool? _newMessagesEnabled;
+  bool get newMessagesEnabled => _newMessagesEnabled ?? false;
+  bool hasNewMessagesEnabled() => _newMessagesEnabled != null;
+
+  // "newPupMatchesEnabled" field.
+  bool? _newPupMatchesEnabled;
+  bool get newPupMatchesEnabled => _newPupMatchesEnabled ?? false;
+  bool hasNewPupMatchesEnabled() => _newPupMatchesEnabled != null;
+
   void _initializeFields() {
     _email = snapshotData['email'] as String?;
     _displayName = snapshotData['display_name'] as String?;
@@ -71,6 +96,11 @@ class UsersRecord extends FirestoreRecord {
     _locationEnabled = snapshotData['location_enabled'] as bool?;
     _favoritePlaces = getDataList(snapshotData['favorite_places']);
     _swipedPets = getDataList(snapshotData['swiped_pets']);
+    _locationVisibility = snapshotData['location_visibility'] as bool?;
+    _photoVisibility = snapshotData['photo_visibility'] as bool?;
+    _profileVisibility = snapshotData['profile_visibility'] as bool?;
+    _newMessagesEnabled = snapshotData['newMessagesEnabled'] as bool?;
+    _newPupMatchesEnabled = snapshotData['newPupMatchesEnabled'] as bool?;
   }
 
   static CollectionReference get collection =>
@@ -114,6 +144,11 @@ Map<String, dynamic> createUsersRecordData({
   DateTime? createdTime,
   String? phoneNumber,
   bool? locationEnabled,
+  bool? locationVisibility,
+  bool? photoVisibility,
+  bool? profileVisibility,
+  bool? newMessagesEnabled,
+  bool? newPupMatchesEnabled,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
@@ -124,6 +159,11 @@ Map<String, dynamic> createUsersRecordData({
       'created_time': createdTime,
       'phone_number': phoneNumber,
       'location_enabled': locationEnabled,
+      'location_visibility': locationVisibility,
+      'photo_visibility': photoVisibility,
+      'profile_visibility': profileVisibility,
+      'newMessagesEnabled': newMessagesEnabled,
+      'newPupMatchesEnabled': newPupMatchesEnabled,
     }.withoutNulls,
   );
 
@@ -144,7 +184,12 @@ class UsersRecordDocumentEquality implements Equality<UsersRecord> {
         e1?.phoneNumber == e2?.phoneNumber &&
         e1?.locationEnabled == e2?.locationEnabled &&
         listEquality.equals(e1?.favoritePlaces, e2?.favoritePlaces) &&
-        listEquality.equals(e1?.swipedPets, e2?.swipedPets);
+        listEquality.equals(e1?.swipedPets, e2?.swipedPets) &&
+        e1?.locationVisibility == e2?.locationVisibility &&
+        e1?.photoVisibility == e2?.photoVisibility &&
+        e1?.profileVisibility == e2?.profileVisibility &&
+        e1?.newMessagesEnabled == e2?.newMessagesEnabled &&
+        e1?.newPupMatchesEnabled == e2?.newPupMatchesEnabled;
   }
 
   @override
@@ -157,7 +202,12 @@ class UsersRecordDocumentEquality implements Equality<UsersRecord> {
         e?.phoneNumber,
         e?.locationEnabled,
         e?.favoritePlaces,
-        e?.swipedPets
+        e?.swipedPets,
+        e?.locationVisibility,
+        e?.photoVisibility,
+        e?.profileVisibility,
+        e?.newMessagesEnabled,
+        e?.newPupMatchesEnabled
       ]);
 
   @override

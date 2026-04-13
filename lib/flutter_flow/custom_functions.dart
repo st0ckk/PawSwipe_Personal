@@ -81,3 +81,16 @@ bool? isFavoritePlace(
   if (favoritesList == null) return false;
   return favoritesList.contains(placeRef);
 }
+
+int? stringToInt(String? value) {
+  if (value == null) return 0;
+  return int.tryParse(value) ?? 0;
+}
+
+LatLng? createLatLng(
+  int? lat,
+  int? lng,
+) {
+  if (lat == null || lng == null) return null;
+  return LatLng(lat.toDouble(), lng.toDouble());
+}

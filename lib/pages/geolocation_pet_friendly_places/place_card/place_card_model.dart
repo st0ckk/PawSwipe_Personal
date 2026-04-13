@@ -1,10 +1,13 @@
 import '/flutter_flow/flutter_flow_google_map.dart';
 import '/flutter_flow/flutter_flow_util.dart';
-import '/pages/multiperfil_onboarding/menu/menu_widget.dart';
 import 'place_card_widget.dart' show PlaceCardWidget;
 import 'package:flutter/material.dart';
 
 class PlaceCardModel extends FlutterFlowModel<PlaceCardWidget> {
+  ///  Local state fields for this component.
+
+  bool? isLiked = false;
+
   ///  State fields for stateful widgets in this component.
 
   // State field(s) for PlacePicker widget.
@@ -12,16 +15,10 @@ class PlaceCardModel extends FlutterFlowModel<PlaceCardWidget> {
   // State field(s) for GoogleMap widget.
   LatLng? googleMapsCenter;
   final googleMapsController = Completer<GoogleMapController>();
-  // Model for Menu component.
-  late MenuModel menuModel;
 
   @override
-  void initState(BuildContext context) {
-    menuModel = createModel(context, () => MenuModel());
-  }
+  void initState(BuildContext context) {}
 
   @override
-  void dispose() {
-    menuModel.dispose();
-  }
+  void dispose() {}
 }

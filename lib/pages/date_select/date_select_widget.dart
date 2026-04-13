@@ -1142,7 +1142,7 @@ class _DateSelectWidgetState extends State<DateSelectWidget> {
                         .set(createChatMessagesRecordData(
                           chatRef: _model.chatRef,
                           message:
-                              '🐾 Play-date request: ${dateTimeFormat("MMMEd", _model.selectedDate)}at${dateTimeFormat("jm", _model.selectedTime)}for${_model.selectedDuration}',
+                              '🐾 Play-date request: ${dateTimeFormat("MMMEd", _model.selectedDate)} at ${dateTimeFormat("jm", _model.selectedTime)} for ${_model.selectedDuration}',
                           datetime: getCurrentTimestamp,
                           createdBy: currentUserReference,
                         ));
@@ -1150,7 +1150,7 @@ class _DateSelectWidgetState extends State<DateSelectWidget> {
                     await _model.chatRef!.update({
                       ...createChatsRecordData(
                         lastMessage:
-                            '🐾 Play-date request: ${dateTimeFormat("MMMEd", _model.selectedDate)}at${dateTimeFormat("jm", _model.selectedTime)}for${_model.selectedDuration}',
+                            '🐾 Play-date request: ${dateTimeFormat("MMMEd", _model.selectedDate)} at ${dateTimeFormat("jm", _model.selectedTime)} for ${_model.selectedDuration}',
                         lastMessageDatetime: getCurrentTimestamp,
                       ),
                       ...mapToFirestore(

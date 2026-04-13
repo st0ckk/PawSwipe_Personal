@@ -4,7 +4,6 @@ import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
-import '/pages/geolocation_pet_friendly_places/add_location_sheet/add_location_sheet_widget.dart';
 import '/pages/multiperfil_onboarding/menu/menu_widget.dart';
 import '/index.dart';
 import 'package:flutter/material.dart';
@@ -70,10 +69,6 @@ class _LocationSettingsWidgetState extends State<LocationSettingsWidget> {
         }
         List<PawfilesRecord> locationSettingsPawfilesRecordList =
             snapshot.data!;
-        // Return an empty Container when the item does not exist.
-        if (snapshot.data!.isEmpty) {
-          return Container();
-        }
         final locationSettingsPawfilesRecord =
             locationSettingsPawfilesRecordList.isNotEmpty
                 ? locationSettingsPawfilesRecordList.first
@@ -95,7 +90,7 @@ class _LocationSettingsWidgetState extends State<LocationSettingsWidget> {
                 size: 25.0,
               ),
               onPressed: () async {
-                context.pushNamed(SettingsWidget.routeName);
+                context.safePop();
               },
             ),
             title: Align(
@@ -174,70 +169,66 @@ class _LocationSettingsWidgetState extends State<LocationSettingsWidget> {
               ),
               Padding(
                 padding: EdgeInsetsDirectional.fromSTEB(15.0, 0.0, 15.0, 0.0),
-                child: AuthUserStreamWidget(
-                  builder: (context) => Material(
-                    color: Colors.transparent,
-                    child: SwitchListTile.adaptive(
-                      value: _model.switchListTileValue ??=
-                          valueOrDefault<bool>(
-                              currentUserDocument?.locationEnabled, false),
-                      onChanged: (newValue) async {
-                        safeSetState(
-                            () => _model.switchListTileValue = newValue);
-                        if (newValue) {
-                          await currentUserReference!
-                              .update(createUsersRecordData(
-                            locationEnabled: _model.switchListTileValue,
-                          ));
-                        }
-                      },
-                      title: Text(
-                        'Location Services',
-                        style: FlutterFlowTheme.of(context).bodyLarge.override(
-                              font: GoogleFonts.plusJakartaSans(
-                                fontWeight: FontWeight.normal,
-                                fontStyle: FlutterFlowTheme.of(context)
-                                    .bodyLarge
-                                    .fontStyle,
-                              ),
-                              color: Color(0xFF1A1461),
-                              fontSize: 16.0,
-                              letterSpacing: 0.0,
+                child: Material(
+                  color: Colors.transparent,
+                  child: SwitchListTile.adaptive(
+                    value: _model.switchListTileValue ??=
+                        _model.locationEnabled!,
+                    onChanged: (newValue) async {
+                      safeSetState(
+                          () => _model.switchListTileValue = newValue);
+                      if (newValue) {
+                        _model.locationEnabled =
+                            !(_model.locationEnabled ?? true);
+                        safeSetState(() {});
+                      }
+                    },
+                    title: Text(
+                      'Location Services',
+                      style: FlutterFlowTheme.of(context).bodyLarge.override(
+                            font: GoogleFonts.plusJakartaSans(
                               fontWeight: FontWeight.normal,
                               fontStyle: FlutterFlowTheme.of(context)
                                   .bodyLarge
                                   .fontStyle,
-                              lineHeight: 2.0,
                             ),
-                      ),
-                      subtitle: Text(
-                        'Allow us to track your location so we can show you other puppers in your area.',
-                        style: FlutterFlowTheme.of(context).bodyMedium.override(
-                              font: GoogleFonts.plusJakartaSans(
-                                fontWeight: FontWeight.normal,
-                                fontStyle: FlutterFlowTheme.of(context)
-                                    .bodyMedium
-                                    .fontStyle,
-                              ),
-                              color: Color(0xFF8B97A2),
-                              fontSize: 14.0,
-                              letterSpacing: 0.0,
+                            color: Color(0xFF1A1461),
+                            fontSize: 16.0,
+                            letterSpacing: 0.0,
+                            fontWeight: FontWeight.normal,
+                            fontStyle: FlutterFlowTheme.of(context)
+                                .bodyLarge
+                                .fontStyle,
+                            lineHeight: 2.0,
+                          ),
+                    ),
+                    subtitle: Text(
+                      'Allow us to track your location so we can show you other puppers in your area.',
+                      style: FlutterFlowTheme.of(context).bodyMedium.override(
+                            font: GoogleFonts.plusJakartaSans(
                               fontWeight: FontWeight.normal,
                               fontStyle: FlutterFlowTheme.of(context)
                                   .bodyMedium
                                   .fontStyle,
                             ),
-                      ),
-                      tileColor: Colors.white,
-                      activeColor: Color(0xFF1A1461),
-                      activeTrackColor: Color(0x4C4B39EF),
-                      dense: false,
-                      controlAffinity: ListTileControlAffinity.trailing,
-                      contentPadding: EdgeInsetsDirectional.fromSTEB(
-                          24.0, 12.0, 24.0, 12.0),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(24.0),
-                      ),
+                            color: Color(0xFF8B97A2),
+                            fontSize: 14.0,
+                            letterSpacing: 0.0,
+                            fontWeight: FontWeight.normal,
+                            fontStyle: FlutterFlowTheme.of(context)
+                                .bodyMedium
+                                .fontStyle,
+                          ),
+                    ),
+                    tileColor: Colors.white,
+                    activeColor: Color(0xFF1A1461),
+                    activeTrackColor: Color(0x4C4B39EF),
+                    dense: false,
+                    controlAffinity: ListTileControlAffinity.trailing,
+                    contentPadding:
+                        EdgeInsetsDirectional.fromSTEB(24.0, 12.0, 24.0, 12.0),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(24.0),
                     ),
                   ),
                 ),
@@ -276,77 +267,56 @@ class _LocationSettingsWidgetState extends State<LocationSettingsWidget> {
                   ],
                 ),
               ),
-              InkWell(
-                splashColor: Colors.transparent,
-                focusColor: Colors.transparent,
-                hoverColor: Colors.transparent,
-                highlightColor: Colors.transparent,
-                onTap: () async {
-                  await showModalBottomSheet(
-                    isScrollControlled: true,
-                    backgroundColor: Colors.transparent,
-                    enableDrag: false,
-                    context: context,
-                    builder: (context) {
-                      return Padding(
-                        padding: MediaQuery.viewInsetsOf(context),
-                        child: AddLocationSheetWidget(
-                          onConfirm: () async {
-                            Navigator.pop(context);
-                          },
-                        ),
-                      );
-                    },
-                  ).then((value) => safeSetState(() {}));
-                },
-                child: Container(
-                  width: 366.0,
-                  height: 87.91,
-                  decoration: BoxDecoration(
-                    color: FlutterFlowTheme.of(context).secondaryBackground,
-                    borderRadius: BorderRadius.circular(24.0),
-                  ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      Opacity(
-                        opacity: 0.3,
-                        child: Align(
-                          alignment: AlignmentDirectional(0.0, -1.0),
-                          child: Padding(
-                            padding: EdgeInsetsDirectional.fromSTEB(
-                                5.0, 5.0, 5.0, 0.0),
-                            child: FFButtonWidget(
-                              onPressed: () {
-                                print('Button pressed ...');
-                              },
-                              text: 'Add location',
-                              icon: Icon(
-                                Icons.add_circle_outlined,
-                                size: 15.0,
-                              ),
-                              options: FFButtonOptions(
-                                width: 356.6,
-                                height: 40.0,
-                                padding: EdgeInsetsDirectional.fromSTEB(
-                                    16.0, 0.0, 16.0, 0.0),
-                                iconAlignment: IconAlignment.end,
-                                iconPadding: EdgeInsetsDirectional.fromSTEB(
-                                    0.0, 0.0, 0.0, 0.0),
-                                color: Color(0xFFC5C5C6),
-                                textStyle: FlutterFlowTheme.of(context)
-                                    .titleSmall
-                                    .override(
-                                      font: GoogleFonts.interTight(
-                                        fontWeight: FlutterFlowTheme.of(context)
-                                            .titleSmall
-                                            .fontWeight,
-                                        fontStyle: FlutterFlowTheme.of(context)
-                                            .titleSmall
-                                            .fontStyle,
-                                      ),
-                                      color: Color(0xFF111313),
-                                      letterSpacing: 0.0,
+              Container(
+                width: 366.0,
+                height: 87.91,
+                decoration: BoxDecoration(
+                  color: FlutterFlowTheme.of(context).secondaryBackground,
+                  borderRadius: BorderRadius.circular(24.0),
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Opacity(
+                      opacity: 0.3,
+                      child: Align(
+                        alignment: AlignmentDirectional(0.0, -1.0),
+                        child: Padding(
+                          padding: EdgeInsetsDirectional.fromSTEB(
+                              5.0, 5.0, 5.0, 0.0),
+                          child: FFButtonWidget(
+                            onPressed: () async {
+                              context.pushNamed(
+                                AddPlaceWidget.routeName,
+                                extra: <String, dynamic>{
+                                  '__transition_info__': TransitionInfo(
+                                    hasTransition: true,
+                                    transitionType: PageTransitionType.fade,
+                                    duration: Duration(milliseconds: 0),
+                                  ),
+                                },
+                              );
+                            },
+                            text: 'Add location',
+                            icon: Icon(
+                              Icons.add_circle_outlined,
+                              size: 15.0,
+                            ),
+                            options: FFButtonOptions(
+                              width: MediaQuery.sizeOf(context).width * 0.87,
+                              height: 40.0,
+                              padding: EdgeInsetsDirectional.fromSTEB(
+                                  16.0, 0.0, 16.0, 0.0),
+                              iconAlignment: IconAlignment.end,
+                              iconPadding: EdgeInsetsDirectional.fromSTEB(
+                                  0.0, 0.0, 0.0, 0.0),
+                              color: Color(0xFFC5C5C6),
+                              textStyle: FlutterFlowTheme.of(context)
+                                  .titleSmall
+                                  .override(
+                                    font: GoogleFonts.interTight(
                                       fontWeight: FlutterFlowTheme.of(context)
                                           .titleSmall
                                           .fontWeight,
@@ -354,17 +324,25 @@ class _LocationSettingsWidgetState extends State<LocationSettingsWidget> {
                                           .titleSmall
                                           .fontStyle,
                                     ),
-                                elevation: 0.0,
-                                borderRadius: BorderRadius.circular(8.0),
-                                hoverColor:
-                                    FlutterFlowTheme.of(context).secondaryText,
-                              ),
+                                    color: Color(0xFF111313),
+                                    letterSpacing: 0.0,
+                                    fontWeight: FlutterFlowTheme.of(context)
+                                        .titleSmall
+                                        .fontWeight,
+                                    fontStyle: FlutterFlowTheme.of(context)
+                                        .titleSmall
+                                        .fontStyle,
+                                  ),
+                              elevation: 0.0,
+                              borderRadius: BorderRadius.circular(8.0),
+                              hoverColor:
+                                  FlutterFlowTheme.of(context).secondaryText,
                             ),
                           ),
                         ),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
               Row(
@@ -384,26 +362,9 @@ class _LocationSettingsWidgetState extends State<LocationSettingsWidget> {
                 padding: EdgeInsetsDirectional.fromSTEB(0.0, 150.0, 0.0, 0.0),
                 child: FFButtonWidget(
                   onPressed: () async {
-                    await locationSettingsPawfilesRecord!.reference
-                        .update(createPawfilesRecordData(
-                      prefDistance: valueOrDefault<String>(
-                        locationSettingsPawfilesRecord.prefDistance,
-                        '1',
-                      ),
+                    await currentUserReference!.update(createUsersRecordData(
+                      locationEnabled: _model.locationEnabled,
                     ));
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text(
-                          '¡Cambios Guardados!',
-                          style: GoogleFonts.raleway(
-                            color: FlutterFlowTheme.of(context).primaryText,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        duration: Duration(milliseconds: 4000),
-                        backgroundColor: FlutterFlowTheme.of(context).secondary,
-                      ),
-                    );
                   },
                   text: 'Save Changes',
                   options: FFButtonOptions(

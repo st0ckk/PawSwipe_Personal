@@ -157,16 +157,7 @@ class _MyProfileWidgetState extends State<MyProfileWidget>
               size: 30.0,
             ),
             onPressed: () async {
-              context.goNamed(
-                ProfileWidget.routeName,
-                extra: <String, dynamic>{
-                  '__transition_info__': TransitionInfo(
-                    hasTransition: true,
-                    transitionType: PageTransitionType.fade,
-                    duration: Duration(milliseconds: 0),
-                  ),
-                },
-              );
+              context.safePop();
             },
           ),
           title: Text(

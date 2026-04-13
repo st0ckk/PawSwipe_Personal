@@ -5,7 +5,6 @@ export '/pages/multiperfil_onboarding/forgot_password/forgot_password_widget.dar
     show ForgotPasswordWidget;
 export '/pages/multiperfil_onboarding/my_profile/my_profile_widget.dart'
     show MyProfileWidget;
-export '/pages/match_profile/match_profile_widget.dart' show MatchProfileWidget;
 export '/pages/comunicacion_yplay_dates/chat/chat_widget.dart' show ChatWidget;
 export '/pages/loc_select/loc_select_widget.dart' show LocSelectWidget;
 export '/pages/multiperfil_onboarding/change_password/change_password_widget.dart'
@@ -28,7 +27,7 @@ export '/pages/community_feed_screen/community_feed_screen_widget.dart'
     show CommunityFeedScreenWidget;
 export '/pages/privacy_settings/privacy_settings_widget.dart'
     show PrivacySettingsWidget;
-export '/pages/swiping/near_pawfile_card/near_pawfile_card_widget.dart'
+export '/pages/near_pawfile_card/near_pawfile_card_widget.dart'
     show NearPawfileCardWidget;
 export '/pages/swiping/match/match_widget.dart' show MatchWidget;
 export '/pages/swiping/pawfile_details/pawfile_details_widget.dart'
@@ -46,3 +45,7 @@ export '/pages/multiperfil_onboarding/edit_pawfile/edit_pawfile_widget.dart'
     show EditPawfileWidget;
 export '/pages/comunicacion_yplay_dates/chat_more/chat_more_widget.dart'
     show ChatMoreWidget;
+export '/pages/geolocation_pet_friendly_places/add_place/add_place_widget.dart'
+    show AddPlaceWidget;
+export '/pages/comments_screen/comments_screen_widget.dart'
+    show CommentsScreenWidget;

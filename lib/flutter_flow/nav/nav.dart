@@ -76,14 +76,16 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
       debugLogDiagnostics: true,
       refreshListenable: appStateNotifier,
       navigatorKey: appNavigatorKey,
-      errorBuilder: (context, state) =>
-          appStateNotifier.loggedIn ? ProfileWidget() : OnboardingWidget(),
+      errorBuilder: (context, state) => appStateNotifier.loggedIn
+          ? NearPawfileCardWidget()
+          : OnboardingWidget(),
       routes: [
         FFRoute(
           name: '_initialize',
           path: '/',
-          builder: (context, _) =>
-              appStateNotifier.loggedIn ? ProfileWidget() : OnboardingWidget(),
+          builder: (context, _) => appStateNotifier.loggedIn
+              ? NearPawfileCardWidget()
+              : OnboardingWidget(),
         ),
         FFRoute(
           name: ProfileWidget.routeName,
@@ -99,18 +101,6 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           name: MyProfileWidget.routeName,
           path: MyProfileWidget.routePath,
           builder: (context, params) => MyProfileWidget(),
-        ),
-        FFRoute(
-          name: MatchProfileWidget.routeName,
-          path: MatchProfileWidget.routePath,
-          builder: (context, params) => MatchProfileWidget(
-            pawFiles: params.getParam(
-              'pawFiles',
-              ParamType.DocumentReference,
-              isList: false,
-              collectionNamePath: ['pawfiles'],
-            ),
-          ),
         ),
         FFRoute(
           name: ChatWidget.routeName,
@@ -292,6 +282,23 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           name: ChatMoreWidget.routeName,
           path: ChatMoreWidget.routePath,
           builder: (context, params) => ChatMoreWidget(),
+        ),
+        FFRoute(
+          name: AddPlaceWidget.routeName,
+          path: AddPlaceWidget.routePath,
+          builder: (context, params) => AddPlaceWidget(),
+        ),
+        FFRoute(
+          name: CommentsScreenWidget.routeName,
+          path: CommentsScreenWidget.routePath,
+          builder: (context, params) => CommentsScreenWidget(
+            postId: params.getParam(
+              'postId',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['community_posts'],
+            ),
+          ),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
     );

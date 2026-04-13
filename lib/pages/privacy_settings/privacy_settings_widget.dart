@@ -1,10 +1,12 @@
+import '/auth/firebase_auth/auth_util.dart';
+import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import '/pages/multiperfil_onboarding/menu/menu_widget.dart';
-import '/index.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'privacy_settings_model.dart';
 export 'privacy_settings_model.dart';
@@ -28,6 +30,17 @@ class _PrivacySettingsWidgetState extends State<PrivacySettingsWidget> {
   void initState() {
     super.initState();
     _model = createModel(context, () => PrivacySettingsModel());
+
+    // On page load action.
+    SchedulerBinding.instance.addPostFrameCallback((_) async {
+      _model.userDoc = await UsersRecord.getDocumentOnce(currentUserReference!);
+      _model.locationVisibility = _model.userDoc!.locationVisibility;
+      _model.photoVisibility =
+          valueOrDefault<bool>(currentUserDocument?.photoVisibility, false);
+      _model.profileVisibility =
+          valueOrDefault<bool>(currentUserDocument?.profileVisibility, false);
+      safeSetState(() {});
+    });
   }
 
   @override
@@ -55,7 +68,7 @@ class _PrivacySettingsWidgetState extends State<PrivacySettingsWidget> {
             size: 25.0,
           ),
           onPressed: () async {
-            context.pushNamed(SettingsWidget.routeName);
+            context.safePop();
           },
         ),
         title: Text(
@@ -127,9 +140,15 @@ class _PrivacySettingsWidgetState extends State<PrivacySettingsWidget> {
             child: Material(
               color: Colors.transparent,
               child: SwitchListTile.adaptive(
-                value: _model.switchListTileValue1 ??= true,
+                value: _model.switchListTileValue1 ??=
+                    _model.locationVisibility,
                 onChanged: (newValue) async {
                   safeSetState(() => _model.switchListTileValue1 = newValue);
+
+                  if (!newValue) {
+                    _model.locationVisibility = false;
+                    safeSetState(() {});
+                  }
                 },
                 title: Text(
                   'Location Visibility',
@@ -182,9 +201,13 @@ class _PrivacySettingsWidgetState extends State<PrivacySettingsWidget> {
             child: Material(
               color: Colors.transparent,
               child: SwitchListTile.adaptive(
-                value: _model.switchListTileValue2 ??= true,
+                value: _model.switchListTileValue2 ??= _model.photoVisibility,
                 onChanged: (newValue) async {
                   safeSetState(() => _model.switchListTileValue2 = newValue);
+                  if (newValue) {
+                    _model.photoVisibility = _model.switchListTileValue2!;
+                    safeSetState(() {});
+                  }
                 },
                 title: Text(
                   'Photo Visibility',
@@ -237,9 +260,14 @@ class _PrivacySettingsWidgetState extends State<PrivacySettingsWidget> {
             child: Material(
               color: Colors.transparent,
               child: SwitchListTile.adaptive(
-                value: _model.switchListTileValue3 ??= true,
+                value: _model.switchListTileValue3 ??= _model.profileVisibility,
                 onChanged: (newValue) async {
                   safeSetState(() => _model.switchListTileValue3 = newValue);
+
+                  if (!newValue) {
+                    _model.profileVisibility = false;
+                    safeSetState(() {});
+                  }
                 },
                 title: Text(
                   'Profile Visibility',
@@ -291,7 +319,12 @@ class _PrivacySettingsWidgetState extends State<PrivacySettingsWidget> {
             padding: EdgeInsetsDirectional.fromSTEB(0.0, 30.0, 0.0, 0.0),
             child: FFButtonWidget(
               onPressed: () async {
-                context.pop();
+                await currentUserReference!.update(createUsersRecordData(
+                  locationVisibility: _model.locationVisibility,
+                  profileVisibility: _model.profileVisibility,
+                  photoVisibility: _model.photoVisibility,
+                ));
+                context.safePop();
               },
               text: 'Save Changes',
               options: FFButtonOptions(

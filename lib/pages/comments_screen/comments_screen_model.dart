@@ -1,18 +1,16 @@
 import '/flutter_flow/flutter_flow_util.dart';
 import '/pages/multiperfil_onboarding/menu/menu_widget.dart';
 import '/index.dart';
-import 'location_settings_widget.dart' show LocationSettingsWidget;
+import 'comments_screen_widget.dart' show CommentsScreenWidget;
 import 'package:flutter/material.dart';
 
-class LocationSettingsModel extends FlutterFlowModel<LocationSettingsWidget> {
-  ///  Local state fields for this page.
-
-  bool? locationEnabled = false;
-
+class CommentsScreenModel extends FlutterFlowModel<CommentsScreenWidget> {
   ///  State fields for stateful widgets in this page.
 
-  // State field(s) for SwitchListTile widget.
-  bool? switchListTileValue;
+  // State field(s) for TextField widget.
+  FocusNode? textFieldFocusNode;
+  TextEditingController? textController;
+  String? Function(BuildContext, String?)? textControllerValidator;
   // Model for Menu component.
   late MenuModel menuModel;
 
@@ -23,6 +21,9 @@ class LocationSettingsModel extends FlutterFlowModel<LocationSettingsWidget> {
 
   @override
   void dispose() {
+    textFieldFocusNode?.dispose();
+    textController?.dispose();
+
     menuModel.dispose();
   }
 }

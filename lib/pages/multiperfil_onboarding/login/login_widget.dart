@@ -1037,7 +1037,7 @@ class _LoginWidgetState extends State<LoginWidget>
                                                           ));
 
                                                       context.goNamedAuth(
-                                                          ProfileWidget
+                                                          NearPawfileCardWidget
                                                               .routeName,
                                                           context.mounted);
                                                     },
@@ -1207,7 +1207,7 @@ class _LoginWidgetState extends State<LoginWidget>
                                                                 }
 
                                                                 context.goNamedAuth(
-                                                                    ProfileWidget
+                                                                    NearPawfileCardWidget
                                                                         .routeName,
                                                                     context
                                                                         .mounted);
@@ -1745,7 +1745,7 @@ class _LoginWidgetState extends State<LoginWidget>
                                                         }
 
                                                         context.goNamedAuth(
-                                                            ProfileWidget
+                                                            NearPawfileCardWidget
                                                                 .routeName,
                                                             context.mounted);
                                                       },
@@ -1895,7 +1895,7 @@ class _LoginWidgetState extends State<LoginWidget>
                                                             }
 
                                                             context.goNamedAuth(
-                                                                ProfileWidget
+                                                                NearPawfileCardWidget
                                                                     .routeName,
                                                                 context
                                                                     .mounted);

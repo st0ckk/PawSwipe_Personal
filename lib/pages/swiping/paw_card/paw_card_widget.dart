@@ -59,7 +59,6 @@ class _PawCardWidgetState extends State<PawCardWidget> {
       child: Stack(
         children: [
           Container(
-            width: double.infinity,
             height: 500.0,
             child: Stack(
               children: [
@@ -77,7 +76,7 @@ class _PawCardWidgetState extends State<PawCardWidget> {
                           borderRadius: BorderRadius.circular(8.0),
                           child: Image.network(
                             widget.pawItem!.dogPhoto1,
-                            width: MediaQuery.sizeOf(context).width * 0.8,
+                            width: double.infinity,
                             height: MediaQuery.sizeOf(context).height * 0.5,
                             fit: BoxFit.cover,
                           ),
@@ -88,8 +87,11 @@ class _PawCardWidgetState extends State<PawCardWidget> {
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(8.0),
                           child: Image.network(
-                            widget.pawItem!.dogPhoto2,
-                            width: MediaQuery.sizeOf(context).width * 0.8,
+                            valueOrDefault<String>(
+                              widget.pawItem?.dogPhoto2,
+                              'https://firebasestorage.googleapis.com/v0/b/pawswipe-c2040.firebasestorage.app/o/imagesGen%2FImagen%20Sin%20Imagen.jpg?alt=media&token=7625610e-70fe-4a3c-a865-39a00b53f895',
+                            ),
+                            width: double.infinity,
                             height: MediaQuery.sizeOf(context).height * 0.6,
                             fit: BoxFit.cover,
                           ),
@@ -100,8 +102,11 @@ class _PawCardWidgetState extends State<PawCardWidget> {
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(8.0),
                           child: Image.network(
-                            widget.pawItem!.dogPhoto3,
-                            width: MediaQuery.sizeOf(context).width * 0.8,
+                            valueOrDefault<String>(
+                              widget.pawItem?.dogPhoto3,
+                              'https://firebasestorage.googleapis.com/v0/b/pawswipe-c2040.firebasestorage.app/o/imagesGen%2FImagen%20Sin%20Imagen.jpg?alt=media&token=7625610e-70fe-4a3c-a865-39a00b53f895',
+                            ),
+                            width: double.infinity,
                             height: MediaQuery.sizeOf(context).height * 0.6,
                             fit: BoxFit.cover,
                           ),
@@ -112,8 +117,11 @@ class _PawCardWidgetState extends State<PawCardWidget> {
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(8.0),
                           child: Image.network(
-                            widget.pawItem!.dogPhoto4,
-                            width: MediaQuery.sizeOf(context).width * 0.8,
+                            valueOrDefault<String>(
+                              widget.pawItem?.dogPhoto4,
+                              'https://firebasestorage.googleapis.com/v0/b/pawswipe-c2040.firebasestorage.app/o/imagesGen%2FImagen%20Sin%20Imagen.jpg?alt=media&token=7625610e-70fe-4a3c-a865-39a00b53f895',
+                            ),
+                            width: double.infinity,
                             height: MediaQuery.sizeOf(context).height * 0.6,
                             fit: BoxFit.cover,
                           ),
@@ -155,14 +163,174 @@ class _PawCardWidgetState extends State<PawCardWidget> {
               ],
             ),
           ),
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(
+                child: Opacity(
+                  opacity: 0.0,
+                  child: Padding(
+                    padding:
+                        EdgeInsetsDirectional.fromSTEB(5.0, 5.0, 10.0, 5.0),
+                    child: FFButtonWidget(
+                      onPressed: () async {
+                        await _model.pageViewController?.previousPage(
+                          duration: Duration(milliseconds: 300),
+                          curve: Curves.ease,
+                        );
+                      },
+                      text: 'Button',
+                      options: FFButtonOptions(
+                        height: 437.15,
+                        padding: EdgeInsetsDirectional.fromSTEB(
+                            16.0, 0.0, 16.0, 0.0),
+                        iconPadding:
+                            EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
+                        color: FlutterFlowTheme.of(context).primary,
+                        textStyle:
+                            FlutterFlowTheme.of(context).titleSmall.override(
+                                  font: GoogleFonts.interTight(
+                                    fontWeight: FlutterFlowTheme.of(context)
+                                        .titleSmall
+                                        .fontWeight,
+                                    fontStyle: FlutterFlowTheme.of(context)
+                                        .titleSmall
+                                        .fontStyle,
+                                  ),
+                                  color: Colors.white,
+                                  letterSpacing: 0.0,
+                                  fontWeight: FlutterFlowTheme.of(context)
+                                      .titleSmall
+                                      .fontWeight,
+                                  fontStyle: FlutterFlowTheme.of(context)
+                                      .titleSmall
+                                      .fontStyle,
+                                ),
+                        elevation: 0.0,
+                        borderRadius: BorderRadius.circular(8.0),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              Expanded(
+                child: Opacity(
+                  opacity: 0.0,
+                  child: Padding(
+                    padding: EdgeInsetsDirectional.fromSTEB(0.0, 5.0, 0.0, 5.0),
+                    child: FFButtonWidget(
+                      onPressed: () async {
+                        context.pushNamed(
+                          PawfileDetailsWidget.routeName,
+                          queryParameters: {
+                            'selectedDog': serializeParam(
+                              widget.pawItem?.reference,
+                              ParamType.DocumentReference,
+                            ),
+                            'fromUser': serializeParam(
+                              currentUserReference,
+                              ParamType.DocumentReference,
+                            ),
+                          }.withoutNulls,
+                          extra: <String, dynamic>{
+                            '__transition_info__': TransitionInfo(
+                              hasTransition: true,
+                              transitionType: PageTransitionType.bottomToTop,
+                            ),
+                          },
+                        );
+                      },
+                      text: 'Button',
+                      options: FFButtonOptions(
+                        width: MediaQuery.sizeOf(context).width * 0.532,
+                        height: 437.2,
+                        padding: EdgeInsetsDirectional.fromSTEB(
+                            16.0, 0.0, 16.0, 0.0),
+                        iconPadding:
+                            EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
+                        color: FlutterFlowTheme.of(context).primary,
+                        textStyle:
+                            FlutterFlowTheme.of(context).titleSmall.override(
+                                  font: GoogleFonts.interTight(
+                                    fontWeight: FlutterFlowTheme.of(context)
+                                        .titleSmall
+                                        .fontWeight,
+                                    fontStyle: FlutterFlowTheme.of(context)
+                                        .titleSmall
+                                        .fontStyle,
+                                  ),
+                                  color: Colors.white,
+                                  letterSpacing: 0.0,
+                                  fontWeight: FlutterFlowTheme.of(context)
+                                      .titleSmall
+                                      .fontWeight,
+                                  fontStyle: FlutterFlowTheme.of(context)
+                                      .titleSmall
+                                      .fontStyle,
+                                ),
+                        elevation: 0.0,
+                        borderRadius: BorderRadius.circular(8.0),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              Expanded(
+                child: Opacity(
+                  opacity: 0.0,
+                  child: Padding(
+                    padding: EdgeInsetsDirectional.fromSTEB(0.0, 5.0, 5.0, 5.0),
+                    child: FFButtonWidget(
+                      onPressed: () async {
+                        await _model.pageViewController?.nextPage(
+                          duration: Duration(milliseconds: 300),
+                          curve: Curves.ease,
+                        );
+                      },
+                      text: 'Button',
+                      options: FFButtonOptions(
+                        height: 437.2,
+                        padding: EdgeInsetsDirectional.fromSTEB(
+                            16.0, 0.0, 16.0, 0.0),
+                        iconPadding:
+                            EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
+                        color: FlutterFlowTheme.of(context).primary,
+                        textStyle:
+                            FlutterFlowTheme.of(context).titleSmall.override(
+                                  font: GoogleFonts.interTight(
+                                    fontWeight: FlutterFlowTheme.of(context)
+                                        .titleSmall
+                                        .fontWeight,
+                                    fontStyle: FlutterFlowTheme.of(context)
+                                        .titleSmall
+                                        .fontStyle,
+                                  ),
+                                  color: Colors.white,
+                                  letterSpacing: 0.0,
+                                  fontWeight: FlutterFlowTheme.of(context)
+                                      .titleSmall
+                                      .fontWeight,
+                                  fontStyle: FlutterFlowTheme.of(context)
+                                      .titleSmall
+                                      .fontStyle,
+                                ),
+                        elevation: 0.0,
+                        borderRadius: BorderRadius.circular(8.0),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
           Opacity(
             opacity: 0.6,
             child: Align(
               alignment: AlignmentDirectional(0.0, 0.0),
               child: Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(0.0, 330.0, 0.0, 0.0),
+                padding: EdgeInsetsDirectional.fromSTEB(0.0, 300.0, 0.0, 0.0),
                 child: Container(
-                  width: MediaQuery.sizeOf(context).width * 0.8,
                   height: 80.0,
                   decoration: BoxDecoration(
                     color: FlutterFlowTheme.of(context).primaryText,
@@ -205,6 +373,7 @@ class _PawCardWidgetState extends State<PawCardWidget> {
                                           .bodyMedium
                                           .fontStyle,
                                     ),
+                                overflow: TextOverflow.ellipsis,
                               ),
                               Padding(
                                 padding: EdgeInsetsDirectional.fromSTEB(
@@ -324,147 +493,8 @@ class _PawCardWidgetState extends State<PawCardWidget> {
               ),
             ),
           ),
-          Row(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Opacity(
-                opacity: 0.0,
-                child: FFButtonWidget(
-                  onPressed: () async {
-                    await _model.pageViewController?.previousPage(
-                      duration: Duration(milliseconds: 300),
-                      curve: Curves.ease,
-                    );
-                  },
-                  text: 'Button',
-                  options: FFButtonOptions(
-                    height: 437.15,
-                    padding:
-                        EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
-                    iconPadding:
-                        EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
-                    color: FlutterFlowTheme.of(context).primary,
-                    textStyle: FlutterFlowTheme.of(context).titleSmall.override(
-                          font: GoogleFonts.interTight(
-                            fontWeight: FlutterFlowTheme.of(context)
-                                .titleSmall
-                                .fontWeight,
-                            fontStyle: FlutterFlowTheme.of(context)
-                                .titleSmall
-                                .fontStyle,
-                          ),
-                          color: Colors.white,
-                          letterSpacing: 0.0,
-                          fontWeight: FlutterFlowTheme.of(context)
-                              .titleSmall
-                              .fontWeight,
-                          fontStyle:
-                              FlutterFlowTheme.of(context).titleSmall.fontStyle,
-                        ),
-                    elevation: 0.0,
-                    borderRadius: BorderRadius.circular(8.0),
-                  ),
-                ),
-              ),
-              Opacity(
-                opacity: 0.0,
-                child: FFButtonWidget(
-                  onPressed: () async {
-                    context.pushNamed(
-                      PawfileDetailsWidget.routeName,
-                      queryParameters: {
-                        'selectedDog': serializeParam(
-                          widget.pawItem?.reference,
-                          ParamType.DocumentReference,
-                        ),
-                        'fromUser': serializeParam(
-                          currentUserReference,
-                          ParamType.DocumentReference,
-                        ),
-                      }.withoutNulls,
-                      extra: <String, dynamic>{
-                        '__transition_info__': TransitionInfo(
-                          hasTransition: true,
-                          transitionType: PageTransitionType.bottomToTop,
-                        ),
-                      },
-                    );
-                  },
-                  text: 'Button',
-                  options: FFButtonOptions(
-                    width: MediaQuery.sizeOf(context).width * 0.532,
-                    height: 437.2,
-                    padding:
-                        EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
-                    iconPadding:
-                        EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
-                    color: FlutterFlowTheme.of(context).primary,
-                    textStyle: FlutterFlowTheme.of(context).titleSmall.override(
-                          font: GoogleFonts.interTight(
-                            fontWeight: FlutterFlowTheme.of(context)
-                                .titleSmall
-                                .fontWeight,
-                            fontStyle: FlutterFlowTheme.of(context)
-                                .titleSmall
-                                .fontStyle,
-                          ),
-                          color: Colors.white,
-                          letterSpacing: 0.0,
-                          fontWeight: FlutterFlowTheme.of(context)
-                              .titleSmall
-                              .fontWeight,
-                          fontStyle:
-                              FlutterFlowTheme.of(context).titleSmall.fontStyle,
-                        ),
-                    elevation: 0.0,
-                    borderRadius: BorderRadius.circular(8.0),
-                  ),
-                ),
-              ),
-              Opacity(
-                opacity: 0.0,
-                child: FFButtonWidget(
-                  onPressed: () async {
-                    await _model.pageViewController?.nextPage(
-                      duration: Duration(milliseconds: 300),
-                      curve: Curves.ease,
-                    );
-                  },
-                  text: 'Button',
-                  options: FFButtonOptions(
-                    height: 437.2,
-                    padding:
-                        EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
-                    iconPadding:
-                        EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
-                    color: FlutterFlowTheme.of(context).primary,
-                    textStyle: FlutterFlowTheme.of(context).titleSmall.override(
-                          font: GoogleFonts.interTight(
-                            fontWeight: FlutterFlowTheme.of(context)
-                                .titleSmall
-                                .fontWeight,
-                            fontStyle: FlutterFlowTheme.of(context)
-                                .titleSmall
-                                .fontStyle,
-                          ),
-                          color: Colors.white,
-                          letterSpacing: 0.0,
-                          fontWeight: FlutterFlowTheme.of(context)
-                              .titleSmall
-                              .fontWeight,
-                          fontStyle:
-                              FlutterFlowTheme.of(context).titleSmall.fontStyle,
-                        ),
-                    elevation: 0.0,
-                    borderRadius: BorderRadius.circular(8.0),
-                  ),
-                ),
-              ),
-            ],
-          ),
           Padding(
-            padding: EdgeInsetsDirectional.fromSTEB(30.0, 580.0, 30.0, 0.0),
+            padding: EdgeInsetsDirectional.fromSTEB(30.0, 550.0, 30.0, 0.0),
             child: Row(
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,

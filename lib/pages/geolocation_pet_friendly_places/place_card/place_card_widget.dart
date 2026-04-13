@@ -4,14 +4,13 @@ import '/flutter_flow/flutter_flow_google_map.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_place_picker.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
+import '/flutter_flow/flutter_flow_toggle_icon.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
-import '/pages/multiperfil_onboarding/menu/menu_widget.dart';
 import '/flutter_flow/custom_functions.dart' as functions;
 import '/index.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
 import 'place_card_model.dart';
 export 'place_card_model.dart';
 
@@ -19,9 +18,11 @@ class PlaceCardWidget extends StatefulWidget {
   const PlaceCardWidget({
     super.key,
     required this.placeDoc,
+    required this.onFavoriteToggle,
   });
 
   final PlacesRecord? placeDoc;
+  final Future Function()? onFavoriteToggle;
 
   @override
   State<PlaceCardWidget> createState() => _PlaceCardWidgetState();
@@ -56,7 +57,6 @@ class _PlaceCardWidgetState extends State<PlaceCardWidget> {
 
   @override
   Widget build(BuildContext context) {
-    context.watch<FFAppState>();
     if (currentUserLocationValue == null) {
       return Container(
         color: FlutterFlowTheme.of(context).primaryBackground,
@@ -245,7 +245,7 @@ class _PlaceCardWidgetState extends State<PlaceCardWidget> {
                           child: FlutterFlowIconButton(
                             borderRadius: 24.0,
                             buttonSize: 40.0,
-                            fillColor: Color(0xFFEFAA39),
+                            fillColor: Color(0xFFFFD730),
                             icon: Icon(
                               Icons.search,
                               color: FlutterFlowTheme.of(context).info,
@@ -514,45 +514,94 @@ class _PlaceCardWidgetState extends State<PlaceCardWidget> {
                                   ),
                                 ],
                               ),
-                              FlutterFlowIconButton(
-                                key: ValueKey(FFAppState().isFavorite
-                                    ? 'favorite'
-                                    : 'favorite_border'),
-                                borderRadius: 24.0,
-                                buttonSize: 40.0,
-                                fillColor: Color(0xFFFFD730),
-                                icon: Icon(
-                                  Icons.favorite,
-                                  color: FlutterFlowTheme.of(context).info,
-                                  size: 24.0,
-                                ),
-                                onPressed: () async {
-                                  FFAppState().isFavorite =
-                                      !(FFAppState().isFavorite ?? true);
-                                  safeSetState(() {});
-                                  if (FFAppState().isFavorite) {
-                                    await currentUserReference!.update({
-                                      ...mapToFirestore(
-                                        {
-                                          'favorite_places':
-                                              FieldValue.arrayUnion([
-                                            widget.placeDoc?.reference
-                                          ]),
-                                        },
+                              StreamBuilder<UsersRecord>(
+                                stream: UsersRecord.getDocument(
+                                    currentUserReference!),
+                                builder: (context, snapshot) {
+                                  // Customize what your widget looks like when it's loading.
+                                  if (!snapshot.hasData) {
+                                    return Center(
+                                      child: SizedBox(
+                                        width: 50.0,
+                                        height: 50.0,
+                                        child: CircularProgressIndicator(
+                                          valueColor:
+                                              AlwaysStoppedAnimation<Color>(
+                                            FlutterFlowTheme.of(context)
+                                                .primary,
+                                          ),
+                                        ),
                                       ),
-                                    });
-                                  } else {
-                                    await currentUserReference!.update({
-                                      ...mapToFirestore(
-                                        {
-                                          'favorite_places':
-                                              FieldValue.arrayRemove([
-                                            widget.placeDoc?.reference
-                                          ]),
-                                        },
-                                      ),
-                                    });
+                                    );
                                   }
+
+                                  final toggleIconUsersRecord = snapshot.data!;
+
+                                  return ToggleIcon(
+                                    onPressed: () async {
+                                      final favoritePlacesElement =
+                                          widget.placeDoc?.reference;
+                                      final favoritePlacesUpdate =
+                                          toggleIconUsersRecord.favoritePlaces
+                                                  .contains(
+                                                      favoritePlacesElement)
+                                              ? FieldValue.arrayRemove(
+                                                  [favoritePlacesElement])
+                                              : FieldValue.arrayUnion(
+                                                  [favoritePlacesElement]);
+                                      await toggleIconUsersRecord.reference
+                                          .update({
+                                        ...mapToFirestore(
+                                          {
+                                            'favorite_places':
+                                                favoritePlacesUpdate,
+                                          },
+                                        ),
+                                      });
+                                      FFAppState().isFavorite =
+                                          !(FFAppState().isFavorite ?? true);
+                                      safeSetState(() {});
+                                      _model.isLiked =
+                                          !(_model.isLiked ?? true);
+                                      safeSetState(() {});
+                                      if (_model.isLiked!) {
+                                        await currentUserReference!.update({
+                                          ...mapToFirestore(
+                                            {
+                                              'favorite_places':
+                                                  FieldValue.arrayUnion([
+                                                widget.placeDoc?.reference
+                                              ]),
+                                            },
+                                          ),
+                                        });
+                                      } else {
+                                        await currentUserReference!.update({
+                                          ...mapToFirestore(
+                                            {
+                                              'favorite_places':
+                                                  FieldValue.arrayRemove([
+                                                widget.placeDoc?.reference
+                                              ]),
+                                            },
+                                          ),
+                                        });
+                                      }
+                                    },
+                                    value: toggleIconUsersRecord.favoritePlaces
+                                        .contains(widget.placeDoc?.reference),
+                                    onIcon: Icon(
+                                      Icons.favorite_rounded,
+                                      color: Color(0xFFFFD730),
+                                      size: 28.0,
+                                    ),
+                                    offIcon: Icon(
+                                      Icons.favorite_border,
+                                      color: FlutterFlowTheme.of(context)
+                                          .secondaryText,
+                                      size: 28.0,
+                                    ),
+                                  );
                                 },
                               ),
                             ].divide(SizedBox(height: 8.0)),
@@ -612,11 +661,6 @@ class _PlaceCardWidgetState extends State<PlaceCardWidget> {
                     borderRadius: BorderRadius.circular(26.0),
                   ),
                 ),
-              ),
-              wrapWithModel(
-                model: _model.menuModel,
-                updateCallback: () => safeSetState(() {}),
-                child: MenuWidget(),
               ),
             ],
           ),

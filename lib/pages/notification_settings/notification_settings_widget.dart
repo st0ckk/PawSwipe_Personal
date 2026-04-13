@@ -1,12 +1,13 @@
+import '/auth/firebase_auth/auth_util.dart';
+import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import '/pages/multiperfil_onboarding/menu/menu_widget.dart';
-import '/index.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
 import 'notification_settings_model.dart';
 export 'notification_settings_model.dart';
 
@@ -31,6 +32,16 @@ class _NotificationSettingsWidgetState
   void initState() {
     super.initState();
     _model = createModel(context, () => NotificationSettingsModel());
+
+    // On page load action.
+    SchedulerBinding.instance.addPostFrameCallback((_) async {
+      _model.userDoc = await UsersRecord.getDocumentOnce(currentUserReference!);
+      _model.newPupMatchesEnabled = valueOrDefault<bool>(
+          currentUserDocument?.newPupMatchesEnabled, false);
+      _model.newMessagesEnabled =
+          valueOrDefault<bool>(currentUserDocument?.newMessagesEnabled, false);
+      safeSetState(() {});
+    });
   }
 
   @override
@@ -42,8 +53,6 @@ class _NotificationSettingsWidgetState
 
   @override
   Widget build(BuildContext context) {
-    context.watch<FFAppState>();
-
     return Scaffold(
       key: scaffoldKey,
       backgroundColor: Color(0xFF1A1461),
@@ -60,7 +69,7 @@ class _NotificationSettingsWidgetState
             size: 25.0,
           ),
           onPressed: () async {
-            context.pushNamed(SettingsWidget.routeName);
+            context.safePop();
           },
         ),
         title: Align(
@@ -135,9 +144,14 @@ class _NotificationSettingsWidgetState
             child: Material(
               color: Colors.transparent,
               child: SwitchListTile.adaptive(
-                value: _model.switchListTileValue1 ??= false,
+                value: _model.switchListTileValue1 ??=
+                    _model.newPupMatchesEnabled,
                 onChanged: (newValue) async {
                   safeSetState(() => _model.switchListTileValue1 = newValue);
+                  if (newValue) {
+                    _model.newPupMatchesEnabled = !_model.newPupMatchesEnabled;
+                    safeSetState(() {});
+                  }
                 },
                 title: Text(
                   'New Pup Matches',
@@ -187,55 +201,64 @@ class _NotificationSettingsWidgetState
           ),
           Padding(
             padding: EdgeInsetsDirectional.fromSTEB(15.0, 0.0, 15.0, 12.0),
-            child: Material(
-              color: Colors.transparent,
-              child: SwitchListTile.adaptive(
-                value: _model.switchListTileValue2 ??= FFAppState().isEnabled,
-                onChanged: (newValue) async {
-                  safeSetState(() => _model.switchListTileValue2 = newValue);
-                },
-                title: Text(
-                  'New Messages',
-                  style: FlutterFlowTheme.of(context).bodyLarge.override(
-                        font: GoogleFonts.plusJakartaSans(
+            child: AuthUserStreamWidget(
+              builder: (context) => Material(
+                color: Colors.transparent,
+                child: SwitchListTile.adaptive(
+                  value: _model.switchListTileValue2 ??= valueOrDefault<bool>(
+                      currentUserDocument?.newMessagesEnabled, false),
+                  onChanged: (newValue) async {
+                    safeSetState(() => _model.switchListTileValue2 = newValue);
+                    if (newValue) {
+                      _model.newMessagesEnabled = !_model.newMessagesEnabled;
+                      safeSetState(() {});
+                    }
+                  },
+                  title: Text(
+                    'New Messages',
+                    style: FlutterFlowTheme.of(context).bodyLarge.override(
+                          font: GoogleFonts.plusJakartaSans(
+                            fontWeight: FontWeight.normal,
+                            fontStyle: FlutterFlowTheme.of(context)
+                                .bodyLarge
+                                .fontStyle,
+                          ),
+                          color: Color(0xFF1A1461),
+                          fontSize: 16.0,
+                          letterSpacing: 0.0,
                           fontWeight: FontWeight.normal,
                           fontStyle:
                               FlutterFlowTheme.of(context).bodyLarge.fontStyle,
+                          lineHeight: 2.0,
                         ),
-                        color: Color(0xFF1A1461),
-                        fontSize: 16.0,
-                        letterSpacing: 0.0,
-                        fontWeight: FontWeight.normal,
-                        fontStyle:
-                            FlutterFlowTheme.of(context).bodyLarge.fontStyle,
-                        lineHeight: 2.0,
-                      ),
-                ),
-                subtitle: Text(
-                  'Receive push notifications for new messages.',
-                  style: FlutterFlowTheme.of(context).bodyMedium.override(
-                        font: GoogleFonts.plusJakartaSans(
+                  ),
+                  subtitle: Text(
+                    'Receive push notifications for new messages.',
+                    style: FlutterFlowTheme.of(context).bodyMedium.override(
+                          font: GoogleFonts.plusJakartaSans(
+                            fontWeight: FontWeight.normal,
+                            fontStyle: FlutterFlowTheme.of(context)
+                                .bodyMedium
+                                .fontStyle,
+                          ),
+                          color: Color(0xFF8B97A2),
+                          fontSize: 14.0,
+                          letterSpacing: 0.0,
                           fontWeight: FontWeight.normal,
                           fontStyle:
                               FlutterFlowTheme.of(context).bodyMedium.fontStyle,
                         ),
-                        color: Color(0xFF8B97A2),
-                        fontSize: 14.0,
-                        letterSpacing: 0.0,
-                        fontWeight: FontWeight.normal,
-                        fontStyle:
-                            FlutterFlowTheme.of(context).bodyMedium.fontStyle,
-                      ),
-                ),
-                tileColor: Colors.white,
-                activeColor: Color(0xFF1A1461),
-                activeTrackColor: Color(0x4C4B39EF),
-                dense: false,
-                controlAffinity: ListTileControlAffinity.trailing,
-                contentPadding:
-                    EdgeInsetsDirectional.fromSTEB(24.0, 12.0, 24.0, 12.0),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(24.0),
+                  ),
+                  tileColor: Colors.white,
+                  activeColor: Color(0xFF1A1461),
+                  activeTrackColor: Color(0x4C4B39EF),
+                  dense: false,
+                  controlAffinity: ListTileControlAffinity.trailing,
+                  contentPadding:
+                      EdgeInsetsDirectional.fromSTEB(24.0, 12.0, 24.0, 12.0),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(24.0),
+                  ),
                 ),
               ),
             ),
@@ -244,7 +267,17 @@ class _NotificationSettingsWidgetState
             padding: EdgeInsetsDirectional.fromSTEB(0.0, 30.0, 0.0, 0.0),
             child: FFButtonWidget(
               onPressed: () async {
-                context.pop();
+                await currentUserReference!.update(createUsersRecordData(
+                  newPupMatchesEnabled: valueOrDefault<bool>(
+                      currentUserDocument?.newPupMatchesEnabled, false),
+                  newMessagesEnabled: valueOrDefault<bool>(
+                      currentUserDocument?.newMessagesEnabled, false),
+                ));
+                _model.newPupMatchesEnabled = valueOrDefault<bool>(
+                    currentUserDocument?.newPupMatchesEnabled, false);
+                _model.newMessagesEnabled = valueOrDefault<bool>(
+                    currentUserDocument?.newMessagesEnabled, false);
+                safeSetState(() {});
               },
               text: 'Save Changes',
               options: FFButtonOptions(
