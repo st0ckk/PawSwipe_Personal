@@ -6,8 +6,8 @@ import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/pages/swiping/no_more_paws/no_more_paws_widget.dart';
 import '/pages/swiping/paw_card/paw_card_widget.dart';
+import '/custom_code/actions/index.dart' as actions;
 import '/index.dart';
-import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_card_swiper/flutter_card_swiper.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -68,12 +68,13 @@ class _NearPawfileCardWidgetState extends State<NearPawfileCardWidget> {
             children: [
               Container(
                 width: MediaQuery.sizeOf(context).width * 1.0,
-                height: 80.0,
+                height: MediaQuery.sizeOf(context).height * 0.1,
                 decoration: BoxDecoration(
                   color: Color(0xFFFFD93D),
                 ),
                 child: Row(
-                  mainAxisSize: MainAxisSize.max,
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Padding(
                       padding:
@@ -133,6 +134,7 @@ class _NearPawfileCardWidgetState extends State<NearPawfileCardWidget> {
                                         .headlineSmall
                                         .fontStyle,
                                   ),
+                              overflow: TextOverflow.ellipsis,
                             ),
                           ),
                         ),
@@ -179,205 +181,152 @@ class _NearPawfileCardWidgetState extends State<NearPawfileCardWidget> {
                         ),
                       ],
                     ),
-                    Padding(
-                      padding:
-                          EdgeInsetsDirectional.fromSTEB(70.0, 0.0, 0.0, 0.0),
-                      child: InkWell(
-                        splashColor: Colors.transparent,
-                        focusColor: Colors.transparent,
-                        hoverColor: Colors.transparent,
-                        highlightColor: Colors.transparent,
-                        onTap: () async {
-                          context
-                              .pushNamed(NotificationSettingsWidget.routeName);
-                        },
-                        child: Icon(
-                          Icons.settings_rounded,
-                          color: Color(0xFF1A1461),
-                          size: 24.0,
-                        ),
-                      ),
-                    ),
                   ],
                 ),
               ),
               Expanded(
-                child: AuthUserStreamWidget(
-                  builder: (context) => StreamBuilder<List<PawfilesRecord>>(
-                    stream: queryPawfilesRecord(
-                      queryBuilder: (pawfilesRecord) =>
-                          pawfilesRecord.whereNotIn(
-                              'pet_id_ref',
-                              (currentUserDocument?.swipedPets.toList() ??
-                                  [])),
+                child: StreamBuilder<List<PawfilesRecord>>(
+                  stream: queryPawfilesRecord(
+                    queryBuilder: (pawfilesRecord) => pawfilesRecord.where(
+                      'owner_ref',
+                      isNotEqualTo: currentUserReference,
                     ),
-                    builder: (context, snapshot) {
-                      // Customize what your widget looks like when it's loading.
-                      if (!snapshot.hasData) {
-                        return Center(
-                          child: SizedBox(
-                            width: 50.0,
-                            height: 50.0,
-                            child: CircularProgressIndicator(
-                              valueColor: AlwaysStoppedAnimation<Color>(
-                                FlutterFlowTheme.of(context).primary,
-                              ),
+                  ),
+                  builder: (context, snapshot) {
+                    // Customize what your widget looks like when it's loading.
+                    if (!snapshot.hasData) {
+                      return Center(
+                        child: SizedBox(
+                          width: 50.0,
+                          height: 50.0,
+                          child: CircularProgressIndicator(
+                            valueColor: AlwaysStoppedAnimation<Color>(
+                              FlutterFlowTheme.of(context).primary,
                             ),
                           ),
+                        ),
+                      );
+                    }
+                    List<PawfilesRecord> swipeableStackPawfilesRecordList =
+                        snapshot.data!;
+                    if (swipeableStackPawfilesRecordList.isEmpty) {
+                      return Center(
+                        child: NoMorePawsWidget(),
+                      );
+                    }
+
+                    return FlutterFlowSwipeableStack(
+                      onSwipeFn: (swipeableStackIndex) {},
+                      onLeftSwipe: (swipeableStackIndex) async {
+                        final swipeableStackPawfilesRecord =
+                            swipeableStackPawfilesRecordList[
+                                swipeableStackIndex];
+
+                        await SwipesRecord.collection
+                            .doc()
+                            .set(createSwipesRecordData(
+                              userRef: currentUserReference,
+                              petRef: swipeableStackPawfilesRecordList[
+                                      swipeableStackIndex]
+                                  .reference,
+                              action: false,
+                            ));
+                        await actions.createSwipeIfNotExists(
+                          currentUserReference!,
+                          widget.petRef!,
+                          false,
                         );
-                      }
-                      List<PawfilesRecord> swipeableStackPawfilesRecordList =
-                          snapshot.data!;
-                      if (swipeableStackPawfilesRecordList.isEmpty) {
-                        return NoMorePawsWidget();
-                      }
-
-                      return FlutterFlowSwipeableStack(
-                        onSwipeFn: (swipeableStackIndex) {},
-                        onLeftSwipe: (swipeableStackIndex) async {
-                          final swipeableStackPawfilesRecord =
-                              swipeableStackPawfilesRecordList[
-                                  swipeableStackIndex];
-
-                          await SwipesRecord.collection
-                              .doc()
-                              .set(createSwipesRecordData(
-                                userRef: currentUserReference,
-                                petRef: swipeableStackPawfilesRecordList[
+                      },
+                      onRightSwipe: (swipeableStackIndex) async {
+                        final swipeableStackPawfilesRecord =
+                            swipeableStackPawfilesRecordList[
+                                swipeableStackIndex];
+                        await actions.createSwipeIfNotExists(
+                          currentUserReference!,
+                          widget.petRef!,
+                          false,
+                        );
+                        _model.isMatch = await actions.checkForMatch(
+                          swipeableStackPawfilesRecordList[swipeableStackIndex]
+                              .reference,
+                        );
+                        if (_model.isMatch == true) {
+                          context.pushNamed(
+                            MatchWidget.routeName,
+                            queryParameters: {
+                              'matchedDog': serializeParam(
+                                swipeableStackPawfilesRecordList[
                                         swipeableStackIndex]
                                     .reference,
-                                action: false,
-                              ));
+                                ParamType.DocumentReference,
+                              ),
+                              'fromUser': serializeParam(
+                                currentUserReference,
+                                ParamType.DocumentReference,
+                              ),
+                            }.withoutNulls,
+                            extra: <String, dynamic>{
+                              '__transition_info__': TransitionInfo(
+                                hasTransition: true,
+                                transitionType: PageTransitionType.bottomToTop,
+                              ),
+                            },
+                          );
+                        }
 
-                          await currentUserReference!.update({
-                            ...mapToFirestore(
-                              {
-                                'swiped_pets': FieldValue.arrayUnion([
-                                  swipeableStackPawfilesRecordList[
-                                          swipeableStackIndex]
-                                      .reference
-                                ]),
-                              },
-                            ),
-                          });
-                        },
-                        onRightSwipe: (swipeableStackIndex) async {
-                          final swipeableStackPawfilesRecord =
-                              swipeableStackPawfilesRecordList[
-                                  swipeableStackIndex];
-
-                          await SwipesRecord.collection
-                              .doc()
-                              .set(createSwipesRecordData(
-                                userRef: currentUserReference,
-                                petRef: swipeableStackPawfilesRecordList[
-                                        swipeableStackIndex]
-                                    .reference,
-                                action: true,
-                              ));
-
-                          await currentUserReference!.update({
-                            ...mapToFirestore(
-                              {
-                                'swiped_pets': FieldValue.arrayUnion([
-                                  swipeableStackPawfilesRecordList[
-                                          swipeableStackIndex]
-                                      .reference
-                                ]),
-                              },
-                            ),
-                          });
-                          _model.matched = await querySwipesRecordOnce(
-                            queryBuilder: (swipesRecord) => swipesRecord
-                                .where(
-                                  'user_ref',
-                                  isEqualTo: swipeableStackPawfilesRecordList[
-                                          swipeableStackIndex]
-                                      .ownerRef,
-                                )
-                                .whereIn(
-                                    'pet_ref',
-                                    (currentUserDocument?.swipedPets
-                                            .toList() ??
-                                        []))
-                                .where(
-                                  'action',
-                                  isEqualTo: true,
-                                ),
-                            singleRecord: true,
-                          ).then((s) => s.firstOrNull);
-                          if (_model.matched?.reference != null) {
-                            context.pushNamed(
-                              MatchWidget.routeName,
-                              queryParameters: {
-                                'matchedDog': serializeParam(
-                                  swipeableStackPawfilesRecordList[
-                                          swipeableStackIndex]
-                                      .reference,
-                                  ParamType.DocumentReference,
-                                ),
-                                'fromUser': serializeParam(
-                                  currentUserReference,
-                                  ParamType.DocumentReference,
-                                ),
-                              }.withoutNulls,
-                            );
-                          }
-
-                          safeSetState(() {});
-                        },
-                        onUpSwipe: (swipeableStackIndex) {},
-                        onDownSwipe: (swipeableStackIndex) {},
-                        itemBuilder: (context, swipeableStackIndex) {
-                          final swipeableStackPawfilesRecord =
-                              swipeableStackPawfilesRecordList[
-                                  swipeableStackIndex];
-                          return Container(
-                            height: MediaQuery.sizeOf(context).height * 0.5,
-                            child: Stack(
-                              children: [
-                                Align(
-                                  alignment: AlignmentDirectional(0.0, 0.0),
-                                  child: wrapWithModel(
-                                    model: _model.pawCardModels.getModel(
-                                      swipeableStackPawfilesRecord.reference.id,
-                                      swipeableStackIndex,
+                        safeSetState(() {});
+                      },
+                      onUpSwipe: (swipeableStackIndex) {},
+                      onDownSwipe: (swipeableStackIndex) {},
+                      itemBuilder: (context, swipeableStackIndex) {
+                        final swipeableStackPawfilesRecord =
+                            swipeableStackPawfilesRecordList[
+                                swipeableStackIndex];
+                        return Container(
+                          height: MediaQuery.sizeOf(context).height * 0.5,
+                          child: Stack(
+                            children: [
+                              Align(
+                                alignment: AlignmentDirectional(0.0, 0.0),
+                                child: wrapWithModel(
+                                  model: _model.pawCardModels.getModel(
+                                    swipeableStackPawfilesRecord.reference.id,
+                                    swipeableStackIndex,
+                                  ),
+                                  updateCallback: () => safeSetState(() {}),
+                                  child: PawCardWidget(
+                                    key: Key(
+                                      'Keyl8p_${swipeableStackPawfilesRecord.reference.id}',
                                     ),
-                                    updateCallback: () => safeSetState(() {}),
-                                    child: PawCardWidget(
-                                      key: Key(
-                                        'Keyl8p_${swipeableStackPawfilesRecord.reference.id}',
-                                      ),
-                                      pawItem: swipeableStackPawfilesRecord,
-                                      onSwipeRight: () async {
-                                        _model.swipeableStackController
-                                            .swipeRight();
-                                      },
-                                      onSwipeLeft: () async {
-                                        _model.swipeableStackController
-                                            .swipeLeft();
-                                      },
-                                      onUndo: () async {
-                                        _model.swipeableStackController
-                                            .swipeRight();
-                                      },
-                                    ),
+                                    pawItem: swipeableStackPawfilesRecord,
+                                    onSwipeRight: () async {
+                                      _model.swipeableStackController
+                                          .swipeRight();
+                                    },
+                                    onSwipeLeft: () async {
+                                      _model.swipeableStackController
+                                          .swipeLeft();
+                                    },
+                                    onUndo: () async {
+                                      _model.swipeableStackController
+                                          .swipeRight();
+                                    },
                                   ),
                                 ),
-                              ],
-                            ),
-                          );
-                        },
-                        itemCount: swipeableStackPawfilesRecordList.length,
-                        controller: _model.swipeableStackController,
-                        loop: false,
-                        cardDisplayCount: 1,
-                        scale: 0.9,
-                        allowedSwipeDirection:
-                            AllowedSwipeDirection.symmetric(horizontal: true),
-                      );
-                    },
-                  ),
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                      itemCount: swipeableStackPawfilesRecordList.length,
+                      controller: _model.swipeableStackController,
+                      loop: true,
+                      cardDisplayCount: 1,
+                      scale: 0.9,
+                      allowedSwipeDirection:
+                          AllowedSwipeDirection.symmetric(horizontal: true),
+                    );
+                  },
                 ),
               ),
               Align(

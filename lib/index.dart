@@ -27,7 +27,7 @@ export '/pages/community_feed_screen/community_feed_screen_widget.dart'
     show CommunityFeedScreenWidget;
 export '/pages/privacy_settings/privacy_settings_widget.dart'
     show PrivacySettingsWidget;
-export '/pages/near_pawfile_card/near_pawfile_card_widget.dart'
+export '/pages/swiping/near_pawfile_card/near_pawfile_card_widget.dart'
     show NearPawfileCardWidget;
 export '/pages/swiping/match/match_widget.dart' show MatchWidget;
 export '/pages/swiping/pawfile_details/pawfile_details_widget.dart'

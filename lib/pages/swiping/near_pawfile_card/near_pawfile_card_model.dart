@@ -1,4 +1,3 @@
-import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/pages/swiping/paw_card/paw_card_widget.dart';
 import '/index.dart';
@@ -11,8 +10,8 @@ class NearPawfileCardModel extends FlutterFlowModel<NearPawfileCardWidget> {
 
   // State field(s) for SwipeableStack widget.
   late CardSwiperController swipeableStackController;
-  // Stores action output result for [Firestore Query - Query a collection] action in SwipeableStack widget.
-  SwipesRecord? matched;
+  // Stores action output result for [Custom Action - checkForMatch] action in SwipeableStack widget.
+  bool? isMatch;
   // Models for PawCard dynamic component.
   late FlutterFlowDynamicModels<PawCardModel> pawCardModels;
 
